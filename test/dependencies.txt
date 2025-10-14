@@ -1,0 +1,8 @@
+java.sql.rowset:17.35
+java.logging:17.35
+java.naming:17.35
+java.sql:17.35
+java.base:17.35
+java.security.sasl:17.35
+java.transaction.xa:17.35
+java.xml:17.35
