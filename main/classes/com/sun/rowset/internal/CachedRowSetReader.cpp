@@ -259,7 +259,7 @@ $Connection* CachedRowSetReader::connect($RowSetInternal* caller) {
 	if ($nc(caller)->getConnection() != nullptr) {
 		this->userCon = true;
 		return caller->getConnection();
-	} else if (($cast($RowSet, caller))->getDataSourceName() != nullptr) {
+	} else if ($nc(($cast($RowSet, caller)))->getDataSourceName() != nullptr) {
 		try {
 			$var($Context, ctx, $new($InitialContext));
 			$var($DataSource, ds, $cast($DataSource, ctx->lookup($(($cast($RowSet, caller))->getDataSourceName()))));

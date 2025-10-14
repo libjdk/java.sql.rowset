@@ -799,7 +799,7 @@ double XmlReaderContentHandler::getDoubleValue($String* s) {
 }
 
 $bytes* XmlReaderContentHandler::getBinaryValue($String* s) {
-	return s->getBytes();
+	return $nc(s)->getBytes();
 }
 
 $Date* XmlReaderContentHandler::getDateValue($String* s) {
@@ -980,7 +980,7 @@ void XmlReaderContentHandler::setPropertyValue($String* s) {
 			if (nullValue) {
 				$nc(this->rs)->setSyncProvider(nullptr);
 			} else {
-				$var($String, str, s->substring(0, s->indexOf((int32_t)u'@') + 1));
+				$var($String, str, $nc(s)->substring(0, s->indexOf((int32_t)u'@') + 1));
 				$nc(this->rs)->setSyncProvider(str);
 			}
 			break;

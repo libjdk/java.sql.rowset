@@ -410,7 +410,7 @@ $String* BaseRowSet::getCommand() {
 void BaseRowSet::setCommand($String* cmd) {
 	if (cmd == nullptr) {
 		$set(this, command, nullptr);
-	} else if (cmd->length() == 0) {
+	} else if ($nc(cmd)->length() == 0) {
 		$throwNew($SQLException, "Invalid command string detected. Cannot be of length less than 0"_s);
 	} else {
 		if (this->params == nullptr) {
@@ -429,7 +429,7 @@ void BaseRowSet::setUrl($String* url$renamed) {
 	$var($String, url, url$renamed);
 	if (url == nullptr) {
 		$assign(url, nullptr);
-	} else if (url->length() < 1) {
+	} else if ($nc(url)->length() < 1) {
 		$throwNew($SQLException, "Invalid url string detected. Cannot be of length less than 1"_s);
 	} else {
 		$set(this, URL, url);
@@ -444,7 +444,7 @@ $String* BaseRowSet::getDataSourceName() {
 void BaseRowSet::setDataSourceName($String* name) {
 	if (name == nullptr) {
 		$set(this, dataSource, nullptr);
-	} else if (name->isEmpty()) {
+	} else if ($nc(name)->isEmpty()) {
 		$throwNew($SQLException, "DataSource name cannot be empty string"_s);
 	} else {
 		$set(this, dataSource, name);

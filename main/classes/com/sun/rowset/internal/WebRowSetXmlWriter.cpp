@@ -607,7 +607,7 @@ void WebRowSetXmlWriter::writeStringData($String* s$renamed) {
 	$var($String, s, s$renamed);
 	if (s == nullptr) {
 		writeNull();
-	} else if (s->isEmpty()) {
+	} else if ($nc(s)->isEmpty()) {
 		writeEmptyString();
 	} else {
 		$assign(s, processSpecialCharacters(s));
