@@ -302,6 +302,7 @@ void SyncFactory::initMapIfNecessary() {
 	$load(SyncFactory);
 	$synchronized(class$) {
 		$init(SyncFactory);
+		$useLocalCurrentObjectStackCache();
 		$beforeCallerSensitive();
 		$var($Properties, properties, $new($Properties));
 		if (SyncFactory::implementations == nullptr) {
@@ -398,6 +399,7 @@ void SyncFactory::initMapIfNecessary() {
 
 void SyncFactory::parseProperties($Properties* p) {
 	$init(SyncFactory);
+	$useLocalCurrentObjectStackCache();
 	$var($ProviderImpl, impl, nullptr);
 	$var($String, key, nullptr);
 	$var($StringArray, propertyNames, nullptr);
@@ -431,6 +433,7 @@ $StringArray* SyncFactory::getPropertyNames(bool append) {
 
 $StringArray* SyncFactory::getPropertyNames(bool append, $String* propertyIndex) {
 	$init(SyncFactory);
+	$useLocalCurrentObjectStackCache();
 	$var($String, dot, "."_s);
 	$var($StringArray, propertyNames, $new($StringArray, {
 		SyncFactory::ROWSET_SYNC_PROVIDER,
@@ -449,6 +452,7 @@ $StringArray* SyncFactory::getPropertyNames(bool append, $String* propertyIndex)
 
 void SyncFactory::showImpl($ProviderImpl* impl) {
 	$init(SyncFactory);
+	$useLocalCurrentObjectStackCache();
 	$init($System);
 	$nc($System::out)->println("Provider implementation:"_s);
 	$nc($System::out)->println($$str({"Classname: "_s, $($nc(impl)->getClassname())}));
@@ -459,6 +463,7 @@ void SyncFactory::showImpl($ProviderImpl* impl) {
 
 $SyncProvider* SyncFactory::getInstance($String* providerID) {
 	$init(SyncFactory);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if (providerID == nullptr) {
 		$throwNew($SyncFactoryException, "The providerID cannot be null"_s);
@@ -555,6 +560,7 @@ void SyncFactory::initJNDIContext() {
 	$load(SyncFactory);
 	$synchronized(class$) {
 		$init(SyncFactory);
+		$useLocalCurrentObjectStackCache();
 		if ((SyncFactory::ic != nullptr) && (SyncFactory::lazyJNDICtxRefresh == false)) {
 			try {
 				parseProperties($(parseJNDIContext()));
@@ -574,6 +580,7 @@ void SyncFactory::initJNDIContext() {
 
 $Properties* SyncFactory::parseJNDIContext() {
 	$init(SyncFactory);
+	$useLocalCurrentObjectStackCache();
 	$var($NamingEnumeration, bindings, $nc(SyncFactory::ic)->listBindings(""_s));
 	$var($Properties, properties, $new($Properties));
 	enumerateBindings(bindings, properties);
@@ -582,6 +589,7 @@ $Properties* SyncFactory::parseJNDIContext() {
 
 void SyncFactory::enumerateBindings($NamingEnumeration* bindings, $Properties* properties) {
 	$init(SyncFactory);
+	$useLocalCurrentObjectStackCache();
 	bool syncProviderObj = false;
 	try {
 		$var($Binding, bd, nullptr);
@@ -611,6 +619,7 @@ void SyncFactory::enumerateBindings($NamingEnumeration* bindings, $Properties* p
 
 $Void* SyncFactory::lambda$initMapIfNecessary$0($Properties* properties) {
 	$init(SyncFactory);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($InputStream, in, $nc($(SyncFactory::class$->getModule()))->getResourceAsStream(SyncFactory::ROWSET_PROPERTIES));
 	if (in == nullptr) {

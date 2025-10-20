@@ -80,6 +80,7 @@ void SerialDatalink::init$($URL* url) {
 }
 
 $URL* SerialDatalink::getDatalink() {
+	$useLocalCurrentObjectStackCache();
 	$var($URL, aURL, nullptr);
 	try {
 		$assign(aURL, $new($URL, $($nc((this->url))->toString())));
@@ -106,6 +107,7 @@ int32_t SerialDatalink::hashCode() {
 }
 
 $Object* SerialDatalink::clone() {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var(SerialDatalink, sdl, $cast(SerialDatalink, $Serializable::clone()));
 		return $of(sdl);

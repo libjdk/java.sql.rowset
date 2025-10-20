@@ -112,6 +112,7 @@ int32_t ProviderImpl::getIndex() {
 }
 
 int32_t ProviderImpl::getDataSourceLock() {
+	$useLocalCurrentObjectStackCache();
 	int32_t dsLock = 0;
 	try {
 		dsLock = $nc($($SyncFactory::getInstance(this->className)))->getDataSourceLock();
@@ -137,6 +138,7 @@ $String* ProviderImpl::getProviderID() {
 }
 
 $RowSetReader* ProviderImpl::getRowSetReader() {
+	$useLocalCurrentObjectStackCache();
 	$var($RowSetReader, rsReader, nullptr);
 	try {
 		$assign(rsReader, $nc($($SyncFactory::getInstance(this->className)))->getRowSetReader());
@@ -147,6 +149,7 @@ $RowSetReader* ProviderImpl::getRowSetReader() {
 }
 
 $RowSetWriter* ProviderImpl::getRowSetWriter() {
+	$useLocalCurrentObjectStackCache();
 	$var($RowSetWriter, rsWriter, nullptr);
 	try {
 		$assign(rsWriter, $nc($($SyncFactory::getInstance(this->className)))->getRowSetWriter());
@@ -157,6 +160,7 @@ $RowSetWriter* ProviderImpl::getRowSetWriter() {
 }
 
 void ProviderImpl::setDataSourceLock(int32_t param) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$nc($($SyncFactory::getInstance(this->className)))->setDataSourceLock(param);
 	} catch ($SyncFactoryException&) {

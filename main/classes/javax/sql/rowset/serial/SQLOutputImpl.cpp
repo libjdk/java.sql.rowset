@@ -205,6 +205,7 @@ void SQLOutputImpl::writeTimestamp($Timestamp* x) {
 }
 
 void SQLOutputImpl::writeCharacterStream($Reader* x) {
+	$useLocalCurrentObjectStackCache();
 	$var($BufferedReader, bufReader, $new($BufferedReader, x));
 	try {
 		int32_t i = 0;
@@ -222,6 +223,7 @@ void SQLOutputImpl::writeCharacterStream($Reader* x) {
 }
 
 void SQLOutputImpl::writeAsciiStream($InputStream* x) {
+	$useLocalCurrentObjectStackCache();
 	$var($BufferedReader, bufReader, $new($BufferedReader, $$new($InputStreamReader, x)));
 	try {
 		int32_t i = 0;
@@ -240,6 +242,7 @@ void SQLOutputImpl::writeAsciiStream($InputStream* x) {
 }
 
 void SQLOutputImpl::writeBinaryStream($InputStream* x) {
+	$useLocalCurrentObjectStackCache();
 	$var($BufferedReader, bufReader, $new($BufferedReader, $$new($InputStreamReader, x)));
 	try {
 		int32_t i = 0;

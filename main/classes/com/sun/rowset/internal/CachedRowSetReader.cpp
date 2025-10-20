@@ -156,6 +156,7 @@ void CachedRowSetReader::init$() {
 }
 
 void CachedRowSetReader::readData($RowSetInternal* caller) {
+	$useLocalCurrentObjectStackCache();
 	$var($Connection, con, nullptr);
 	{
 		$var($Throwable, var$0, nullptr);
@@ -255,6 +256,7 @@ bool CachedRowSetReader::reset() {
 }
 
 $Connection* CachedRowSetReader::connect($RowSetInternal* caller) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if ($nc(caller)->getConnection() != nullptr) {
 		this->userCon = true;
@@ -285,6 +287,7 @@ $Connection* CachedRowSetReader::connect($RowSetInternal* caller) {
 }
 
 void CachedRowSetReader::decodeParams($ObjectArray* params, $PreparedStatement* pstmt) {
+	$useLocalCurrentObjectStackCache();
 	int32_t arraySize = 0;
 	$var($ObjectArray, param, nullptr);
 	for (int32_t i = 0; i < $nc(params)->length; ++i) {

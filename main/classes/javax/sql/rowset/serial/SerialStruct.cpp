@@ -117,6 +117,7 @@ void SerialStruct::finalize() {
 }
 
 void SerialStruct::init$($Struct* in, $Map* map) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$set(this, SQLTypeName, $nc(in)->getSQLTypeName());
 		$init($System);
@@ -130,6 +131,7 @@ void SerialStruct::init$($Struct* in, $Map* map) {
 }
 
 void SerialStruct::init$($SQLData* in, $Map* map) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$set(this, SQLTypeName, $nc(in)->getSQLTypeName());
 		$var($Vector, tmp, $new($Vector));
@@ -156,6 +158,7 @@ $ObjectArray* SerialStruct::getAttributes($Map* map) {
 }
 
 void SerialStruct::mapToSerial($Map* map) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		for (int32_t i = 0; i < $nc(this->attribs)->length; ++i) {
 			if ($instanceOf($Struct, $nc(this->attribs)->get(i))) {
@@ -197,6 +200,7 @@ int32_t SerialStruct::hashCode() {
 }
 
 $Object* SerialStruct::clone() {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var(SerialStruct, ss, $cast(SerialStruct, $Struct::clone()));
 		$set($nc(ss), attribs, $Arrays::copyOf(this->attribs, $nc(this->attribs)->length));
@@ -209,6 +213,7 @@ $Object* SerialStruct::clone() {
 }
 
 void SerialStruct::readObject($ObjectInputStream* s) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectInputStream$GetField, fields, $nc(s)->readFields());
 	$var($ObjectArray, tmp, $cast($ObjectArray, $nc(fields)->get("attribs"_s, ($Object*)nullptr)));
 	$set(this, attribs, tmp == nullptr ? ($ObjectArray*)nullptr : $cast($ObjectArray, $nc(tmp)->clone()));

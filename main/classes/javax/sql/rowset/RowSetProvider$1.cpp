@@ -66,6 +66,7 @@ void RowSetProvider$1::init$() {
 }
 
 $Object* RowSetProvider$1::run() {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($ClassLoader, cl, nullptr);
 	$assign(cl, $($Thread::currentThread())->getContextClassLoader());

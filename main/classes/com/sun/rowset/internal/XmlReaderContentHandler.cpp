@@ -351,6 +351,7 @@ void XmlReaderContentHandler::init$($RowSet* r) {
 }
 
 void XmlReaderContentHandler::initMaps() {
+	$useLocalCurrentObjectStackCache();
 	int32_t items = 0;
 	int32_t i = 0;
 	$set(this, propMap, $new($HashMap));
@@ -378,6 +379,7 @@ void XmlReaderContentHandler::endDocument() {
 }
 
 void XmlReaderContentHandler::startElement($String* uri, $String* lName, $String* qName, $Attributes* attributes) {
+	$useLocalCurrentObjectStackCache();
 	int32_t tag = 0;
 	$var($String, name, ""_s);
 	$assign(name, lName);
@@ -439,6 +441,7 @@ void XmlReaderContentHandler::startElement($String* uri, $String* lName, $String
 }
 
 void XmlReaderContentHandler::endElement($String* uri, $String* lName, $String* qName) {
+	$useLocalCurrentObjectStackCache();
 	int32_t tag = 0;
 	$var($String, name, ""_s);
 	$assign(name, lName);
@@ -650,6 +653,7 @@ void XmlReaderContentHandler::endElement($String* uri, $String* lName, $String* 
 }
 
 void XmlReaderContentHandler::applyUpdates() {
+	$useLocalCurrentObjectStackCache();
 	if ($nc(this->updates)->size() > 0) {
 		try {
 			$var($ObjectArray, upd, nullptr);
@@ -672,6 +676,7 @@ void XmlReaderContentHandler::applyUpdates() {
 }
 
 void XmlReaderContentHandler::characters($chars* ch, int32_t start, int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		switch (getState()) {
 		case XmlReaderContentHandler::PROPERTIES:
@@ -815,6 +820,7 @@ $Timestamp* XmlReaderContentHandler::getTimestampValue($String* s) {
 }
 
 void XmlReaderContentHandler::setPropertyValue($String* s) {
+	$useLocalCurrentObjectStackCache();
 	bool nullValue = getNullValue();
 	switch (getTag()) {
 	case XmlReaderContentHandler::CommandTag:
@@ -1009,6 +1015,7 @@ void XmlReaderContentHandler::setPropertyValue($String* s) {
 }
 
 void XmlReaderContentHandler::setMetaDataValue($String* s) {
+	$useLocalCurrentObjectStackCache();
 	bool nullValue = getNullValue();
 	switch (getTag()) {
 	case XmlReaderContentHandler::ColumnCountTag:
@@ -1183,6 +1190,7 @@ void XmlReaderContentHandler::setMetaDataValue($String* s) {
 }
 
 void XmlReaderContentHandler::setDataValue($chars* ch, int32_t start, int32_t len) {
+	$useLocalCurrentObjectStackCache();
 	switch (getTag()) {
 	case XmlReaderContentHandler::ColTag:
 		{
@@ -1205,6 +1213,7 @@ void XmlReaderContentHandler::setDataValue($chars* ch, int32_t start, int32_t le
 }
 
 void XmlReaderContentHandler::insertValue($String* s) {
+	$useLocalCurrentObjectStackCache();
 	if (getNullValue()) {
 		$nc(this->rs)->updateNull(this->idx);
 		return;
@@ -1300,6 +1309,7 @@ void XmlReaderContentHandler::error($SAXParseException* e) {
 }
 
 void XmlReaderContentHandler::warning($SAXParseException* err) {
+	$useLocalCurrentObjectStackCache();
 	$init($System);
 	$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("xmlrch.warning"_s))))->toString());
 	$nc($System::out)->println($($MessageFormat::format(var$0, $$new($ObjectArray, {

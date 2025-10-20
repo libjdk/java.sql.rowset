@@ -117,6 +117,7 @@ $Object* SerialRef::getObject($Map* map$renamed) {
 }
 
 $Object* SerialRef::getObject() {
+	$useLocalCurrentObjectStackCache();
 	if (this->reference != nullptr) {
 		try {
 			return $of($nc(this->reference)->getObject());
@@ -132,6 +133,7 @@ $Object* SerialRef::getObject() {
 }
 
 void SerialRef::setObject(Object$* obj) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$nc(this->reference)->setObject(obj);
 	} catch ($SQLException&) {
@@ -159,6 +161,7 @@ int32_t SerialRef::hashCode() {
 }
 
 $Object* SerialRef::clone() {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var(SerialRef, ref, $cast(SerialRef, $Ref::clone()));
 		$set($nc(ref), reference, nullptr);

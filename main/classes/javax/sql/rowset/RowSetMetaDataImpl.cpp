@@ -190,12 +190,14 @@ void RowSetMetaDataImpl::init$() {
 }
 
 void RowSetMetaDataImpl::checkColRange(int32_t col) {
+	$useLocalCurrentObjectStackCache();
 	if (col <= 0 || col > this->colCount) {
 		$throwNew($SQLException, $$str({"Invalid column index :"_s, $$str(col)}));
 	}
 }
 
 void RowSetMetaDataImpl::checkColType(int32_t SQLType) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	try {
 		$load($Types);
@@ -216,6 +218,7 @@ void RowSetMetaDataImpl::checkColType(int32_t SQLType) {
 }
 
 void RowSetMetaDataImpl::setColumnCount(int32_t columnCount) {
+	$useLocalCurrentObjectStackCache();
 	if (columnCount <= 0) {
 		$throwNew($SQLException, "Invalid column count. Cannot be less or equal to zero"_s);
 	}

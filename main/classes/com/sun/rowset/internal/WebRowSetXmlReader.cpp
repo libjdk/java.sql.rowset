@@ -145,6 +145,7 @@ void WebRowSetXmlReader::init$() {
 }
 
 void WebRowSetXmlReader::readXML($WebRowSet* caller, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var($InputSource, is, $new($InputSource, reader));
 		$var($DefaultHandler, dh, $new($XmlErrorHandler));
@@ -189,6 +190,7 @@ void WebRowSetXmlReader::readXML($WebRowSet* caller, $Reader* reader) {
 }
 
 void WebRowSetXmlReader::readXML($WebRowSet* caller, $InputStream* iStream) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var($InputSource, is, $new($InputSource, iStream));
 		$var($DefaultHandler, dh, $new($XmlErrorHandler));

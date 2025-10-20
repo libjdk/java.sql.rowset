@@ -222,6 +222,7 @@ $InputStream* SQLInputImpl::readBinaryStream() {
 }
 
 $Object* SQLInputImpl::readObject() {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($Object, attrib, getNextAttribute());
 	if ($instanceOf($Struct, attrib)) {

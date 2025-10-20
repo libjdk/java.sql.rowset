@@ -136,6 +136,7 @@ $Object* SerialJavaObject::getObject() {
 }
 
 $FieldArray* SerialJavaObject::getFields() {
+	$useLocalCurrentObjectStackCache();
 	if (this->fields != nullptr) {
 		$Class* c = $nc($of(this->obj))->getClass();
 		$var($SecurityManager, sm, $System::getSecurityManager());
@@ -168,6 +169,7 @@ int32_t SerialJavaObject::hashCode() {
 }
 
 $Object* SerialJavaObject::clone() {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var(SerialJavaObject, sjo, $cast(SerialJavaObject, $Serializable::clone()));
 		$set($nc(sjo), fields, $fcast($FieldArray, $Arrays::copyOf(this->fields, $nc(this->fields)->length)));
@@ -190,6 +192,7 @@ void SerialJavaObject::setWarning($RowSetWarning* e) {
 }
 
 void SerialJavaObject::readObject($ObjectInputStream* s) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($ObjectInputStream$GetField, fields1, $nc(s)->readFields());
 	$var($Vector, tmp, $cast($Vector, $nc(fields1)->get("chain"_s, ($Object*)nullptr)));
@@ -216,6 +219,7 @@ void SerialJavaObject::writeObject($ObjectOutputStream* s) {
 
 bool SerialJavaObject::hasStaticFields($FieldArray* fields) {
 	$init(SerialJavaObject);
+	$useLocalCurrentObjectStackCache();
 	{
 		$var($FieldArray, arr$, fields);
 		int32_t len$ = $nc(arr$)->length;

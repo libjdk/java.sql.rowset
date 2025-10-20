@@ -267,6 +267,7 @@ int32_t SerialBlob::hashCode() {
 }
 
 $Object* SerialBlob::clone() {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var(SerialBlob, sb, $cast(SerialBlob, $Blob::clone()));
 		$set($nc(sb), buf, (this->buf != nullptr) ? $Arrays::copyOf(this->buf, (int32_t)this->len) : ($bytes*)nullptr);
@@ -280,6 +281,7 @@ $Object* SerialBlob::clone() {
 }
 
 void SerialBlob::readObject($ObjectInputStream* s) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectInputStream$GetField, fields, $nc(s)->readFields());
 	$var($bytes, tmp, $cast($bytes, $nc(fields)->get("buf"_s, ($Object*)nullptr)));
 	if (tmp == nullptr) {

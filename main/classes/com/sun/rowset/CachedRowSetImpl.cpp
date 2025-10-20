@@ -1061,6 +1061,7 @@ void CachedRowSetImpl::finalize() {
 }
 
 void CachedRowSetImpl::init$() {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$BaseRowSet::init$();
 	$set(this, strMatchColumn, ""_s);
@@ -1097,6 +1098,7 @@ void CachedRowSetImpl::init$() {
 }
 
 void CachedRowSetImpl::init$($Hashtable* env) {
+	$useLocalCurrentObjectStackCache();
 	$BaseRowSet::init$();
 	$set(this, strMatchColumn, ""_s);
 	this->iMatchColumn = -1;
@@ -1132,6 +1134,7 @@ void CachedRowSetImpl::initContainer() {
 }
 
 void CachedRowSetImpl::initProperties() {
+	$useLocalCurrentObjectStackCache();
 	if (this->resBundle == nullptr) {
 		try {
 			$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
@@ -1166,6 +1169,7 @@ void CachedRowSetImpl::initProperties() {
 }
 
 void CachedRowSetImpl::checkTransactionalWriter() {
+	$useLocalCurrentObjectStackCache();
 	if (this->rowSetWriter != nullptr) {
 		$Class* c = $nc($of(this->rowSetWriter))->getClass();
 		if (c != nullptr) {
@@ -1185,6 +1189,7 @@ void CachedRowSetImpl::establishTransactionalWriter() {
 }
 
 void CachedRowSetImpl::setCommand($String* cmd) {
+	$useLocalCurrentObjectStackCache();
 	$BaseRowSet::setCommand(cmd);
 	if (!$nc($(buildTableName(cmd)))->isEmpty()) {
 		this->setTableName($(buildTableName(cmd)));
@@ -1192,6 +1197,7 @@ void CachedRowSetImpl::setCommand($String* cmd) {
 }
 
 void CachedRowSetImpl::populate($ResultSet* data) {
+	$useLocalCurrentObjectStackCache();
 	int32_t rowsFetched = 0;
 	$var($Row, currentRow, nullptr);
 	int32_t numCols = 0;
@@ -1247,6 +1253,7 @@ void CachedRowSetImpl::populate($ResultSet* data) {
 }
 
 void CachedRowSetImpl::initMetaData($RowSetMetaDataImpl* md, $ResultSetMetaData* rsmd) {
+	$useLocalCurrentObjectStackCache();
 	int32_t numCols = $nc(rsmd)->getColumnCount();
 	$nc(md)->setColumnCount(numCols);
 	for (int32_t col = 1; col <= numCols; ++col) {
@@ -1308,6 +1315,7 @@ void CachedRowSetImpl::setConnection($Connection* connection) {
 }
 
 void CachedRowSetImpl::acceptChanges() {
+	$useLocalCurrentObjectStackCache();
 	if (this->onInsertRow == true) {
 		$throwNew($SyncProviderException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.invalidop"_s))))->toString()));
 	}
@@ -1359,6 +1367,7 @@ void CachedRowSetImpl::acceptChanges($Connection* con) {
 }
 
 void CachedRowSetImpl::restoreOriginal() {
+	$useLocalCurrentObjectStackCache();
 	$var($Row, currentRow, nullptr);
 	{
 		$var($Iterator, i, $nc(this->rvh)->iterator());
@@ -1387,6 +1396,7 @@ void CachedRowSetImpl::release() {
 }
 
 void CachedRowSetImpl::undoDelete() {
+	$useLocalCurrentObjectStackCache();
 	if (getShowDeleted() == false) {
 		return;
 	}
@@ -1403,6 +1413,7 @@ void CachedRowSetImpl::undoDelete() {
 }
 
 void CachedRowSetImpl::undoInsert() {
+	$useLocalCurrentObjectStackCache();
 	checkCursor();
 	if (this->onInsertRow == true) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.invalidcp"_s))))->toString()));
@@ -1424,6 +1435,7 @@ void CachedRowSetImpl::undoUpdate() {
 }
 
 $RowSet* CachedRowSetImpl::createShared() {
+	$useLocalCurrentObjectStackCache();
 	$var($RowSet, clone, nullptr);
 	try {
 		$assign(clone, $cast($RowSet, this->clone()));
@@ -1439,6 +1451,7 @@ $Object* CachedRowSetImpl::clone() {
 }
 
 $CachedRowSet* CachedRowSetImpl::createCopy() {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectOutputStream, out, nullptr);
 	$var($ByteArrayOutputStream, bOut, $new($ByteArrayOutputStream));
 	try {
@@ -1491,6 +1504,7 @@ $CachedRowSet* CachedRowSetImpl::createCopySchema() {
 }
 
 $CachedRowSet* CachedRowSetImpl::createCopyNoConstraints() {
+	$useLocalCurrentObjectStackCache();
 	$var(CachedRowSetImpl, crs, nullptr);
 	$assign(crs, $cast(CachedRowSetImpl, this->createCopy()));
 	$nc(crs)->initProperties();
@@ -1508,6 +1522,7 @@ $CachedRowSet* CachedRowSetImpl::createCopyNoConstraints() {
 }
 
 $Collection* CachedRowSetImpl::toCollection() {
+	$useLocalCurrentObjectStackCache();
 	$var($TreeMap, tMap, $new($TreeMap));
 	for (int32_t i = 0; i < this->numRows; ++i) {
 		$var($Object, var$0, $of($Integer::valueOf(i)));
@@ -1517,6 +1532,7 @@ $Collection* CachedRowSetImpl::toCollection() {
 }
 
 $Collection* CachedRowSetImpl::toCollection(int32_t column) {
+	$useLocalCurrentObjectStackCache();
 	int32_t nRows = this->numRows;
 	$var($Vector, vec, $new($Vector, nRows));
 	$var(CachedRowSetImpl, crsTemp, nullptr);
@@ -1548,6 +1564,7 @@ void CachedRowSetImpl::execute() {
 }
 
 bool CachedRowSetImpl::next() {
+	$useLocalCurrentObjectStackCache();
 	if (this->cursorPos < 0 || this->cursorPos >= this->numRows + 1) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.invalidcp"_s))))->toString()));
 	}
@@ -1596,12 +1613,14 @@ void CachedRowSetImpl::setLastValueNull(bool value) {
 }
 
 void CachedRowSetImpl::checkIndex(int32_t idx) {
+	$useLocalCurrentObjectStackCache();
 	if (idx < 1 || this->RowSetMD == nullptr || idx > $nc(this->RowSetMD)->getColumnCount()) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.invalidcol"_s))))->toString()));
 	}
 }
 
 void CachedRowSetImpl::checkCursor() {
+	$useLocalCurrentObjectStackCache();
 	bool var$0 = isAfterLast() == true;
 	if (var$0 || isBeforeFirst() == true) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.invalidcp"_s))))->toString()));
@@ -1609,6 +1628,7 @@ void CachedRowSetImpl::checkCursor() {
 }
 
 int32_t CachedRowSetImpl::getColIdxByName($String* name) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, RowSetMD, $cast($RowSetMetaDataImpl, this->getMetaData()));
 	int32_t cols = $nc(this->RowSetMD)->getColumnCount();
 	if (this->RowSetMD != nullptr) {
@@ -1641,6 +1661,7 @@ void CachedRowSetImpl::removeCurrentRow() {
 }
 
 $String* CachedRowSetImpl::getString(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -1654,6 +1675,7 @@ $String* CachedRowSetImpl::getString(int32_t columnIndex) {
 }
 
 bool CachedRowSetImpl::getBoolean(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -1680,6 +1702,7 @@ bool CachedRowSetImpl::getBoolean(int32_t columnIndex) {
 }
 
 int8_t CachedRowSetImpl::getByte(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -1703,6 +1726,7 @@ int8_t CachedRowSetImpl::getByte(int32_t columnIndex) {
 }
 
 int16_t CachedRowSetImpl::getShort(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -1726,6 +1750,7 @@ int16_t CachedRowSetImpl::getShort(int32_t columnIndex) {
 }
 
 int32_t CachedRowSetImpl::getInt(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -1749,6 +1774,7 @@ int32_t CachedRowSetImpl::getInt(int32_t columnIndex) {
 }
 
 int64_t CachedRowSetImpl::getLong(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -1772,6 +1798,7 @@ int64_t CachedRowSetImpl::getLong(int32_t columnIndex) {
 }
 
 float CachedRowSetImpl::getFloat(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -1795,6 +1822,7 @@ float CachedRowSetImpl::getFloat(int32_t columnIndex) {
 }
 
 double CachedRowSetImpl::getDouble(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -1818,6 +1846,7 @@ double CachedRowSetImpl::getDouble(int32_t columnIndex) {
 }
 
 $BigDecimal* CachedRowSetImpl::getBigDecimal(int32_t columnIndex, int32_t scale) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, value, nullptr);
 	$var($BigDecimal, bDecimal, nullptr);
 	$var($BigDecimal, retVal, nullptr);
@@ -1835,6 +1864,7 @@ $BigDecimal* CachedRowSetImpl::getBigDecimal(int32_t columnIndex, int32_t scale)
 }
 
 $bytes* CachedRowSetImpl::getBytes(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	if (isBinary($nc(this->RowSetMD)->getColumnType(columnIndex)) == false) {
@@ -1844,6 +1874,7 @@ $bytes* CachedRowSetImpl::getBytes(int32_t columnIndex) {
 }
 
 $1Date* CachedRowSetImpl::getDate(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -1903,6 +1934,7 @@ $1Date* CachedRowSetImpl::getDate(int32_t columnIndex) {
 }
 
 $Time* CachedRowSetImpl::getTime(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -1961,6 +1993,7 @@ $Time* CachedRowSetImpl::getTime(int32_t columnIndex) {
 }
 
 $Timestamp* CachedRowSetImpl::getTimestamp(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -2026,6 +2059,7 @@ $Timestamp* CachedRowSetImpl::getTimestamp(int32_t columnIndex) {
 }
 
 $InputStream* CachedRowSetImpl::getAsciiStream(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, value, nullptr);
 	$set(this, asciiStream, nullptr);
 	checkIndex(columnIndex);
@@ -2045,6 +2079,7 @@ $InputStream* CachedRowSetImpl::getAsciiStream(int32_t columnIndex) {
 }
 
 $InputStream* CachedRowSetImpl::getUnicodeStream(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, unicodeStream, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -2062,6 +2097,7 @@ $InputStream* CachedRowSetImpl::getUnicodeStream(int32_t columnIndex) {
 }
 
 $InputStream* CachedRowSetImpl::getBinaryStream(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, binaryStream, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -2150,6 +2186,7 @@ void CachedRowSetImpl::clearWarnings() {
 }
 
 $String* CachedRowSetImpl::getCursorName() {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.posupdate"_s))))->toString()));
 	$shouldNotReachHere();
 }
@@ -2159,6 +2196,7 @@ $ResultSetMetaData* CachedRowSetImpl::getMetaData() {
 }
 
 $Object* CachedRowSetImpl::getObject(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($Object, value, nullptr);
 	$var($Map, map, nullptr);
@@ -2202,6 +2240,7 @@ int32_t CachedRowSetImpl::findColumn($String* columnName) {
 }
 
 $Reader* CachedRowSetImpl::getCharacterStream(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	if (isBinary($nc(this->RowSetMD)->getColumnType(columnIndex))) {
@@ -2229,6 +2268,7 @@ $Reader* CachedRowSetImpl::getCharacterStream($String* columnName) {
 }
 
 $BigDecimal* CachedRowSetImpl::getBigDecimal(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -2306,6 +2346,7 @@ bool CachedRowSetImpl::isLast() {
 }
 
 void CachedRowSetImpl::beforeFirst() {
+	$useLocalCurrentObjectStackCache();
 	if (getType() == $ResultSet::TYPE_FORWARD_ONLY) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.beforefirst"_s))))->toString()));
 	}
@@ -2323,6 +2364,7 @@ void CachedRowSetImpl::afterLast() {
 }
 
 bool CachedRowSetImpl::first() {
+	$useLocalCurrentObjectStackCache();
 	if (getType() == $ResultSet::TYPE_FORWARD_ONLY) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.first"_s))))->toString()));
 	}
@@ -2351,6 +2393,7 @@ bool CachedRowSetImpl::internalFirst() {
 }
 
 bool CachedRowSetImpl::last() {
+	$useLocalCurrentObjectStackCache();
 	if (getType() == $ResultSet::TYPE_FORWARD_ONLY) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.last"_s))))->toString()));
 	}
@@ -2394,6 +2437,7 @@ int32_t CachedRowSetImpl::getRow() {
 }
 
 bool CachedRowSetImpl::absolute(int32_t row) {
+	$useLocalCurrentObjectStackCache();
 	if (row == 0 || getType() == $ResultSet::TYPE_FORWARD_ONLY) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.absolute"_s))))->toString()));
 	}
@@ -2429,6 +2473,7 @@ bool CachedRowSetImpl::absolute(int32_t row) {
 }
 
 bool CachedRowSetImpl::relative(int32_t rows) {
+	$useLocalCurrentObjectStackCache();
 	bool var$1 = this->numRows == 0 || isBeforeFirst();
 	bool var$0 = var$1 || isAfterLast();
 	if (var$0 || getType() == $ResultSet::TYPE_FORWARD_ONLY) {
@@ -2466,6 +2511,7 @@ bool CachedRowSetImpl::relative(int32_t rows) {
 }
 
 bool CachedRowSetImpl::previous() {
+	$useLocalCurrentObjectStackCache();
 	if (getType() == $ResultSet::TYPE_FORWARD_ONLY) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.last"_s))))->toString()));
 	}
@@ -2500,6 +2546,7 @@ bool CachedRowSetImpl::internalPrevious() {
 }
 
 bool CachedRowSetImpl::rowUpdated() {
+	$useLocalCurrentObjectStackCache();
 	checkCursor();
 	if (this->onInsertRow == true) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.invalidop"_s))))->toString()));
@@ -2508,6 +2555,7 @@ bool CachedRowSetImpl::rowUpdated() {
 }
 
 bool CachedRowSetImpl::columnUpdated(int32_t idx) {
+	$useLocalCurrentObjectStackCache();
 	checkCursor();
 	if (this->onInsertRow == true) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.invalidop"_s))))->toString()));
@@ -2520,6 +2568,7 @@ bool CachedRowSetImpl::columnUpdated($String* columnName) {
 }
 
 bool CachedRowSetImpl::rowInserted() {
+	$useLocalCurrentObjectStackCache();
 	checkCursor();
 	if (this->onInsertRow == true) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.invalidop"_s))))->toString()));
@@ -2528,6 +2577,7 @@ bool CachedRowSetImpl::rowInserted() {
 }
 
 bool CachedRowSetImpl::rowDeleted() {
+	$useLocalCurrentObjectStackCache();
 	bool var$0 = isAfterLast() == true;
 	if (var$0 || isBeforeFirst() == true || this->onInsertRow == true) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.invalidcp"_s))))->toString()));
@@ -2633,6 +2683,7 @@ bool CachedRowSetImpl::isBoolean(int32_t type) {
 }
 
 $Object* CachedRowSetImpl::convertNumeric(Object$* srcObj, int32_t srcType, int32_t trgType) {
+	$useLocalCurrentObjectStackCache();
 	if (srcType == trgType) {
 		return $of(srcObj);
 	}
@@ -2703,6 +2754,7 @@ $Object* CachedRowSetImpl::convertNumeric(Object$* srcObj, int32_t srcType, int3
 }
 
 $Object* CachedRowSetImpl::convertTemporal(Object$* srcObj, int32_t srcType, int32_t trgType) {
+	$useLocalCurrentObjectStackCache();
 	if (srcType == trgType) {
 		return $of(srcObj);
 	}
@@ -2761,6 +2813,7 @@ $Object* CachedRowSetImpl::convertTemporal(Object$* srcObj, int32_t srcType, int
 }
 
 $Object* CachedRowSetImpl::convertBoolean(Object$* srcObj, int32_t srcType, int32_t trgType) {
+	$useLocalCurrentObjectStackCache();
 	if (srcType == trgType) {
 		return $of(srcObj);
 	}
@@ -2806,6 +2859,7 @@ void CachedRowSetImpl::updateNull(int32_t columnIndex) {
 }
 
 void CachedRowSetImpl::updateBoolean(int32_t columnIndex, bool x) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	$var($Object, var$0, $of($Boolean::valueOf(x)));
@@ -2814,6 +2868,7 @@ void CachedRowSetImpl::updateBoolean(int32_t columnIndex, bool x) {
 }
 
 void CachedRowSetImpl::updateByte(int32_t columnIndex, int8_t x) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	$var($Object, var$0, $of($Byte::valueOf(x)));
@@ -2822,6 +2877,7 @@ void CachedRowSetImpl::updateByte(int32_t columnIndex, int8_t x) {
 }
 
 void CachedRowSetImpl::updateShort(int32_t columnIndex, int16_t x) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	$var($Object, var$0, $of($Short::valueOf(x)));
@@ -2830,6 +2886,7 @@ void CachedRowSetImpl::updateShort(int32_t columnIndex, int16_t x) {
 }
 
 void CachedRowSetImpl::updateInt(int32_t columnIndex, int32_t x) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	$var($Object, var$0, $of($Integer::valueOf(x)));
@@ -2838,6 +2895,7 @@ void CachedRowSetImpl::updateInt(int32_t columnIndex, int32_t x) {
 }
 
 void CachedRowSetImpl::updateLong(int32_t columnIndex, int64_t x) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	$var($Object, var$0, $of($Long::valueOf(x)));
@@ -2846,6 +2904,7 @@ void CachedRowSetImpl::updateLong(int32_t columnIndex, int64_t x) {
 }
 
 void CachedRowSetImpl::updateFloat(int32_t columnIndex, float x) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	$var($Object, var$0, $of($Float::valueOf(x)));
@@ -2854,6 +2913,7 @@ void CachedRowSetImpl::updateFloat(int32_t columnIndex, float x) {
 }
 
 void CachedRowSetImpl::updateDouble(int32_t columnIndex, double x) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	$var($Object, var$0, $of($Double::valueOf(x)));
@@ -2862,6 +2922,7 @@ void CachedRowSetImpl::updateDouble(int32_t columnIndex, double x) {
 }
 
 void CachedRowSetImpl::updateBigDecimal(int32_t columnIndex, $BigDecimal* x) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	$var($Object, obj, convertNumeric(x, $Types::NUMERIC, $nc(this->RowSetMD)->getColumnType(columnIndex)));
@@ -2875,6 +2936,7 @@ void CachedRowSetImpl::updateString(int32_t columnIndex, $String* x) {
 }
 
 void CachedRowSetImpl::updateBytes(int32_t columnIndex, $bytes* x) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	if (isBinary($nc(this->RowSetMD)->getColumnType(columnIndex)) == false) {
@@ -2884,6 +2946,7 @@ void CachedRowSetImpl::updateBytes(int32_t columnIndex, $bytes* x) {
 }
 
 void CachedRowSetImpl::updateDate(int32_t columnIndex, $1Date* x) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	$var($Object, obj, convertTemporal(x, $Types::DATE, $nc(this->RowSetMD)->getColumnType(columnIndex)));
@@ -2891,6 +2954,7 @@ void CachedRowSetImpl::updateDate(int32_t columnIndex, $1Date* x) {
 }
 
 void CachedRowSetImpl::updateTime(int32_t columnIndex, $Time* x) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	$var($Object, obj, convertTemporal(x, $Types::TIME, $nc(this->RowSetMD)->getColumnType(columnIndex)));
@@ -2898,6 +2962,7 @@ void CachedRowSetImpl::updateTime(int32_t columnIndex, $Time* x) {
 }
 
 void CachedRowSetImpl::updateTimestamp(int32_t columnIndex, $Timestamp* x) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	$var($Object, obj, convertTemporal(x, $Types::TIMESTAMP, $nc(this->RowSetMD)->getColumnType(columnIndex)));
@@ -2905,6 +2970,7 @@ void CachedRowSetImpl::updateTimestamp(int32_t columnIndex, $Timestamp* x) {
 }
 
 void CachedRowSetImpl::updateAsciiStream(int32_t columnIndex, $InputStream* x, int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	bool var$0 = isString($nc(this->RowSetMD)->getColumnType(columnIndex)) == false;
@@ -2926,6 +2992,7 @@ void CachedRowSetImpl::updateAsciiStream(int32_t columnIndex, $InputStream* x, i
 }
 
 void CachedRowSetImpl::updateBinaryStream(int32_t columnIndex, $InputStream* x, int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	if (isBinary($nc(this->RowSetMD)->getColumnType(columnIndex)) == false) {
@@ -2945,6 +3012,7 @@ void CachedRowSetImpl::updateBinaryStream(int32_t columnIndex, $InputStream* x, 
 }
 
 void CachedRowSetImpl::updateCharacterStream(int32_t columnIndex, $Reader* x, int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	bool var$0 = isString($nc(this->RowSetMD)->getColumnType(columnIndex)) == false;
@@ -3058,6 +3126,7 @@ void CachedRowSetImpl::updateObject($String* columnName, Object$* x) {
 }
 
 void CachedRowSetImpl::insertRow() {
+	$useLocalCurrentObjectStackCache();
 	int32_t pos = 0;
 	if (this->onInsertRow == false || $nc(this->insertRow$)->isCompleteRow(this->RowSetMD) == false) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.failedins"_s))))->toString()));
@@ -3080,6 +3149,7 @@ void CachedRowSetImpl::insertRow() {
 }
 
 void CachedRowSetImpl::updateRow() {
+	$useLocalCurrentObjectStackCache();
 	if (this->onInsertRow == true) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.updateins"_s))))->toString()));
 	}
@@ -3095,6 +3165,7 @@ void CachedRowSetImpl::deleteRow() {
 }
 
 void CachedRowSetImpl::refreshRow() {
+	$useLocalCurrentObjectStackCache();
 	checkCursor();
 	if (this->onInsertRow == true) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.invalidcp"_s))))->toString()));
@@ -3104,6 +3175,7 @@ void CachedRowSetImpl::refreshRow() {
 }
 
 void CachedRowSetImpl::cancelRowUpdates() {
+	$useLocalCurrentObjectStackCache();
 	checkCursor();
 	if (this->onInsertRow == true) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.invalidcp"_s))))->toString()));
@@ -3116,6 +3188,7 @@ void CachedRowSetImpl::cancelRowUpdates() {
 }
 
 void CachedRowSetImpl::moveToInsertRow() {
+	$useLocalCurrentObjectStackCache();
 	if (getConcurrency() == $ResultSet::CONCUR_READ_ONLY) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.movetoins"_s))))->toString()));
 	}
@@ -3150,6 +3223,7 @@ $Statement* CachedRowSetImpl::getStatement() {
 }
 
 $Object* CachedRowSetImpl::getObject(int32_t columnIndex, $Map* map) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($Object, value, nullptr);
 	checkIndex(columnIndex);
@@ -3183,6 +3257,7 @@ $Object* CachedRowSetImpl::getObject(int32_t columnIndex, $Map* map) {
 }
 
 $Ref* CachedRowSetImpl::getRef(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$var($Ref, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -3199,6 +3274,7 @@ $Ref* CachedRowSetImpl::getRef(int32_t columnIndex) {
 }
 
 $Blob* CachedRowSetImpl::getBlob(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$var($Blob, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -3218,6 +3294,7 @@ $Blob* CachedRowSetImpl::getBlob(int32_t columnIndex) {
 }
 
 $Clob* CachedRowSetImpl::getClob(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$var($Clob, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -3237,6 +3314,7 @@ $Clob* CachedRowSetImpl::getClob(int32_t columnIndex) {
 }
 
 $1Array* CachedRowSetImpl::getArray(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$var($1Array, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -3273,6 +3351,7 @@ $1Array* CachedRowSetImpl::getArray($String* colName) {
 }
 
 $1Date* CachedRowSetImpl::getDate(int32_t columnIndex, $Calendar* cal) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -3296,6 +3375,7 @@ $1Date* CachedRowSetImpl::getDate($String* columnName, $Calendar* cal) {
 }
 
 $Time* CachedRowSetImpl::getTime(int32_t columnIndex, $Calendar* cal) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -3319,6 +3399,7 @@ $Time* CachedRowSetImpl::getTime($String* columnName, $Calendar* cal) {
 }
 
 $Timestamp* CachedRowSetImpl::getTimestamp(int32_t columnIndex, $Calendar* cal) {
+	$useLocalCurrentObjectStackCache();
 	$var($Object, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -3353,6 +3434,7 @@ void CachedRowSetImpl::setMetaData($RowSetMetaData* md) {
 }
 
 $ResultSet* CachedRowSetImpl::getOriginal() {
+	$useLocalCurrentObjectStackCache();
 	$var(CachedRowSetImpl, crs, $new(CachedRowSetImpl));
 	$set(crs, RowSetMD, this->RowSetMD);
 	crs->numRows = this->numRows;
@@ -3370,6 +3452,7 @@ $ResultSet* CachedRowSetImpl::getOriginal() {
 }
 
 $ResultSet* CachedRowSetImpl::getOriginalRow() {
+	$useLocalCurrentObjectStackCache();
 	$var(CachedRowSetImpl, crs, $new(CachedRowSetImpl));
 	$set(crs, RowSetMD, this->RowSetMD);
 	crs->numRows = 1;
@@ -3382,6 +3465,7 @@ $ResultSet* CachedRowSetImpl::getOriginalRow() {
 }
 
 void CachedRowSetImpl::setOriginalRow() {
+	$useLocalCurrentObjectStackCache();
 	if (this->onInsertRow == true) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.invalidop"_s))))->toString()));
 	}
@@ -3402,6 +3486,7 @@ void CachedRowSetImpl::makeRowOriginal($Row* row) {
 }
 
 void CachedRowSetImpl::setOriginal() {
+	$useLocalCurrentObjectStackCache();
 	{
 		$var($Iterator, i, $nc(this->rvh)->iterator());
 		for (; $nc(i)->hasNext();) {
@@ -3422,6 +3507,7 @@ $String* CachedRowSetImpl::getTableName() {
 }
 
 void CachedRowSetImpl::setTableName($String* tabName) {
+	$useLocalCurrentObjectStackCache();
 	if (tabName == nullptr) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.tablename"_s))))->toString()));
 	} else {
@@ -3435,6 +3521,7 @@ $ints* CachedRowSetImpl::getKeyColumns() {
 }
 
 void CachedRowSetImpl::setKeyColumns($ints* keys) {
+	$useLocalCurrentObjectStackCache();
 	int32_t numCols = 0;
 	if (this->RowSetMD != nullptr) {
 		numCols = $nc(this->RowSetMD)->getColumnCount();
@@ -3452,6 +3539,7 @@ void CachedRowSetImpl::setKeyColumns($ints* keys) {
 }
 
 void CachedRowSetImpl::updateRef(int32_t columnIndex, $Ref* ref) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	$nc($(getCurrentRow()))->setColumnObject(columnIndex, $$new($SerialRef, ref));
@@ -3462,6 +3550,7 @@ void CachedRowSetImpl::updateRef($String* columnName, $Ref* ref) {
 }
 
 void CachedRowSetImpl::updateClob(int32_t columnIndex, $Clob* c) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	if (this->dbmslocatorsUpdateCopy) {
@@ -3476,6 +3565,7 @@ void CachedRowSetImpl::updateClob($String* columnName, $Clob* c) {
 }
 
 void CachedRowSetImpl::updateBlob(int32_t columnIndex, $Blob* b) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	if (this->dbmslocatorsUpdateCopy) {
@@ -3490,6 +3580,7 @@ void CachedRowSetImpl::updateBlob($String* columnName, $Blob* b) {
 }
 
 void CachedRowSetImpl::updateArray(int32_t columnIndex, $1Array* a) {
+	$useLocalCurrentObjectStackCache();
 	checkIndex(columnIndex);
 	checkCursor();
 	$nc($(getCurrentRow()))->setColumnObject(columnIndex, $$new($SerialArray, a));
@@ -3500,6 +3591,7 @@ void CachedRowSetImpl::updateArray($String* columnName, $1Array* a) {
 }
 
 $URL* CachedRowSetImpl::getURL(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$var($URL, value, nullptr);
 	checkIndex(columnIndex);
 	checkCursor();
@@ -3529,6 +3621,7 @@ $RowSetWarning* CachedRowSetImpl::getRowSetWarnings() {
 }
 
 $String* CachedRowSetImpl::buildTableName($String* command$renamed) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, command, command$renamed);
 	int32_t indexFrom = 0;
 	int32_t indexComma = 0;
@@ -3567,6 +3660,7 @@ void CachedRowSetImpl::rollback($Savepoint* s) {
 }
 
 void CachedRowSetImpl::unsetMatchColumn($ints* columnIdxes) {
+	$useLocalCurrentObjectStackCache();
 	int32_t i_val = 0;
 	for (int32_t j = 0; j < $nc(columnIdxes)->length; ++j) {
 		i_val = ($Integer::parseInt($($nc(($cast($Integer, $($nc(this->iMatchColumns)->get(j)))))->toString())));
@@ -3580,6 +3674,7 @@ void CachedRowSetImpl::unsetMatchColumn($ints* columnIdxes) {
 }
 
 void CachedRowSetImpl::unsetMatchColumn($StringArray* columnIdxes) {
+	$useLocalCurrentObjectStackCache();
 	for (int32_t j = 0; j < $nc(columnIdxes)->length; ++j) {
 		if (!$nc(columnIdxes->get(j))->equals($($nc(this->strMatchColumns)->get(j)))) {
 			$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.matchcols"_s))))->toString()));
@@ -3591,6 +3686,7 @@ void CachedRowSetImpl::unsetMatchColumn($StringArray* columnIdxes) {
 }
 
 $StringArray* CachedRowSetImpl::getMatchColumnNames() {
+	$useLocalCurrentObjectStackCache();
 	$var($StringArray, str_temp, $new($StringArray, $nc(this->strMatchColumns)->size()));
 	if ($nc(this->strMatchColumns)->get(0) == nullptr) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.setmatchcols"_s))))->toString()));
@@ -3600,6 +3696,7 @@ $StringArray* CachedRowSetImpl::getMatchColumnNames() {
 }
 
 $ints* CachedRowSetImpl::getMatchColumnIndexes() {
+	$useLocalCurrentObjectStackCache();
 	$var($IntegerArray, int_temp, $new($IntegerArray, $nc(this->iMatchColumns)->size()));
 	$var($ints, i_temp, $new($ints, $nc(this->iMatchColumns)->size()));
 	int32_t i_val = 0;
@@ -3615,6 +3712,7 @@ $ints* CachedRowSetImpl::getMatchColumnIndexes() {
 }
 
 void CachedRowSetImpl::setMatchColumn($ints* columnIdxes) {
+	$useLocalCurrentObjectStackCache();
 	for (int32_t j = 0; j < $nc(columnIdxes)->length; ++j) {
 		if (columnIdxes->get(j) < 0) {
 			$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.matchcols1"_s))))->toString()));
@@ -3626,6 +3724,7 @@ void CachedRowSetImpl::setMatchColumn($ints* columnIdxes) {
 }
 
 void CachedRowSetImpl::setMatchColumn($StringArray* columnNames) {
+	$useLocalCurrentObjectStackCache();
 	for (int32_t j = 0; j < $nc(columnNames)->length; ++j) {
 		if (columnNames->get(j) == nullptr || $nc(columnNames->get(j))->isEmpty()) {
 			$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.matchcols2"_s))))->toString()));
@@ -3637,6 +3736,7 @@ void CachedRowSetImpl::setMatchColumn($StringArray* columnNames) {
 }
 
 void CachedRowSetImpl::setMatchColumn(int32_t columnIdx) {
+	$useLocalCurrentObjectStackCache();
 	if (columnIdx < 0) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.matchcols1"_s))))->toString()));
 	} else {
@@ -3645,6 +3745,7 @@ void CachedRowSetImpl::setMatchColumn(int32_t columnIdx) {
 }
 
 void CachedRowSetImpl::setMatchColumn($String* columnName$renamed) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, columnName, columnName$renamed);
 	if (columnName == nullptr || $nc(($assign(columnName, $nc(columnName)->trim())))->isEmpty()) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.matchcols2"_s))))->toString()));
@@ -3654,6 +3755,7 @@ void CachedRowSetImpl::setMatchColumn($String* columnName$renamed) {
 }
 
 void CachedRowSetImpl::unsetMatchColumn(int32_t columnIdx) {
+	$useLocalCurrentObjectStackCache();
 	if (!$nc(($cast($Integer, $($nc(this->iMatchColumns)->get(0)))))->equals($($Integer::valueOf(columnIdx)))) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.unsetmatch"_s))))->toString()));
 	} else if ($nc(this->strMatchColumns)->get(0) != nullptr) {
@@ -3664,6 +3766,7 @@ void CachedRowSetImpl::unsetMatchColumn(int32_t columnIdx) {
 }
 
 void CachedRowSetImpl::unsetMatchColumn($String* columnName$renamed) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, columnName, columnName$renamed);
 	$assign(columnName, $nc(columnName)->trim());
 	if (!($nc(($cast($String, $($nc(this->strMatchColumns)->get(0)))))->equals(columnName))) {
@@ -3676,6 +3779,7 @@ void CachedRowSetImpl::unsetMatchColumn($String* columnName$renamed) {
 }
 
 void CachedRowSetImpl::rowSetPopulated($RowSetEvent* event$renamed, int32_t numRows) {
+	$useLocalCurrentObjectStackCache();
 	$var($RowSetEvent, event, event$renamed);
 	if (numRows < 0 || numRows < getFetchSize()) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.numrows"_s))))->toString()));
@@ -3688,6 +3792,7 @@ void CachedRowSetImpl::rowSetPopulated($RowSetEvent* event$renamed, int32_t numR
 }
 
 void CachedRowSetImpl::populate($ResultSet* data, int32_t start) {
+	$useLocalCurrentObjectStackCache();
 	int32_t rowsFetched = 0;
 	$var($Row, currentRow, nullptr);
 	int32_t numCols = 0;
@@ -3793,6 +3898,7 @@ void CachedRowSetImpl::populate($ResultSet* data, int32_t start) {
 }
 
 bool CachedRowSetImpl::nextPage() {
+	$useLocalCurrentObjectStackCache();
 	if (this->populatecallcount == 0) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.nextpage"_s))))->toString()));
 	}
@@ -3808,6 +3914,7 @@ bool CachedRowSetImpl::nextPage() {
 }
 
 void CachedRowSetImpl::setPageSize(int32_t size) {
+	$useLocalCurrentObjectStackCache();
 	if (size < 0) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.pagesize"_s))))->toString()));
 	}
@@ -3823,6 +3930,7 @@ int32_t CachedRowSetImpl::getPageSize() {
 }
 
 bool CachedRowSetImpl::previousPage() {
+	$useLocalCurrentObjectStackCache();
 	int32_t pS = 0;
 	int32_t mR = 0;
 	int32_t rem = 0;
@@ -3869,6 +3977,7 @@ bool CachedRowSetImpl::previousPage() {
 }
 
 void CachedRowSetImpl::setRowInserted(bool insertFlag) {
+	$useLocalCurrentObjectStackCache();
 	checkCursor();
 	if (this->onInsertRow == true) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.invalidop"_s))))->toString()));
@@ -3881,65 +3990,79 @@ void CachedRowSetImpl::setRowInserted(bool insertFlag) {
 }
 
 $SQLXML* CachedRowSetImpl::getSQLXML(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 $SQLXML* CachedRowSetImpl::getSQLXML($String* colName) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 $RowId* CachedRowSetImpl::getRowId(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 $RowId* CachedRowSetImpl::getRowId($String* columnName) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 void CachedRowSetImpl::updateRowId(int32_t columnIndex, $RowId* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateRowId($String* columnName, $RowId* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 }
 
 int32_t CachedRowSetImpl::getHoldability() {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 bool CachedRowSetImpl::isClosed() {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 void CachedRowSetImpl::updateNString(int32_t columnIndex, $String* nString) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateNString($String* columnName, $String* nString) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateNClob(int32_t columnIndex, $NClob* nClob) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateNClob($String* columnName, $NClob* nClob) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 }
 
 $NClob* CachedRowSetImpl::getNClob(int32_t i) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 $NClob* CachedRowSetImpl::getNClob($String* colName) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
@@ -3953,118 +4076,146 @@ bool CachedRowSetImpl::isWrapperFor($Class* interfaces) {
 }
 
 void CachedRowSetImpl::setSQLXML(int32_t parameterIndex, $SQLXML* xmlObject) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setSQLXML($String* parameterName, $SQLXML* xmlObject) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setRowId(int32_t parameterIndex, $RowId* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setRowId($String* parameterName, $RowId* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setNCharacterStream(int32_t parameterIndex, $Reader* value) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setNClob($String* parameterName, $NClob* value) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 }
 
 $Reader* CachedRowSetImpl::getNCharacterStream(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 $Reader* CachedRowSetImpl::getNCharacterStream($String* columnName) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 void CachedRowSetImpl::updateSQLXML(int32_t columnIndex, $SQLXML* xmlObject) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateSQLXML($String* columnName, $SQLXML* xmlObject) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 }
 
 $String* CachedRowSetImpl::getNString(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 $String* CachedRowSetImpl::getNString($String* columnName) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 void CachedRowSetImpl::updateNCharacterStream(int32_t columnIndex, $Reader* x, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateNCharacterStream($String* columnName, $Reader* x, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.opnotysupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateNCharacterStream(int32_t columnIndex, $Reader* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateNCharacterStream($String* columnLabel, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateBlob(int32_t columnIndex, $InputStream* inputStream, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateBlob($String* columnLabel, $InputStream* inputStream, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateBlob(int32_t columnIndex, $InputStream* inputStream) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateBlob($String* columnLabel, $InputStream* inputStream) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateClob(int32_t columnIndex, $Reader* reader, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateClob($String* columnLabel, $Reader* reader, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateClob(int32_t columnIndex, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateClob($String* columnLabel, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateNClob(int32_t columnIndex, $Reader* reader, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateNClob($String* columnLabel, $Reader* reader, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateNClob(int32_t columnIndex, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateNClob($String* columnLabel, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
@@ -4075,10 +4226,12 @@ void CachedRowSetImpl::updateBinaryStream(int32_t columnIndex, $InputStream* x, 
 }
 
 void CachedRowSetImpl::updateCharacterStream(int32_t columnIndex, $Reader* x, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateCharacterStream($String* columnLabel, $Reader* reader, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
@@ -4089,22 +4242,27 @@ void CachedRowSetImpl::updateBinaryStream($String* columnLabel, $InputStream* x,
 }
 
 void CachedRowSetImpl::updateBinaryStream(int32_t columnIndex, $InputStream* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateBinaryStream($String* columnLabel, $InputStream* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateCharacterStream(int32_t columnIndex, $Reader* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateCharacterStream($String* columnLabel, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::updateAsciiStream(int32_t columnIndex, $InputStream* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
@@ -4112,194 +4270,242 @@ void CachedRowSetImpl::updateAsciiStream($String* columnLabel, $InputStream* x) 
 }
 
 void CachedRowSetImpl::setURL(int32_t parameterIndex, $URL* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setNClob(int32_t parameterIndex, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setNClob($String* parameterName, $Reader* reader, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setNClob($String* parameterName, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setNClob(int32_t parameterIndex, $Reader* reader, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setNClob(int32_t parameterIndex, $NClob* value) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setNString(int32_t parameterIndex, $String* value) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setNString($String* parameterName, $String* value) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setNCharacterStream(int32_t parameterIndex, $Reader* value, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setNCharacterStream($String* parameterName, $Reader* value, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setNCharacterStream($String* parameterName, $Reader* value) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setTimestamp($String* parameterName, $Timestamp* x, $Calendar* cal) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setClob($String* parameterName, $Reader* reader, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setClob($String* parameterName, $Clob* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setClob($String* parameterName, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setDate($String* parameterName, $1Date* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setDate($String* parameterName, $1Date* x, $Calendar* cal) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setTime($String* parameterName, $Time* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setTime($String* parameterName, $Time* x, $Calendar* cal) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setClob(int32_t parameterIndex, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setClob(int32_t parameterIndex, $Reader* reader, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setBlob(int32_t parameterIndex, $InputStream* inputStream, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setBlob(int32_t parameterIndex, $InputStream* inputStream) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setBlob($String* parameterName, $InputStream* inputStream, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setBlob($String* parameterName, $Blob* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setBlob($String* parameterName, $InputStream* inputStream) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setObject($String* parameterName, Object$* x, int32_t targetSqlType, int32_t scale) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setObject($String* parameterName, Object$* x, int32_t targetSqlType) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setObject($String* parameterName, Object$* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setAsciiStream($String* parameterName, $InputStream* x, int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setBinaryStream($String* parameterName, $InputStream* x, int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setCharacterStream($String* parameterName, $Reader* reader, int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setAsciiStream($String* parameterName, $InputStream* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setBinaryStream($String* parameterName, $InputStream* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setCharacterStream($String* parameterName, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setBigDecimal($String* parameterName, $BigDecimal* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setString($String* parameterName, $String* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setBytes($String* parameterName, $bytes* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setTimestamp($String* parameterName, $Timestamp* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setNull($String* parameterName, int32_t sqlType) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setNull($String* parameterName, int32_t sqlType, $String* typeName) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setBoolean($String* parameterName, bool x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setByte($String* parameterName, int8_t x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setShort($String* parameterName, int16_t x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setInt($String* parameterName, int32_t x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setLong($String* parameterName, int64_t x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setFloat($String* parameterName, float x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void CachedRowSetImpl::setDouble($String* parameterName, double x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.featnotsupp"_s))))->toString()));
 }
 

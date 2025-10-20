@@ -210,6 +210,7 @@ void CachedRowSetWriter::init$() {
 }
 
 bool CachedRowSetWriter::writeData($RowSetInternal* caller) {
+	$useLocalCurrentObjectStackCache();
 	int64_t conflicts = 0;
 	bool showDel = false;
 	$var($PreparedStatement, pstmtIns, nullptr);
@@ -301,6 +302,7 @@ bool CachedRowSetWriter::writeData($RowSetInternal* caller) {
 }
 
 bool CachedRowSetWriter::updateOriginalRow($CachedRowSet* crs) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($PreparedStatement, pstmt, nullptr);
 	int32_t i = 0;
@@ -473,6 +475,7 @@ bool CachedRowSetWriter::updateOriginalRow($CachedRowSet* crs) {
 }
 
 bool CachedRowSetWriter::insertNewRow($CachedRowSet* crs, $PreparedStatement* pstmt, $CachedRowSetImpl* crsRes) {
+	$useLocalCurrentObjectStackCache();
 	bool returnVal = false;
 	{
 		$var($PreparedStatement, pstmtSel, $nc(this->con)->prepareStatement(this->selectCmd, $ResultSet::TYPE_SCROLL_SENSITIVE, $ResultSet::CONCUR_READ_ONLY));
@@ -651,6 +654,7 @@ bool CachedRowSetWriter::insertNewRow($CachedRowSet* crs, $PreparedStatement* ps
 }
 
 bool CachedRowSetWriter::deleteOriginalRow($CachedRowSet* crs, $CachedRowSetImpl* crsRes) {
+	$useLocalCurrentObjectStackCache();
 	$var($PreparedStatement, pstmt, nullptr);
 	int32_t i = 0;
 	int32_t idx = 0;
@@ -729,6 +733,7 @@ $CachedRowSetReader* CachedRowSetWriter::getReader() {
 }
 
 void CachedRowSetWriter::initSQLStatements($CachedRowSet* caller) {
+	$useLocalCurrentObjectStackCache();
 	int32_t i = 0;
 	$set(this, callerMd, $nc(caller)->getMetaData());
 	this->callerColumnCount = $nc(this->callerMd)->getColumnCount();
@@ -785,6 +790,7 @@ void CachedRowSetWriter::initSQLStatements($CachedRowSet* caller) {
 }
 
 $String* CachedRowSetWriter::buildTableName($DatabaseMetaData* dbmd, $String* catalog$renamed, $String* schema$renamed, $String* table$renamed) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, schema, schema$renamed);
 	$var($String, catalog, catalog$renamed);
 	$var($String, table, table$renamed);
@@ -814,6 +820,7 @@ $String* CachedRowSetWriter::buildTableName($DatabaseMetaData* dbmd, $String* ca
 }
 
 void CachedRowSetWriter::buildKeyDesc($CachedRowSet* crs) {
+	$useLocalCurrentObjectStackCache();
 	$set(this, keyCols, $nc(crs)->getKeyColumns());
 	$var($ResultSetMetaData, resultsetmd, crs->getMetaData());
 	if (this->keyCols == nullptr || $nc(this->keyCols)->length == 0) {
@@ -837,6 +844,7 @@ void CachedRowSetWriter::buildKeyDesc($CachedRowSet* crs) {
 }
 
 $String* CachedRowSetWriter::buildWhereClause($String* whereClause$renamed, $ResultSet* rs) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, whereClause, whereClause$renamed);
 	$assign(whereClause, "WHERE "_s);
 	for (int32_t i = 0; i < $nc(this->keyCols)->length; ++i) {
@@ -855,6 +863,7 @@ $String* CachedRowSetWriter::buildWhereClause($String* whereClause$renamed, $Res
 }
 
 void CachedRowSetWriter::updateResolvedConflictToDB($CachedRowSet* crs, $Connection* con) {
+	$useLocalCurrentObjectStackCache();
 	$var($PreparedStatement, pStmt, nullptr);
 	$var($String, strWhere, "WHERE "_s);
 	$var($String, strExec, " "_s);
@@ -968,6 +977,7 @@ void CachedRowSetWriter::readObject($ObjectInputStream* ois) {
 }
 
 bool CachedRowSetWriter::isPKNameValid($String* pk, $ResultSetMetaData* rsmd) {
+	$useLocalCurrentObjectStackCache();
 	bool isValid = false;
 	int32_t cols = $nc(rsmd)->getColumnCount();
 	for (int32_t i = 1; i <= cols; ++i) {

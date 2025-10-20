@@ -84,6 +84,7 @@ $String* JdbcRowSetResourceBundle::SLASH = nullptr;
 $String* JdbcRowSetResourceBundle::PATH = nullptr;
 
 void JdbcRowSetResourceBundle::init$() {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($Locale, locale, $Locale::getDefault());
 	$set(this, propResBundle, $cast($PropertyResourceBundle, $ResourceBundle::getBundle(JdbcRowSetResourceBundle::PATH, locale, $(JdbcRowSetResourceBundle::class$->getModule()))));

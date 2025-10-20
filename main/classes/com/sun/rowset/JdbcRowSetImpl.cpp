@@ -771,6 +771,7 @@ void JdbcRowSetImpl::finalize() {
 }
 
 void JdbcRowSetImpl::init$() {
+	$useLocalCurrentObjectStackCache();
 	$BaseRowSet::init$();
 	$set(this, conn, nullptr);
 	$set(this, ps, nullptr);
@@ -859,6 +860,7 @@ void JdbcRowSetImpl::init$() {
 }
 
 void JdbcRowSetImpl::init$($Connection* con) {
+	$useLocalCurrentObjectStackCache();
 	$BaseRowSet::init$();
 	$set(this, conn, con);
 	$set(this, ps, nullptr);
@@ -890,6 +892,7 @@ void JdbcRowSetImpl::init$($Connection* con) {
 }
 
 void JdbcRowSetImpl::init$($String* url, $String* user, $String* password) {
+	$useLocalCurrentObjectStackCache();
 	$BaseRowSet::init$();
 	$set(this, conn, nullptr);
 	$set(this, ps, nullptr);
@@ -924,6 +927,7 @@ void JdbcRowSetImpl::init$($String* url, $String* user, $String* password) {
 }
 
 void JdbcRowSetImpl::init$($ResultSet* res) {
+	$useLocalCurrentObjectStackCache();
 	$BaseRowSet::init$();
 	$set(this, conn, nullptr);
 	$set(this, ps, nullptr);
@@ -958,6 +962,7 @@ void JdbcRowSetImpl::init$($ResultSet* res) {
 }
 
 void JdbcRowSetImpl::initMetaData($RowSetMetaData* md, $ResultSetMetaData* rsmd) {
+	$useLocalCurrentObjectStackCache();
 	int32_t numCols = $nc(rsmd)->getColumnCount();
 	$nc(md)->setColumnCount(numCols);
 	for (int32_t col = 1; col <= numCols; ++col) {
@@ -981,6 +986,7 @@ void JdbcRowSetImpl::initMetaData($RowSetMetaData* md, $ResultSetMetaData* rsmd)
 }
 
 void JdbcRowSetImpl::checkState() {
+	$useLocalCurrentObjectStackCache();
 	if (this->conn == nullptr && this->ps == nullptr && this->rs == nullptr) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.invalstate"_s))))->toString()));
 	}
@@ -995,6 +1001,7 @@ void JdbcRowSetImpl::execute() {
 }
 
 void JdbcRowSetImpl::setProperties($PreparedStatement* ps) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$nc(ps)->setEscapeProcessing(getEscapeProcessing());
 	} catch ($SQLException&) {
@@ -1030,6 +1037,7 @@ void JdbcRowSetImpl::setProperties($PreparedStatement* ps) {
 }
 
 $Connection* JdbcRowSetImpl::connect() {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	if (this->conn != nullptr) {
 		return this->conn;
@@ -1058,6 +1066,7 @@ $Connection* JdbcRowSetImpl::connect() {
 }
 
 $PreparedStatement* JdbcRowSetImpl::prepare() {
+	$useLocalCurrentObjectStackCache();
 	$set(this, conn, connect());
 	try {
 		$var($Map, aMap, getTypeMap());
@@ -1082,6 +1091,7 @@ $PreparedStatement* JdbcRowSetImpl::prepare() {
 }
 
 void JdbcRowSetImpl::decodeParams($ObjectArray* params, $PreparedStatement* ps) {
+	$useLocalCurrentObjectStackCache();
 	int32_t arraySize = 0;
 	$var($ObjectArray, param, nullptr);
 	for (int32_t i = 0; i < $nc(params)->length; ++i) {
@@ -1875,6 +1885,7 @@ $RowSetWarning* JdbcRowSetImpl::getRowSetWarnings() {
 }
 
 void JdbcRowSetImpl::unsetMatchColumn($ints* columnIdxes) {
+	$useLocalCurrentObjectStackCache();
 	int32_t i_val = 0;
 	for (int32_t j = 0; j < $nc(columnIdxes)->length; ++j) {
 		i_val = ($Integer::parseInt($($nc(($cast($Integer, $($nc(this->iMatchColumns)->get(j)))))->toString())));
@@ -1888,6 +1899,7 @@ void JdbcRowSetImpl::unsetMatchColumn($ints* columnIdxes) {
 }
 
 void JdbcRowSetImpl::unsetMatchColumn($StringArray* columnIdxes) {
+	$useLocalCurrentObjectStackCache();
 	for (int32_t j = 0; j < $nc(columnIdxes)->length; ++j) {
 		if (!$nc(columnIdxes->get(j))->equals($($nc(this->strMatchColumns)->get(j)))) {
 			$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.matchcols"_s))))->toString()));
@@ -1899,6 +1911,7 @@ void JdbcRowSetImpl::unsetMatchColumn($StringArray* columnIdxes) {
 }
 
 $StringArray* JdbcRowSetImpl::getMatchColumnNames() {
+	$useLocalCurrentObjectStackCache();
 	$var($StringArray, str_temp, $new($StringArray, $nc(this->strMatchColumns)->size()));
 	if ($nc(this->strMatchColumns)->get(0) == nullptr) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.setmatchcols"_s))))->toString()));
@@ -1908,6 +1921,7 @@ $StringArray* JdbcRowSetImpl::getMatchColumnNames() {
 }
 
 $ints* JdbcRowSetImpl::getMatchColumnIndexes() {
+	$useLocalCurrentObjectStackCache();
 	$var($IntegerArray, int_temp, $new($IntegerArray, $nc(this->iMatchColumns)->size()));
 	$var($ints, i_temp, $new($ints, $nc(this->iMatchColumns)->size()));
 	int32_t i_val = 0;
@@ -1923,6 +1937,7 @@ $ints* JdbcRowSetImpl::getMatchColumnIndexes() {
 }
 
 void JdbcRowSetImpl::setMatchColumn($ints* columnIdxes) {
+	$useLocalCurrentObjectStackCache();
 	for (int32_t j = 0; j < $nc(columnIdxes)->length; ++j) {
 		if (columnIdxes->get(j) < 0) {
 			$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.matchcols1"_s))))->toString()));
@@ -1934,6 +1949,7 @@ void JdbcRowSetImpl::setMatchColumn($ints* columnIdxes) {
 }
 
 void JdbcRowSetImpl::setMatchColumn($StringArray* columnNames) {
+	$useLocalCurrentObjectStackCache();
 	for (int32_t j = 0; j < $nc(columnNames)->length; ++j) {
 		if (columnNames->get(j) == nullptr || $nc(columnNames->get(j))->isEmpty()) {
 			$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.matchcols2"_s))))->toString()));
@@ -1945,6 +1961,7 @@ void JdbcRowSetImpl::setMatchColumn($StringArray* columnNames) {
 }
 
 void JdbcRowSetImpl::setMatchColumn(int32_t columnIdx) {
+	$useLocalCurrentObjectStackCache();
 	if (columnIdx < 0) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.matchcols1"_s))))->toString()));
 	} else {
@@ -1953,6 +1970,7 @@ void JdbcRowSetImpl::setMatchColumn(int32_t columnIdx) {
 }
 
 void JdbcRowSetImpl::setMatchColumn($String* columnName$renamed) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, columnName, columnName$renamed);
 	if (columnName == nullptr || $nc(($assign(columnName, $nc(columnName)->trim())))->isEmpty()) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.matchcols2"_s))))->toString()));
@@ -1962,6 +1980,7 @@ void JdbcRowSetImpl::setMatchColumn($String* columnName$renamed) {
 }
 
 void JdbcRowSetImpl::unsetMatchColumn(int32_t columnIdx) {
+	$useLocalCurrentObjectStackCache();
 	if (!$nc(($cast($Integer, $($nc(this->iMatchColumns)->get(0)))))->equals($($Integer::valueOf(columnIdx)))) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.unsetmatch"_s))))->toString()));
 	} else if ($nc(this->strMatchColumns)->get(0) != nullptr) {
@@ -1972,6 +1991,7 @@ void JdbcRowSetImpl::unsetMatchColumn(int32_t columnIdx) {
 }
 
 void JdbcRowSetImpl::unsetMatchColumn($String* columnName$renamed) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, columnName, columnName$renamed);
 	$assign(columnName, $nc(columnName)->trim());
 	if (!($nc(($cast($String, $($nc(this->strMatchColumns)->get(0)))))->equals(columnName))) {
@@ -2033,6 +2053,7 @@ void JdbcRowSetImpl::setParams() {
 }
 
 void JdbcRowSetImpl::checkTypeConcurrency() {
+	$useLocalCurrentObjectStackCache();
 	bool var$0 = $nc(this->rs)->getType() == $ResultSet::TYPE_FORWARD_ONLY;
 	if (var$0 || $nc(this->rs)->getConcurrency() == $ResultSet::CONCUR_READ_ONLY) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.resnotupd"_s))))->toString()));
@@ -2155,65 +2176,79 @@ void JdbcRowSetImpl::setConcurrency(int32_t concur) {
 }
 
 $SQLXML* JdbcRowSetImpl::getSQLXML(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 $SQLXML* JdbcRowSetImpl::getSQLXML($String* colName) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 $RowId* JdbcRowSetImpl::getRowId(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 $RowId* JdbcRowSetImpl::getRowId($String* columnName) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 void JdbcRowSetImpl::updateRowId(int32_t columnIndex, $RowId* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateRowId($String* columnName, $RowId* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 int32_t JdbcRowSetImpl::getHoldability() {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 bool JdbcRowSetImpl::isClosed() {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 void JdbcRowSetImpl::updateNString(int32_t columnIndex, $String* nString) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateNString($String* columnName, $String* nString) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateNClob(int32_t columnIndex, $NClob* nClob) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateNClob($String* columnName, $NClob* nClob) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 $NClob* JdbcRowSetImpl::getNClob(int32_t i) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 $NClob* JdbcRowSetImpl::getNClob($String* colName) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
@@ -2227,358 +2262,446 @@ bool JdbcRowSetImpl::isWrapperFor($Class* interfaces) {
 }
 
 void JdbcRowSetImpl::setSQLXML(int32_t parameterIndex, $SQLXML* xmlObject) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setSQLXML($String* parameterName, $SQLXML* xmlObject) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setRowId(int32_t parameterIndex, $RowId* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setRowId($String* parameterName, $RowId* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setNString(int32_t parameterIndex, $String* value) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setNCharacterStream(int32_t parameterIndex, $Reader* value) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setNClob($String* parameterName, $NClob* value) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 $Reader* JdbcRowSetImpl::getNCharacterStream(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 $Reader* JdbcRowSetImpl::getNCharacterStream($String* columnName) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 void JdbcRowSetImpl::updateSQLXML(int32_t columnIndex, $SQLXML* xmlObject) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateSQLXML($String* columnName, $SQLXML* xmlObject) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 $String* JdbcRowSetImpl::getNString(int32_t columnIndex) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 $String* JdbcRowSetImpl::getNString($String* columnName) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 	$shouldNotReachHere();
 }
 
 void JdbcRowSetImpl::updateNCharacterStream(int32_t columnIndex, $Reader* x, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateNCharacterStream($String* columnName, $Reader* x, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateNCharacterStream(int32_t columnIndex, $Reader* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateNCharacterStream($String* columnLabel, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateBlob(int32_t columnIndex, $InputStream* inputStream, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateBlob($String* columnLabel, $InputStream* inputStream, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateBlob(int32_t columnIndex, $InputStream* inputStream) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateBlob($String* columnLabel, $InputStream* inputStream) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateClob(int32_t columnIndex, $Reader* reader, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateClob($String* columnLabel, $Reader* reader, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateClob(int32_t columnIndex, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateClob($String* columnLabel, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateNClob(int32_t columnIndex, $Reader* reader, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateNClob($String* columnLabel, $Reader* reader, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateNClob(int32_t columnIndex, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateNClob($String* columnLabel, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateAsciiStream(int32_t columnIndex, $InputStream* x, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateBinaryStream(int32_t columnIndex, $InputStream* x, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateCharacterStream(int32_t columnIndex, $Reader* x, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateAsciiStream($String* columnLabel, $InputStream* x, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateAsciiStream(int32_t columnIndex, $InputStream* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateAsciiStream($String* columnLabel, $InputStream* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateBinaryStream($String* columnLabel, $InputStream* x, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateBinaryStream(int32_t columnIndex, $InputStream* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateBinaryStream($String* columnLabel, $InputStream* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateCharacterStream($String* columnLabel, $Reader* reader, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateCharacterStream(int32_t columnIndex, $Reader* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::updateCharacterStream($String* columnLabel, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setURL(int32_t parameterIndex, $URL* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setNClob(int32_t parameterIndex, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setNClob($String* parameterName, $Reader* reader, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setNClob($String* parameterName, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setNClob(int32_t parameterIndex, $Reader* reader, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setNClob(int32_t parameterIndex, $NClob* value) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setNString($String* parameterName, $String* value) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setNCharacterStream(int32_t parameterIndex, $Reader* value, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setNCharacterStream($String* parameterName, $Reader* value, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setNCharacterStream($String* parameterName, $Reader* value) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setTimestamp($String* parameterName, $Timestamp* x, $Calendar* cal) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setClob($String* parameterName, $Reader* reader, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setClob($String* parameterName, $Clob* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setClob($String* parameterName, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setDate($String* parameterName, $Date* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setDate($String* parameterName, $Date* x, $Calendar* cal) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setTime($String* parameterName, $Time* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setTime($String* parameterName, $Time* x, $Calendar* cal) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setClob(int32_t parameterIndex, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setClob(int32_t parameterIndex, $Reader* reader, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setBlob(int32_t parameterIndex, $InputStream* inputStream, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setBlob(int32_t parameterIndex, $InputStream* inputStream) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setBlob($String* parameterName, $InputStream* inputStream, int64_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setBlob($String* parameterName, $Blob* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setBlob($String* parameterName, $InputStream* inputStream) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setObject($String* parameterName, Object$* x, int32_t targetSqlType, int32_t scale) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setObject($String* parameterName, Object$* x, int32_t targetSqlType) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setObject($String* parameterName, Object$* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setAsciiStream($String* parameterName, $InputStream* x, int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setBinaryStream($String* parameterName, $InputStream* x, int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setCharacterStream($String* parameterName, $Reader* reader, int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setAsciiStream($String* parameterName, $InputStream* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setBinaryStream($String* parameterName, $InputStream* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setCharacterStream($String* parameterName, $Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setBigDecimal($String* parameterName, $BigDecimal* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setString($String* parameterName, $String* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setBytes($String* parameterName, $bytes* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setTimestamp($String* parameterName, $Timestamp* x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setNull($String* parameterName, int32_t sqlType) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setNull($String* parameterName, int32_t sqlType, $String* typeName) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setBoolean($String* parameterName, bool x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setByte($String* parameterName, int8_t x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setShort($String* parameterName, int16_t x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setInt($String* parameterName, int32_t x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setLong($String* parameterName, int64_t x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setFloat($String* parameterName, float x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 
 void JdbcRowSetImpl::setDouble($String* parameterName, double x) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($SQLFeatureNotSupportedException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.featnotsupp"_s))))->toString()));
 }
 

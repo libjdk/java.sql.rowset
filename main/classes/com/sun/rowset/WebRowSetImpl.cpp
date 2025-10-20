@@ -1983,6 +1983,7 @@ void WebRowSetImpl::init$() {
 }
 
 void WebRowSetImpl::init$($Hashtable* env) {
+	$useLocalCurrentObjectStackCache();
 	$CachedRowSetImpl::init$();
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
@@ -2005,6 +2006,7 @@ void WebRowSetImpl::writeXml($ResultSet* rs, $Writer* writer) {
 }
 
 void WebRowSetImpl::writeXml($Writer* writer) {
+	$useLocalCurrentObjectStackCache();
 	if (this->xmlWriter != nullptr) {
 		this->curPosBfrWrite = this->getRow();
 		$nc(this->xmlWriter)->writeXML(static_cast<$WebRowSet*>(this), writer);
@@ -2014,6 +2016,7 @@ void WebRowSetImpl::writeXml($Writer* writer) {
 }
 
 void WebRowSetImpl::readXml($Reader* reader) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		if (reader != nullptr) {
 			$nc(this->xmlReader)->readXML(static_cast<$WebRowSet*>(this), reader);
@@ -2032,6 +2035,7 @@ void WebRowSetImpl::readXml($Reader* reader) {
 }
 
 void WebRowSetImpl::readXml($InputStream* iStream) {
+	$useLocalCurrentObjectStackCache();
 	if (iStream != nullptr) {
 		$nc(this->xmlReader)->readXML(static_cast<$WebRowSet*>(this), iStream);
 		if (this->curPosBfrWrite == 0) {
@@ -2045,6 +2049,7 @@ void WebRowSetImpl::readXml($InputStream* iStream) {
 }
 
 void WebRowSetImpl::writeXml($OutputStream* oStream) {
+	$useLocalCurrentObjectStackCache();
 	if (this->xmlWriter != nullptr) {
 		this->curPosBfrWrite = this->getRow();
 		$nc(this->xmlWriter)->writeXML(static_cast<$WebRowSet*>(this), oStream);

@@ -1933,6 +1933,7 @@ bool FilteredRowSetImpl::internalLast() {
 }
 
 bool FilteredRowSetImpl::relative(int32_t rows) {
+	$useLocalCurrentObjectStackCache();
 	bool retval = false;
 	bool bool$ = false;
 	bool boolval = false;
@@ -1967,6 +1968,7 @@ bool FilteredRowSetImpl::relative(int32_t rows) {
 }
 
 bool FilteredRowSetImpl::absolute(int32_t rows) {
+	$useLocalCurrentObjectStackCache();
 	bool retval = false;
 	bool bool$ = false;
 	if (rows == 0 || getType() == $ResultSet::TYPE_FORWARD_ONLY) {
@@ -2005,6 +2007,7 @@ void FilteredRowSetImpl::moveToInsertRow() {
 }
 
 void FilteredRowSetImpl::updateInt(int32_t columnIndex, int32_t x) {
+	$useLocalCurrentObjectStackCache();
 	bool bool$ = false;
 	if (this->onInsertRow) {
 		if (this->p != nullptr) {
@@ -2022,6 +2025,7 @@ void FilteredRowSetImpl::updateInt($String* columnName, int32_t x) {
 }
 
 void FilteredRowSetImpl::updateBoolean(int32_t columnIndex, bool x) {
+	$useLocalCurrentObjectStackCache();
 	bool bool$ = false;
 	if (this->onInsertRow) {
 		if (this->p != nullptr) {
@@ -2039,6 +2043,7 @@ void FilteredRowSetImpl::updateBoolean($String* columnName, bool x) {
 }
 
 void FilteredRowSetImpl::updateByte(int32_t columnIndex, int8_t x) {
+	$useLocalCurrentObjectStackCache();
 	bool bool$ = false;
 	if (this->onInsertRow) {
 		if (this->p != nullptr) {
@@ -2056,6 +2061,7 @@ void FilteredRowSetImpl::updateByte($String* columnName, int8_t x) {
 }
 
 void FilteredRowSetImpl::updateShort(int32_t columnIndex, int16_t x) {
+	$useLocalCurrentObjectStackCache();
 	bool bool$ = false;
 	if (this->onInsertRow) {
 		if (this->p != nullptr) {
@@ -2073,6 +2079,7 @@ void FilteredRowSetImpl::updateShort($String* columnName, int16_t x) {
 }
 
 void FilteredRowSetImpl::updateLong(int32_t columnIndex, int64_t x) {
+	$useLocalCurrentObjectStackCache();
 	bool bool$ = false;
 	if (this->onInsertRow) {
 		if (this->p != nullptr) {
@@ -2090,6 +2097,7 @@ void FilteredRowSetImpl::updateLong($String* columnName, int64_t x) {
 }
 
 void FilteredRowSetImpl::updateFloat(int32_t columnIndex, float x) {
+	$useLocalCurrentObjectStackCache();
 	bool bool$ = false;
 	if (this->onInsertRow) {
 		if (this->p != nullptr) {
@@ -2107,6 +2115,7 @@ void FilteredRowSetImpl::updateFloat($String* columnName, float x) {
 }
 
 void FilteredRowSetImpl::updateDouble(int32_t columnIndex, double x) {
+	$useLocalCurrentObjectStackCache();
 	bool bool$ = false;
 	if (this->onInsertRow) {
 		if (this->p != nullptr) {
@@ -2124,6 +2133,7 @@ void FilteredRowSetImpl::updateDouble($String* columnName, double x) {
 }
 
 void FilteredRowSetImpl::updateBigDecimal(int32_t columnIndex, $BigDecimal* x) {
+	$useLocalCurrentObjectStackCache();
 	bool bool$ = false;
 	if (this->onInsertRow) {
 		if (this->p != nullptr) {
@@ -2141,6 +2151,7 @@ void FilteredRowSetImpl::updateBigDecimal($String* columnName, $BigDecimal* x) {
 }
 
 void FilteredRowSetImpl::updateString(int32_t columnIndex, $String* x) {
+	$useLocalCurrentObjectStackCache();
 	bool bool$ = false;
 	if (this->onInsertRow) {
 		if (this->p != nullptr) {
@@ -2158,6 +2169,7 @@ void FilteredRowSetImpl::updateString($String* columnName, $String* x) {
 }
 
 void FilteredRowSetImpl::updateBytes(int32_t columnIndex, $bytes* x) {
+	$useLocalCurrentObjectStackCache();
 	bool bool$ = false;
 	$var($String, val, ""_s);
 	$var($ByteArray, obj_arr, $new($ByteArray, $nc(x)->length));
@@ -2181,6 +2193,7 @@ void FilteredRowSetImpl::updateBytes($String* columnName, $bytes* x) {
 }
 
 void FilteredRowSetImpl::updateDate(int32_t columnIndex, $Date* x) {
+	$useLocalCurrentObjectStackCache();
 	bool bool$ = false;
 	if (this->onInsertRow) {
 		if (this->p != nullptr) {
@@ -2198,6 +2211,7 @@ void FilteredRowSetImpl::updateDate($String* columnName, $Date* x) {
 }
 
 void FilteredRowSetImpl::updateTime(int32_t columnIndex, $Time* x) {
+	$useLocalCurrentObjectStackCache();
 	bool bool$ = false;
 	if (this->onInsertRow) {
 		if (this->p != nullptr) {
@@ -2215,6 +2229,7 @@ void FilteredRowSetImpl::updateTime($String* columnName, $Time* x) {
 }
 
 void FilteredRowSetImpl::updateTimestamp(int32_t columnIndex, $Timestamp* x) {
+	$useLocalCurrentObjectStackCache();
 	bool bool$ = false;
 	if (this->onInsertRow) {
 		if (this->p != nullptr) {
@@ -2232,6 +2247,7 @@ void FilteredRowSetImpl::updateTimestamp($String* columnName, $Timestamp* x) {
 }
 
 void FilteredRowSetImpl::updateAsciiStream(int32_t columnIndex, $InputStream* x, int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	bool bool$ = false;
 	if (this->onInsertRow) {
 		if (this->p != nullptr) {
@@ -2249,6 +2265,7 @@ void FilteredRowSetImpl::updateAsciiStream($String* columnName, $InputStream* x,
 }
 
 void FilteredRowSetImpl::updateCharacterStream(int32_t columnIndex, $Reader* x, int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	bool bool$ = false;
 	if (this->onInsertRow) {
 		if (this->p != nullptr) {
@@ -2266,6 +2283,7 @@ void FilteredRowSetImpl::updateCharacterStream($String* columnName, $Reader* rea
 }
 
 void FilteredRowSetImpl::updateBinaryStream(int32_t columnIndex, $InputStream* x, int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	bool bool$ = false;
 	if (this->onInsertRow) {
 		if (this->p != nullptr) {
@@ -2283,6 +2301,7 @@ void FilteredRowSetImpl::updateBinaryStream($String* columnName, $InputStream* x
 }
 
 void FilteredRowSetImpl::updateObject(int32_t columnIndex, Object$* x) {
+	$useLocalCurrentObjectStackCache();
 	bool bool$ = false;
 	if (this->onInsertRow) {
 		if (this->p != nullptr) {
@@ -2300,6 +2319,7 @@ void FilteredRowSetImpl::updateObject($String* columnName, Object$* x) {
 }
 
 void FilteredRowSetImpl::updateObject(int32_t columnIndex, Object$* x, int32_t scale) {
+	$useLocalCurrentObjectStackCache();
 	bool bool$ = false;
 	if (this->onInsertRow) {
 		if (this->p != nullptr) {

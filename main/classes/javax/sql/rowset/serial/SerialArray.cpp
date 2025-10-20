@@ -140,6 +140,7 @@ void SerialArray::finalize() {
 }
 
 void SerialArray::init$($1Array* array, $Map* map) {
+	$useLocalCurrentObjectStackCache();
 	if ((array == nullptr) || (map == nullptr)) {
 		$throwNew($SQLException, "Cannot instantiate a SerialArray object with null parameters"_s);
 	}
@@ -203,6 +204,7 @@ void SerialArray::free() {
 }
 
 void SerialArray::init$($1Array* array) {
+	$useLocalCurrentObjectStackCache();
 	if (array == nullptr) {
 		$throwNew($SQLException, "Cannot instantiate a SerialArray object with a null Array object"_s);
 	}
@@ -283,6 +285,7 @@ $String* SerialArray::getBaseTypeName() {
 }
 
 $ResultSet* SerialArray::getResultSet(int64_t index, int32_t count) {
+	$useLocalCurrentObjectStackCache();
 	$var($SerialException, se, $new($SerialException));
 	se->initCause($$new($UnsupportedOperationException));
 	$throw(se);
@@ -290,6 +293,7 @@ $ResultSet* SerialArray::getResultSet(int64_t index, int32_t count) {
 }
 
 $ResultSet* SerialArray::getResultSet($Map* map) {
+	$useLocalCurrentObjectStackCache();
 	$var($SerialException, se, $new($SerialException));
 	se->initCause($$new($UnsupportedOperationException));
 	$throw(se);
@@ -297,6 +301,7 @@ $ResultSet* SerialArray::getResultSet($Map* map) {
 }
 
 $ResultSet* SerialArray::getResultSet() {
+	$useLocalCurrentObjectStackCache();
 	$var($SerialException, se, $new($SerialException));
 	se->initCause($$new($UnsupportedOperationException));
 	$throw(se);
@@ -304,6 +309,7 @@ $ResultSet* SerialArray::getResultSet() {
 }
 
 $ResultSet* SerialArray::getResultSet(int64_t index, int32_t count, $Map* map) {
+	$useLocalCurrentObjectStackCache();
 	$var($SerialException, se, $new($SerialException));
 	se->initCause($$new($UnsupportedOperationException));
 	$throw(se);
@@ -328,6 +334,7 @@ int32_t SerialArray::hashCode() {
 }
 
 $Object* SerialArray::clone() {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var(SerialArray, sa, $cast(SerialArray, $1Array::clone()));
 		$set($nc(sa), elements, (this->elements != nullptr) ? $Arrays::copyOf(this->elements, this->len) : ($ObjectArray*)nullptr);
@@ -340,6 +347,7 @@ $Object* SerialArray::clone() {
 }
 
 void SerialArray::readObject($ObjectInputStream* s) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectInputStream$GetField, fields, $nc(s)->readFields());
 	$var($ObjectArray, tmp, $cast($ObjectArray, $nc(fields)->get("elements"_s, ($Object*)nullptr)));
 	if (tmp == nullptr) {

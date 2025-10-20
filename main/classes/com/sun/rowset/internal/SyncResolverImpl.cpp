@@ -1302,6 +1302,7 @@ int32_t SyncResolverImpl::getStatus() {
 }
 
 $Object* SyncResolverImpl::getConflictValue(int32_t index) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		return $of($nc(this->crsRes)->getObject(index));
 	} catch ($SQLException&) {
@@ -1315,6 +1316,7 @@ $Object* SyncResolverImpl::getConflictValue(int32_t index) {
 }
 
 $Object* SyncResolverImpl::getConflictValue($String* columnName) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		return $of($nc(this->crsRes)->getObject(columnName));
 	} catch ($SQLException&) {
@@ -1328,6 +1330,7 @@ $Object* SyncResolverImpl::getConflictValue($String* columnName) {
 }
 
 void SyncResolverImpl::setResolvedValue(int32_t index, Object$* obj) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var($ResultSetMetaData, rsmd, $nc(this->crsSync)->getMetaData());
 		if (index <= 0 || rsmd == nullptr || index > $nc(rsmd)->getColumnCount()) {
@@ -1375,10 +1378,12 @@ void SyncResolverImpl::setResolvedValue(int32_t index, Object$* obj) {
 }
 
 void SyncResolverImpl::writeData($CachedRowSet* row) {
+	$useLocalCurrentObjectStackCache();
 	$nc(this->crw)->updateResolvedConflictToDB(row, $($nc($($nc(this->crw)->getReader()))->connect(static_cast<$RowSetInternal*>(this->crsSync))));
 }
 
 $CachedRowSet* SyncResolverImpl::buildCachedRow() {
+	$useLocalCurrentObjectStackCache();
 	int32_t iColCount = 0;
 	$var($CachedRowSetImpl, crsRow, $new($CachedRowSetImpl));
 	$var($RowSetMetaDataImpl, rsmd, $new($RowSetMetaDataImpl));
@@ -1466,6 +1471,7 @@ void SyncResolverImpl::setCachedRowSetWriter($CachedRowSetWriter* CRWriter) {
 }
 
 bool SyncResolverImpl::nextConflict() {
+	$useLocalCurrentObjectStackCache();
 	bool bool$ = false;
 	$nc(this->crsSync)->setShowDeleted(true);
 	while ($nc(this->crsSync)->next()) {

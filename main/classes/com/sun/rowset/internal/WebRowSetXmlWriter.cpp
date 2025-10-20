@@ -223,6 +223,7 @@ void WebRowSetXmlWriter::writeXML($WebRowSet* caller, $OutputStream* oStream) {
 }
 
 void WebRowSetXmlWriter::writeRowSet($WebRowSet* caller) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		startHeader();
 		writeProperties(caller);
@@ -248,6 +249,7 @@ void WebRowSetXmlWriter::endHeader() {
 }
 
 void WebRowSetXmlWriter::writeProperties($WebRowSet* caller) {
+	$useLocalCurrentObjectStackCache();
 	beginSection("properties"_s);
 	try {
 		propString("command"_s, $(processSpecialCharacters($($nc(caller)->getCommand()))));
@@ -317,6 +319,7 @@ void WebRowSetXmlWriter::writeProperties($WebRowSet* caller) {
 }
 
 void WebRowSetXmlWriter::writeMetaData($WebRowSet* caller) {
+	$useLocalCurrentObjectStackCache();
 	int32_t columnCount = 0;
 	beginSection("metadata"_s);
 	try {
@@ -353,6 +356,7 @@ void WebRowSetXmlWriter::writeMetaData($WebRowSet* caller) {
 }
 
 void WebRowSetXmlWriter::writeData($WebRowSet* caller) {
+	$useLocalCurrentObjectStackCache();
 	$var($ResultSet, rs, nullptr);
 	try {
 		$var($ResultSetMetaData, rsmd, $nc(caller)->getMetaData());
@@ -399,6 +403,7 @@ void WebRowSetXmlWriter::writeData($WebRowSet* caller) {
 }
 
 void WebRowSetXmlWriter::writeValue(int32_t idx, $RowSet* caller) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		int32_t type = $nc($($nc(caller)->getMetaData()))->getColumnType(idx);
 		{
@@ -553,6 +558,7 @@ void WebRowSetXmlWriter::beginSection($String* tag) {
 }
 
 void WebRowSetXmlWriter::endSection($String* tag) {
+	$useLocalCurrentObjectStackCache();
 	writeIndent($nc(this->stack)->size());
 	$var($String, beginTag, getTag());
 	if ($nc(beginTag)->indexOf("webRowSet"_s) != -1) {
@@ -566,6 +572,7 @@ void WebRowSetXmlWriter::endSection($String* tag) {
 }
 
 void WebRowSetXmlWriter::endSection() {
+	$useLocalCurrentObjectStackCache();
 	writeIndent($nc(this->stack)->size());
 	$var($String, beginTag, getTag());
 	$nc(this->writer)->write($$str({"</"_s, beginTag, ">\n"_s}));
@@ -579,6 +586,7 @@ void WebRowSetXmlWriter::beginTag($String* tag) {
 }
 
 void WebRowSetXmlWriter::endTag($String* tag) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, beginTag, getTag());
 	if ($nc(tag)->equals(beginTag)) {
 		$nc(this->writer)->write($$str({"</"_s, beginTag, ">\n"_s}));
@@ -636,6 +644,7 @@ void WebRowSetXmlWriter::writeInteger(int32_t i) {
 }
 
 void WebRowSetXmlWriter::writeBoolean(bool b) {
+	$useLocalCurrentObjectStackCache();
 	$nc(this->writer)->write($($nc($($Boolean::valueOf(b)))->toString()));
 }
 
@@ -688,6 +697,7 @@ bool WebRowSetXmlWriter::writeData($RowSetInternal* caller) {
 }
 
 $String* WebRowSetXmlWriter::processSpecialCharacters($String* s$renamed) {
+	$useLocalCurrentObjectStackCache();
 	$var($String, s, s$renamed);
 	if (s == nullptr) {
 		return nullptr;

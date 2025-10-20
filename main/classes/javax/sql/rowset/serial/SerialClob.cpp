@@ -131,6 +131,7 @@ void SerialClob::init$($chars* ch) {
 }
 
 void SerialClob::init$($Clob* clob) {
+	$useLocalCurrentObjectStackCache();
 	if (clob == nullptr) {
 		$throwNew($SQLException, "Cannot instantiate a SerialClob object with a null Clob object"_s);
 	}
@@ -261,6 +262,7 @@ $InputStream* SerialClob::getAsciiStream() {
 }
 
 $String* SerialClob::getSubString(int64_t pos, int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	isValid();
 	if (pos < 1 || pos > this->length()) {
 		$throwNew($SerialException, "Invalid position in SerialClob object set"_s);
@@ -310,6 +312,7 @@ int32_t SerialClob::setString(int64_t pos, $String* str) {
 }
 
 int32_t SerialClob::setString(int64_t pos, $String* str, int32_t offset, int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	isValid();
 	$var($String, temp, $nc(str)->substring(offset));
 	$var($chars, cPattern, temp->toCharArray());
@@ -408,6 +411,7 @@ int32_t SerialClob::hashCode() {
 }
 
 $Object* SerialClob::clone() {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var(SerialClob, sc, $cast(SerialClob, $Clob::clone()));
 		$set($nc(sc), buf, (this->buf != nullptr) ? $Arrays::copyOf(this->buf, (int32_t)this->len) : ($chars*)nullptr);
@@ -421,6 +425,7 @@ $Object* SerialClob::clone() {
 }
 
 void SerialClob::readObject($ObjectInputStream* s) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectInputStream$GetField, fields, $nc(s)->readFields());
 	$var($chars, tmp, $cast($chars, $nc(fields)->get("buf"_s, ($Object*)nullptr)));
 	if (tmp == nullptr) {

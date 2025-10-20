@@ -152,6 +152,7 @@ int32_t RIOptimisticProvider::getProviderGrade() {
 }
 
 void RIOptimisticProvider::setDataSourceLock(int32_t datasource_lock) {
+	$useLocalCurrentObjectStackCache();
 	if (datasource_lock != $SyncProvider::DATASOURCE_NO_LOCK) {
 		$throwNew($SyncProviderException, $($nc($of($($nc(this->resBundle)->handleGetObject("riop.locking"_s))))->toString()));
 	}

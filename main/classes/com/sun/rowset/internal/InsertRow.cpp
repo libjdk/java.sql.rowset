@@ -106,6 +106,7 @@ void InsertRow::initInsertRow() {
 }
 
 $Object* InsertRow::getColumnObject(int32_t idx) {
+	$useLocalCurrentObjectStackCache();
 	if ($nc(this->colsInserted)->get(idx - 1) == false) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("insertrow.novalue"_s))))->toString()));
 	}

@@ -1454,6 +1454,7 @@ void JoinRowSetImpl::init$() {
 }
 
 void JoinRowSetImpl::addRowSet($Joinable* rowset) {
+	$useLocalCurrentObjectStackCache();
 	bool boolColId = false;
 	bool boolColName = false;
 	boolColId = false;
@@ -1536,6 +1537,7 @@ void JoinRowSetImpl::addRowSet($RowSet* rowset, $String* columnName) {
 }
 
 void JoinRowSetImpl::addRowSet($RowSetArray* rowset, $ints* columnIdx) {
+	$useLocalCurrentObjectStackCache();
 	if ($nc(rowset)->length != $nc(columnIdx)->length) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("joinrowsetimpl.numnotequal"_s))))->toString()));
 	} else {
@@ -1547,6 +1549,7 @@ void JoinRowSetImpl::addRowSet($RowSetArray* rowset, $ints* columnIdx) {
 }
 
 void JoinRowSetImpl::addRowSet($RowSetArray* rowset, $StringArray* columnName) {
+	$useLocalCurrentObjectStackCache();
 	if ($nc(rowset)->length != $nc(columnName)->length) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("joinrowsetimpl.numnotequal"_s))))->toString()));
 	} else {
@@ -1562,6 +1565,7 @@ $Collection* JoinRowSetImpl::getRowSets() {
 }
 
 $StringArray* JoinRowSetImpl::getRowSetNames() {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, arr, $nc(this->vecTableNames)->toArray());
 	$var($StringArray, strArr, $new($StringArray, $nc(arr)->length));
 	for (int32_t i = 0; i < arr->length; ++i) {
@@ -1595,6 +1599,7 @@ bool JoinRowSetImpl::supportsFullJoin() {
 }
 
 void JoinRowSetImpl::setJoinType(int32_t type) {
+	$useLocalCurrentObjectStackCache();
 	if (type >= $JoinRowSet::CROSS_JOIN && type <= $JoinRowSet::FULL_JOIN) {
 		if (type != $JoinRowSet::INNER_JOIN) {
 			$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("joinrowsetimpl.notsupported"_s))))->toString()));
@@ -1616,6 +1621,7 @@ bool JoinRowSetImpl::checkforMatchColumn($Joinable* rs) {
 }
 
 void JoinRowSetImpl::initJOIN($CachedRowSet* rowset) {
+	$useLocalCurrentObjectStackCache();
 	try {
 		$var($CachedRowSetImpl, cRowset, $cast($CachedRowSetImpl, rowset));
 		$var($CachedRowSetImpl, crsTemp, $new($CachedRowSetImpl));
@@ -1783,6 +1789,7 @@ void JoinRowSetImpl::initJOIN($CachedRowSet* rowset) {
 }
 
 $String* JoinRowSetImpl::getWhereClause() {
+	$useLocalCurrentObjectStackCache();
 	$var($String, strWhereClause, "Select "_s);
 	$var($String, whereClause, nullptr);
 	$var($String, tabName, ""_s);

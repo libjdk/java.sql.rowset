@@ -44,6 +44,7 @@ void XmlResolver::init$() {
 }
 
 $InputSource* XmlResolver::resolveEntity($String* publicId, $String* systemId) {
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($String, schemaName, $nc(systemId)->substring(systemId->lastIndexOf((int32_t)u'/')));
 	if (systemId->startsWith("http://java.sun.com/xml/ns/jdbc"_s)) {

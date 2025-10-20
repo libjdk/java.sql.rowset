@@ -356,6 +356,7 @@ void BaseRowSet::checkforRowSetInterface() {
 }
 
 void BaseRowSet::notifyCursorMoved() {
+	$useLocalCurrentObjectStackCache();
 	checkforRowSetInterface();
 	if ($nc(this->listeners)->isEmpty() == false) {
 		$var($RowSetEvent, event, $new($RowSetEvent, $cast($RowSet, this)));
@@ -372,6 +373,7 @@ void BaseRowSet::notifyCursorMoved() {
 }
 
 void BaseRowSet::notifyRowChanged() {
+	$useLocalCurrentObjectStackCache();
 	checkforRowSetInterface();
 	if ($nc(this->listeners)->isEmpty() == false) {
 		$var($RowSetEvent, event, $new($RowSetEvent, $cast($RowSet, this)));
@@ -388,6 +390,7 @@ void BaseRowSet::notifyRowChanged() {
 }
 
 void BaseRowSet::notifyRowSetChanged() {
+	$useLocalCurrentObjectStackCache();
 	checkforRowSetInterface();
 	if ($nc(this->listeners)->isEmpty() == false) {
 		$var($RowSetEvent, event, $new($RowSetEvent, $cast($RowSet, this)));
@@ -526,6 +529,7 @@ int32_t BaseRowSet::getMaxFieldSize() {
 }
 
 void BaseRowSet::setMaxFieldSize(int32_t max) {
+	$useLocalCurrentObjectStackCache();
 	if (max < 0) {
 		$throwNew($SQLException, $$str({"Invalid max field size set. Cannot be of value: "_s, $$str(max)}));
 	}
@@ -537,6 +541,7 @@ int32_t BaseRowSet::getMaxRows() {
 }
 
 void BaseRowSet::setMaxRows(int32_t max) {
+	$useLocalCurrentObjectStackCache();
 	if (max < 0) {
 		$throwNew($SQLException, $$str({"Invalid max row size set. Cannot be of value: "_s, $$str(max)}));
 	} else if (max < this->getFetchSize()) {
@@ -554,6 +559,7 @@ int32_t BaseRowSet::getQueryTimeout() {
 }
 
 void BaseRowSet::setQueryTimeout(int32_t seconds) {
+	$useLocalCurrentObjectStackCache();
 	if (seconds < 0) {
 		$throwNew($SQLException, $$str({"Invalid query timeout value set. Cannot be of value: "_s, $$str(seconds)}));
 	}
@@ -584,6 +590,7 @@ int32_t BaseRowSet::getFetchDirection() {
 }
 
 void BaseRowSet::setFetchSize(int32_t rows) {
+	$useLocalCurrentObjectStackCache();
 	if (getMaxRows() == 0 && rows >= 0) {
 		this->fetchSize = rows;
 		return;
@@ -609,6 +616,7 @@ void BaseRowSet::checkParamIndex(int32_t idx) {
 }
 
 void BaseRowSet::setNull(int32_t parameterIndex, int32_t sqlType) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, nullVal, nullptr);
 	checkParamIndex(parameterIndex);
 	$assign(nullVal, $new($ObjectArray, 2));
@@ -621,6 +629,7 @@ void BaseRowSet::setNull(int32_t parameterIndex, int32_t sqlType) {
 }
 
 void BaseRowSet::setNull(int32_t parameterIndex, int32_t sqlType, $String* typeName) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, nullVal, nullptr);
 	checkParamIndex(parameterIndex);
 	$assign(nullVal, $new($ObjectArray, 3));
@@ -634,6 +643,7 @@ void BaseRowSet::setNull(int32_t parameterIndex, int32_t sqlType, $String* typeN
 }
 
 void BaseRowSet::setBoolean(int32_t parameterIndex, bool x) {
+	$useLocalCurrentObjectStackCache();
 	checkParamIndex(parameterIndex);
 	if (this->params == nullptr) {
 		$throwNew($SQLException, "Set initParams() before setNull"_s);
@@ -643,6 +653,7 @@ void BaseRowSet::setBoolean(int32_t parameterIndex, bool x) {
 }
 
 void BaseRowSet::setByte(int32_t parameterIndex, int8_t x) {
+	$useLocalCurrentObjectStackCache();
 	checkParamIndex(parameterIndex);
 	if (this->params == nullptr) {
 		$throwNew($SQLException, "Set initParams() before setByte"_s);
@@ -652,6 +663,7 @@ void BaseRowSet::setByte(int32_t parameterIndex, int8_t x) {
 }
 
 void BaseRowSet::setShort(int32_t parameterIndex, int16_t x) {
+	$useLocalCurrentObjectStackCache();
 	checkParamIndex(parameterIndex);
 	if (this->params == nullptr) {
 		$throwNew($SQLException, "Set initParams() before setShort"_s);
@@ -661,6 +673,7 @@ void BaseRowSet::setShort(int32_t parameterIndex, int16_t x) {
 }
 
 void BaseRowSet::setInt(int32_t parameterIndex, int32_t x) {
+	$useLocalCurrentObjectStackCache();
 	checkParamIndex(parameterIndex);
 	if (this->params == nullptr) {
 		$throwNew($SQLException, "Set initParams() before setInt"_s);
@@ -670,6 +683,7 @@ void BaseRowSet::setInt(int32_t parameterIndex, int32_t x) {
 }
 
 void BaseRowSet::setLong(int32_t parameterIndex, int64_t x) {
+	$useLocalCurrentObjectStackCache();
 	checkParamIndex(parameterIndex);
 	if (this->params == nullptr) {
 		$throwNew($SQLException, "Set initParams() before setLong"_s);
@@ -679,6 +693,7 @@ void BaseRowSet::setLong(int32_t parameterIndex, int64_t x) {
 }
 
 void BaseRowSet::setFloat(int32_t parameterIndex, float x) {
+	$useLocalCurrentObjectStackCache();
 	checkParamIndex(parameterIndex);
 	if (this->params == nullptr) {
 		$throwNew($SQLException, "Set initParams() before setFloat"_s);
@@ -688,6 +703,7 @@ void BaseRowSet::setFloat(int32_t parameterIndex, float x) {
 }
 
 void BaseRowSet::setDouble(int32_t parameterIndex, double x) {
+	$useLocalCurrentObjectStackCache();
 	checkParamIndex(parameterIndex);
 	if (this->params == nullptr) {
 		$throwNew($SQLException, "Set initParams() before setDouble"_s);
@@ -745,6 +761,7 @@ void BaseRowSet::setTimestamp(int32_t parameterIndex, $Timestamp* x) {
 }
 
 void BaseRowSet::setAsciiStream(int32_t parameterIndex, $InputStream* x, int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, asciiStream, nullptr);
 	checkParamIndex(parameterIndex);
 	$assign(asciiStream, $new($ObjectArray, 3));
@@ -762,6 +779,7 @@ void BaseRowSet::setAsciiStream(int32_t parameterIndex, $InputStream* x) {
 }
 
 void BaseRowSet::setBinaryStream(int32_t parameterIndex, $InputStream* x, int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, binaryStream, nullptr);
 	checkParamIndex(parameterIndex);
 	$assign(binaryStream, $new($ObjectArray, 3));
@@ -779,6 +797,7 @@ void BaseRowSet::setBinaryStream(int32_t parameterIndex, $InputStream* x) {
 }
 
 void BaseRowSet::setUnicodeStream(int32_t parameterIndex, $InputStream* x, int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, unicodeStream, nullptr);
 	checkParamIndex(parameterIndex);
 	$assign(unicodeStream, $new($ObjectArray, 3));
@@ -792,6 +811,7 @@ void BaseRowSet::setUnicodeStream(int32_t parameterIndex, $InputStream* x, int32
 }
 
 void BaseRowSet::setCharacterStream(int32_t parameterIndex, $Reader* reader, int32_t length) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, charStream, nullptr);
 	checkParamIndex(parameterIndex);
 	$assign(charStream, $new($ObjectArray, 2));
@@ -808,6 +828,7 @@ void BaseRowSet::setCharacterStream(int32_t parameterIndex, $Reader* reader) {
 }
 
 void BaseRowSet::setObject(int32_t parameterIndex, Object$* x, int32_t targetSqlType, int32_t scale) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, obj, nullptr);
 	checkParamIndex(parameterIndex);
 	$assign(obj, $new($ObjectArray, 3));
@@ -821,6 +842,7 @@ void BaseRowSet::setObject(int32_t parameterIndex, Object$* x, int32_t targetSql
 }
 
 void BaseRowSet::setObject(int32_t parameterIndex, Object$* x, int32_t targetSqlType) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, obj, nullptr);
 	checkParamIndex(parameterIndex);
 	$assign(obj, $new($ObjectArray, 2));
@@ -841,6 +863,7 @@ void BaseRowSet::setObject(int32_t parameterIndex, Object$* x) {
 }
 
 void BaseRowSet::setRef(int32_t parameterIndex, $Ref* ref) {
+	$useLocalCurrentObjectStackCache();
 	checkParamIndex(parameterIndex);
 	if (this->params == nullptr) {
 		$throwNew($SQLException, "Set initParams() before setRef"_s);
@@ -850,6 +873,7 @@ void BaseRowSet::setRef(int32_t parameterIndex, $Ref* ref) {
 }
 
 void BaseRowSet::setBlob(int32_t parameterIndex, $Blob* x) {
+	$useLocalCurrentObjectStackCache();
 	checkParamIndex(parameterIndex);
 	if (this->params == nullptr) {
 		$throwNew($SQLException, "Set initParams() before setBlob"_s);
@@ -859,6 +883,7 @@ void BaseRowSet::setBlob(int32_t parameterIndex, $Blob* x) {
 }
 
 void BaseRowSet::setClob(int32_t parameterIndex, $Clob* x) {
+	$useLocalCurrentObjectStackCache();
 	checkParamIndex(parameterIndex);
 	if (this->params == nullptr) {
 		$throwNew($SQLException, "Set initParams() before setClob"_s);
@@ -868,6 +893,7 @@ void BaseRowSet::setClob(int32_t parameterIndex, $Clob* x) {
 }
 
 void BaseRowSet::setArray(int32_t parameterIndex, $1Array* array) {
+	$useLocalCurrentObjectStackCache();
 	checkParamIndex(parameterIndex);
 	if (this->params == nullptr) {
 		$throwNew($SQLException, "Set initParams() before setArray"_s);
@@ -877,6 +903,7 @@ void BaseRowSet::setArray(int32_t parameterIndex, $1Array* array) {
 }
 
 void BaseRowSet::setDate(int32_t parameterIndex, $Date* x, $Calendar* cal) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, date, nullptr);
 	checkParamIndex(parameterIndex);
 	$assign(date, $new($ObjectArray, 2));
@@ -889,6 +916,7 @@ void BaseRowSet::setDate(int32_t parameterIndex, $Date* x, $Calendar* cal) {
 }
 
 void BaseRowSet::setTime(int32_t parameterIndex, $Time* x, $Calendar* cal) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, time, nullptr);
 	checkParamIndex(parameterIndex);
 	$assign(time, $new($ObjectArray, 2));
@@ -901,6 +929,7 @@ void BaseRowSet::setTime(int32_t parameterIndex, $Time* x, $Calendar* cal) {
 }
 
 void BaseRowSet::setTimestamp(int32_t parameterIndex, $Timestamp* x, $Calendar* cal) {
+	$useLocalCurrentObjectStackCache();
 	$var($ObjectArray, timestamp, nullptr);
 	checkParamIndex(parameterIndex);
 	$assign(timestamp, $new($ObjectArray, 2));
@@ -917,6 +946,7 @@ void BaseRowSet::clearParameters() {
 }
 
 $ObjectArray* BaseRowSet::getParams() {
+	$useLocalCurrentObjectStackCache();
 	if (this->params == nullptr) {
 		initParams();
 		$var($ObjectArray, paramsArray, $new($ObjectArray, $nc(this->params)->size()));

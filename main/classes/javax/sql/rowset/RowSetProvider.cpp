@@ -134,6 +134,7 @@ void RowSetProvider::init$() {
 
 $RowSetFactory* RowSetProvider::newFactory() {
 	$init(RowSetProvider);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($RowSetFactory, factory, nullptr);
 	$var($String, factoryClassName, nullptr);
@@ -165,6 +166,7 @@ $RowSetFactory* RowSetProvider::defaultRowSetFactory() {
 
 $RowSetFactory* RowSetProvider::newFactory($String* factoryClassName, $ClassLoader* cl) {
 	$init(RowSetProvider);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	trace("***In newInstance()"_s);
 	if (factoryClassName == nullptr) {
@@ -201,6 +203,7 @@ $ClassLoader* RowSetProvider::getContextClassLoader() {
 
 $Class* RowSetProvider::getFactoryClass($String* factoryClassName, $ClassLoader* cl$renamed, bool doFallback) {
 	$init(RowSetProvider);
+	$useLocalCurrentObjectStackCache();
 	$var($ClassLoader, cl, cl$renamed);
 	$beforeCallerSensitive();
 	$Class* factoryClass = nullptr;
@@ -230,6 +233,7 @@ $Class* RowSetProvider::getFactoryClass($String* factoryClassName, $ClassLoader*
 
 $RowSetFactory* RowSetProvider::loadViaServiceLoader() {
 	$init(RowSetProvider);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($RowSetFactory, theFactory, nullptr);
 	try {
@@ -255,6 +259,7 @@ $RowSetFactory* RowSetProvider::loadViaServiceLoader() {
 
 $String* RowSetProvider::getSystemProperty($String* propName) {
 	$init(RowSetProvider);
+	$useLocalCurrentObjectStackCache();
 	$beforeCallerSensitive();
 	$var($String, property, nullptr);
 	try {

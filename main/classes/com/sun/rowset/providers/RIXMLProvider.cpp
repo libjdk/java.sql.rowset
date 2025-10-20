@@ -131,6 +131,7 @@ int32_t RIXMLProvider::getDataSourceLock() {
 }
 
 void RIXMLProvider::setDataSourceLock(int32_t lock) {
+	$useLocalCurrentObjectStackCache();
 	$throwNew($UnsupportedOperationException, $($nc($of($($nc(this->resBundle)->handleGetObject("rixml.unsupp"_s))))->toString()));
 }
 
