@@ -5,23 +5,7 @@
 #include <java/io/InputStream.h>
 #include <java/io/InputStreamReader.h>
 #include <java/io/Reader.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Byte.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Double.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Float.h>
-#include <java/lang/Integer.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/Short.h>
-#include <java/lang/String.h>
 #include <java/lang/StringBuffer.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/math/BigDecimal.h>
 #include <java/net/URL.h>
 #include <java/sql/Array.h>
@@ -217,8 +201,7 @@ void SQLOutputImpl::writeCharacterStream($Reader* x) {
 			$var($String, strLine, bufReader->readLine());
 			writeString($(str->concat(strLine)));
 		}
-	} catch ($IOException&) {
-		$catch();
+	} catch ($IOException& ioe) {
 	}
 }
 
@@ -235,8 +218,7 @@ void SQLOutputImpl::writeAsciiStream($InputStream* x) {
 			$var($String, strLine, bufReader->readLine());
 			writeString($(str->concat(strLine)));
 		}
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($SQLException, $(ioe->getMessage()));
 	}
 }
@@ -254,8 +236,7 @@ void SQLOutputImpl::writeBinaryStream($InputStream* x) {
 			$var($String, strLine, bufReader->readLine());
 			writeString($(str->concat(strLine)));
 		}
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($SQLException, $(ioe->getMessage()));
 	}
 }

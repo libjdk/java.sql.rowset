@@ -5,37 +5,20 @@
 #include <java/io/FileNotFoundException.h>
 #include <java/io/IOException.h>
 #include <java/io/InputStream.h>
-#include <java/io/PrintStream.h>
 #include <java/io/Serializable.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
 #include <java/lang/IllegalAccessException.h>
-#include <java/lang/InnerClassInfo.h>
 #include <java/lang/InstantiationException.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/Module.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/ReflectiveOperationException.h>
-#include <java/lang/RuntimeException.h>
 #include <java/lang/SecurityException.h>
 #include <java/lang/SecurityManager.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/Thread.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/Void.h>
 #include <java/lang/invoke/CallSite.h>
 #include <java/lang/invoke/LambdaMetafactory.h>
 #include <java/lang/invoke/MethodHandle.h>
 #include <java/lang/invoke/MethodHandles$Lookup.h>
 #include <java/lang/invoke/MethodType.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessControlContext.h>
 #include <java/security/AccessControlException.h>
 #include <java/security/AccessController.h>
@@ -242,29 +225,18 @@ $Object* allocate$SyncFactory($Class* clazz) {
 	return $of($alloc(SyncFactory));
 }
 
-
 $String* SyncFactory::ROWSET_SYNC_PROVIDER = nullptr;
-
 $String* SyncFactory::ROWSET_SYNC_VENDOR = nullptr;
-
 $String* SyncFactory::ROWSET_SYNC_PROVIDER_VERSION = nullptr;
-
 $String* SyncFactory::ROWSET_PROPERTIES = nullptr;
-
 $SQLPermission* SyncFactory::SET_SYNCFACTORY_PERMISSION = nullptr;
-
 $Context* SyncFactory::ic = nullptr;
-
 $volatile($Logger*) SyncFactory::rsLogger = nullptr;
-
 $Hashtable* SyncFactory::implementations = nullptr;
 $String* SyncFactory::colon = nullptr;
 $String* SyncFactory::strFileSep = nullptr;
-
 bool SyncFactory::debug = false;
-
 int32_t SyncFactory::providerImplIndex = 0;
-
 bool SyncFactory::lazyJNDICtxRefresh = false;
 
 void SyncFactory::init$() {
@@ -312,9 +284,7 @@ void SyncFactory::initMapIfNecessary() {
 				try {
 					$var($PrivilegedAction, var$0, static_cast<$PrivilegedAction*>($new($SyncFactory$1)));
 					$assign(strRowsetProperties, $cast($String, $AccessController::doPrivileged(var$0, ($AccessControlContext*)nullptr, $$new($PermissionArray, {static_cast<$Permission*>($$new($PropertyPermission, "rowset.properties"_s, "read"_s))}))));
-				} catch ($Exception&) {
-					$var($Exception, ex, $catch());
-					$init($System);
+				} catch ($Exception& ex) {
 					$nc($System::out)->println($$str({"errorget rowset.properties: "_s, ex}));
 					$assign(strRowsetProperties, nullptr);
 				}
@@ -327,18 +297,16 @@ void SyncFactory::initMapIfNecessary() {
 							try {
 								try {
 									properties->load(static_cast<$InputStream*>(fis));
-								} catch ($Throwable&) {
-									$var($Throwable, t$, $catch());
+								} catch ($Throwable& t$) {
 									try {
 										fis->close();
-									} catch ($Throwable&) {
-										$var($Throwable, x2, $catch());
+									} catch ($Throwable& x2) {
 										t$->addSuppressed(x2);
 									}
 									$throw(t$);
 								}
-							} catch ($Throwable&) {
-								$assign(var$1, $catch());
+							} catch ($Throwable& var$2) {
+								$assign(var$1, var$2);
 							} /*finally*/ {
 								fis->close();
 							}
@@ -352,8 +320,7 @@ void SyncFactory::initMapIfNecessary() {
 				$assignStatic(SyncFactory::ROWSET_PROPERTIES, $str({"javax"_s, SyncFactory::strFileSep, "sql"_s, SyncFactory::strFileSep, "rowset"_s, SyncFactory::strFileSep, "rowset.properties"_s}));
 				try {
 					$AccessController::doPrivileged(static_cast<$PrivilegedExceptionAction*>($$new(SyncFactory$$Lambda$lambda$initMapIfNecessary$0, properties)));
-				} catch ($PrivilegedActionException&) {
-					$var($PrivilegedActionException, ex, $catch());
+				} catch ($PrivilegedActionException& ex) {
 					$var($Throwable, e, ex->getException());
 					if ($instanceOf($SyncFactoryException, e)) {
 						$throw($cast($SyncFactoryException, e));
@@ -364,20 +331,17 @@ void SyncFactory::initMapIfNecessary() {
 					}
 				}
 				parseProperties(properties);
-			} catch ($FileNotFoundException&) {
-				$var($FileNotFoundException, e, $catch());
+			} catch ($FileNotFoundException& e) {
 				$throwNew($SyncFactoryException, $$str({"Cannot locate properties file: "_s, e}));
-			} catch ($IOException&) {
-				$var($IOException, e, $catch());
+			} catch ($IOException& e) {
 				$throwNew($SyncFactoryException, $$str({"IOException: "_s, e}));
 			}
 			properties->clear();
 			$var($String, providerImpls, nullptr);
 			try {
-				$var($PrivilegedAction, var$2, static_cast<$PrivilegedAction*>($new($SyncFactory$2)));
-				$assign(providerImpls, $cast($String, $AccessController::doPrivileged(var$2, ($AccessControlContext*)nullptr, $$new($PermissionArray, {static_cast<$Permission*>($$new($PropertyPermission, SyncFactory::ROWSET_SYNC_PROVIDER, "read"_s))}))));
-			} catch ($Exception&) {
-				$var($Exception, ex, $catch());
+				$var($PrivilegedAction, var$3, static_cast<$PrivilegedAction*>($new($SyncFactory$2)));
+				$assign(providerImpls, $cast($String, $AccessController::doPrivileged(var$3, ($AccessControlContext*)nullptr, $$new($PermissionArray, {static_cast<$Permission*>($$new($PropertyPermission, SyncFactory::ROWSET_SYNC_PROVIDER, "read"_s))}))));
+			} catch ($Exception& ex) {
 				$assign(providerImpls, nullptr);
 			}
 			if (providerImpls != nullptr) {
@@ -453,7 +417,6 @@ $StringArray* SyncFactory::getPropertyNames(bool append, $String* propertyIndex)
 void SyncFactory::showImpl($ProviderImpl* impl) {
 	$init(SyncFactory);
 	$useLocalCurrentObjectStackCache();
-	$init($System);
 	$nc($System::out)->println("Provider implementation:"_s);
 	$nc($System::out)->println($$str({"Classname: "_s, $($nc(impl)->getClassname())}));
 	$nc($System::out)->println($$str({"Vendor: "_s, $($nc(impl)->getVendor())}));
@@ -476,8 +439,7 @@ $SyncProvider* SyncFactory::getInstance($String* providerID) {
 	}
 	try {
 		$ReflectUtil::checkPackageAccess(providerID);
-	} catch ($AccessControlException&) {
-		$var($AccessControlException, e, $catch());
+	} catch ($AccessControlException& e) {
 		$var($SyncFactoryException, sfe, $new($SyncFactoryException));
 		sfe->initCause(e);
 		$throw(sfe);
@@ -488,14 +450,11 @@ $SyncProvider* SyncFactory::getInstance($String* providerID) {
 		c = $Class::forName(providerID, true, cl);
 		$var($Object, result, $nc(c)->newInstance());
 		return $cast($SyncProvider, result);
-	} catch ($IllegalAccessException&) {
-		$var($ReflectiveOperationException, e, $catch());
+	} catch ($IllegalAccessException& e) {
 		$throwNew($SyncFactoryException, $$str({"IllegalAccessException: "_s, $(e->getMessage())}));
-	} catch ($InstantiationException&) {
-		$var($ReflectiveOperationException, e, $catch());
+	} catch ($InstantiationException& e) {
 		$throwNew($SyncFactoryException, $$str({"IllegalAccessException: "_s, $(e->getMessage())}));
-	} catch ($ClassNotFoundException&) {
-		$var($ReflectiveOperationException, e, $catch());
+	} catch ($ClassNotFoundException& e) {
 		$throwNew($SyncFactoryException, $$str({"IllegalAccessException: "_s, $(e->getMessage())}));
 	}
 	$shouldNotReachHere();
@@ -565,12 +524,10 @@ void SyncFactory::initJNDIContext() {
 			try {
 				parseProperties($(parseJNDIContext()));
 				SyncFactory::lazyJNDICtxRefresh = true;
-			} catch ($NamingException&) {
-				$var($NamingException, e, $catch());
+			} catch ($NamingException& e) {
 				e->printStackTrace();
 				$throwNew($SyncFactoryException, $$str({"SPI: NamingException: "_s, $(e->getExplanation())}));
-			} catch ($Exception&) {
-				$var($Exception, e, $catch());
+			} catch ($Exception& e) {
 				e->printStackTrace();
 				$throwNew($SyncFactoryException, $$str({"SPI: Exception: "_s, $(e->getMessage())}));
 			}
@@ -610,8 +567,7 @@ void SyncFactory::enumerateBindings($NamingEnumeration* bindings, $Properties* p
 				syncProviderObj = false;
 			}
 		}
-	} catch ($NotContextException&) {
-		$var($NotContextException, e, $catch());
+	} catch ($NotContextException& e) {
 		$nc(bindings)->next();
 		enumerateBindings(bindings, properties);
 	}
@@ -632,20 +588,18 @@ $Void* SyncFactory::lambda$initMapIfNecessary$0($Properties* properties) {
 			try {
 				try {
 					$nc(properties)->load(in);
-				} catch ($Throwable&) {
-					$var($Throwable, t$, $catch());
+				} catch ($Throwable& t$) {
 					if (twrVar0$ != nullptr) {
 						try {
 							twrVar0$->close();
-						} catch ($Throwable&) {
-							$var($Throwable, x2, $catch());
+						} catch ($Throwable& x2) {
 							t$->addSuppressed(x2);
 						}
 					}
 					$throw(t$);
 				}
-			} catch ($Throwable&) {
-				$assign(var$0, $catch());
+			} catch ($Throwable& var$1) {
+				$assign(var$0, var$1);
 			} /*finally*/ {
 				if (twrVar0$ != nullptr) {
 					twrVar0$->close();

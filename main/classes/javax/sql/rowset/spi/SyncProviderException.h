@@ -32,8 +32,10 @@ public:
 	::javax::sql::rowset::spi::SyncResolver* syncResolver = nullptr;
 	static const int64_t serialVersionUID = (int64_t)0xF2F4C62D783AD84C;
 	SyncProviderException(const SyncProviderException& e);
-	SyncProviderException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline SyncProviderException* operator ->() {
+		return (SyncProviderException*)throwing$;
+	}
 };
 
 			} // spi

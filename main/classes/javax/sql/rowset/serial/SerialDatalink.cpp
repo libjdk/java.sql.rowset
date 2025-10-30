@@ -1,16 +1,8 @@
 #include <javax/sql/rowset/serial/SerialDatalink.h>
 
 #include <java/io/Serializable.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/CloneNotSupportedException.h>
-#include <java/lang/FieldInfo.h>
 #include <java/lang/InternalError.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/net/MalformedURLException.h>
 #include <java/net/URL.h>
 #include <javax/sql/rowset/serial/SerialException.h>
@@ -84,8 +76,7 @@ $URL* SerialDatalink::getDatalink() {
 	$var($URL, aURL, nullptr);
 	try {
 		$assign(aURL, $new($URL, $($nc((this->url))->toString())));
-	} catch ($MalformedURLException&) {
-		$var($MalformedURLException, e, $catch());
+	} catch ($MalformedURLException& e) {
 		$throwNew($SerialException, $$str({"MalformedURLException: "_s, $(e->getMessage())}));
 	}
 	return aURL;
@@ -107,12 +98,10 @@ int32_t SerialDatalink::hashCode() {
 }
 
 $Object* SerialDatalink::clone() {
-	$useLocalCurrentObjectStackCache();
 	try {
 		$var(SerialDatalink, sdl, $cast(SerialDatalink, $Serializable::clone()));
 		return $of(sdl);
-	} catch ($CloneNotSupportedException&) {
-		$var($CloneNotSupportedException, ex, $catch());
+	} catch ($CloneNotSupportedException& ex) {
 		$throwNew($InternalError);
 	}
 	$shouldNotReachHere();

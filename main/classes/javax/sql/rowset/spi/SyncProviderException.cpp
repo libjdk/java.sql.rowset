@@ -1,14 +1,6 @@
 #include <javax/sql/rowset/spi/SyncProviderException.h>
 
 #include <com/sun/rowset/internal/SyncResolverImpl.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/IllegalArgumentException.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/sql/SQLException.h>
 #include <javax/sql/rowset/spi/SyncResolver.h>
 #include <jcpp.h>
@@ -80,8 +72,7 @@ $SyncResolver* SyncProviderException::getSyncResolver() {
 	} else {
 		try {
 			$set(this, syncResolver, $new($SyncResolverImpl));
-		} catch ($SQLException&) {
-			$catch();
+		} catch ($SQLException& sqle) {
 		}
 		return this->syncResolver;
 	}
@@ -98,16 +89,10 @@ void SyncProviderException::setSyncResolver($SyncResolver* syncResolver) {
 SyncProviderException::SyncProviderException() {
 }
 
-SyncProviderException::SyncProviderException(const SyncProviderException& e) {
+SyncProviderException::SyncProviderException(const SyncProviderException& e) : $SQLException(e) {
 }
 
-SyncProviderException SyncProviderException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void SyncProviderException::throwWrapper$() {
-	$pendingException(this);
+void SyncProviderException::throw$() {
 	throw *this;
 }
 

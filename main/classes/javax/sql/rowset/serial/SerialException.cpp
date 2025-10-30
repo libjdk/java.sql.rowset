@@ -1,12 +1,5 @@
 #include <javax/sql/rowset/serial/SerialException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/sql/SQLException.h>
 #include <jcpp.h>
 
@@ -55,16 +48,10 @@ void SerialException::init$($String* msg) {
 SerialException::SerialException() {
 }
 
-SerialException::SerialException(const SerialException& e) {
+SerialException::SerialException(const SerialException& e) : $SQLException(e) {
 }
 
-SerialException SerialException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void SerialException::throwWrapper$() {
-	$pendingException(this);
+void SerialException::throw$() {
 	throw *this;
 }
 

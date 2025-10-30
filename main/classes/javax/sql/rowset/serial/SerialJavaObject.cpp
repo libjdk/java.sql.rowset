@@ -6,21 +6,11 @@
 #include <java/io/ObjectOutputStream$PutField.h>
 #include <java/io/ObjectOutputStream.h>
 #include <java/io/Serializable.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/CloneNotSupportedException.h>
-#include <java/lang/CompoundAttribute.h>
-#include <java/lang/FieldInfo.h>
 #include <java/lang/InternalError.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/SecurityManager.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/Field.h>
-#include <java/lang/reflect/Method.h>
 #include <java/lang/reflect/Modifier.h>
 #include <java/util/AbstractCollection.h>
 #include <java/util/AbstractList.h>
@@ -169,7 +159,6 @@ int32_t SerialJavaObject::hashCode() {
 }
 
 $Object* SerialJavaObject::clone() {
-	$useLocalCurrentObjectStackCache();
 	try {
 		$var(SerialJavaObject, sjo, $cast(SerialJavaObject, $Serializable::clone()));
 		$set($nc(sjo), fields, $fcast($FieldArray, $Arrays::copyOf(this->fields, $nc(this->fields)->length)));
@@ -177,8 +166,7 @@ $Object* SerialJavaObject::clone() {
 			$set(sjo, chain, $new($Vector, static_cast<$Collection*>(static_cast<$AbstractCollection*>(static_cast<$AbstractList*>(this->chain)))));
 		}
 		return $of(sjo);
-	} catch ($CloneNotSupportedException&) {
-		$var($CloneNotSupportedException, ex, $catch());
+	} catch ($CloneNotSupportedException& ex) {
 		$throwNew($InternalError);
 	}
 	$shouldNotReachHere();

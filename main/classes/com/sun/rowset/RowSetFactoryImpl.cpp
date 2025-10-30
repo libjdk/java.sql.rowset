@@ -5,12 +5,6 @@
 #include <com/sun/rowset/JdbcRowSetImpl.h>
 #include <com/sun/rowset/JoinRowSetImpl.h>
 #include <com/sun/rowset/WebRowSetImpl.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/sql/rowset/CachedRowSet.h>
 #include <javax/sql/rowset/FilteredRowSet.h>
 #include <javax/sql/rowset/JdbcRowSet.h>

@@ -5,16 +5,8 @@
 #include <java/io/ObjectOutputStream$PutField.h>
 #include <java/io/ObjectOutputStream.h>
 #include <java/io/Serializable.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/CloneNotSupportedException.h>
-#include <java/lang/FieldInfo.h>
 #include <java/lang/InternalError.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/sql/Ref.h>
 #include <java/sql/SQLException.h>
 #include <java/util/Hashtable.h>
@@ -121,8 +113,7 @@ $Object* SerialRef::getObject() {
 	if (this->reference != nullptr) {
 		try {
 			return $of($nc(this->reference)->getObject());
-		} catch ($SQLException&) {
-			$var($SQLException, e, $catch());
+		} catch ($SQLException& e) {
 			$throwNew($SerialException, $$str({"SQLException: "_s, $(e->getMessage())}));
 		}
 	}
@@ -136,8 +127,7 @@ void SerialRef::setObject(Object$* obj) {
 	$useLocalCurrentObjectStackCache();
 	try {
 		$nc(this->reference)->setObject(obj);
-	} catch ($SQLException&) {
-		$var($SQLException, e, $catch());
+	} catch ($SQLException& e) {
 		$throwNew($SerialException, $$str({"SQLException: "_s, $(e->getMessage())}));
 	}
 	$set(this, object, obj);
@@ -161,13 +151,11 @@ int32_t SerialRef::hashCode() {
 }
 
 $Object* SerialRef::clone() {
-	$useLocalCurrentObjectStackCache();
 	try {
 		$var(SerialRef, ref, $cast(SerialRef, $Ref::clone()));
 		$set($nc(ref), reference, nullptr);
 		return $of(ref);
-	} catch ($CloneNotSupportedException&) {
-		$var($CloneNotSupportedException, ex, $catch());
+	} catch ($CloneNotSupportedException& ex) {
 		$throwNew($InternalError);
 	}
 	$shouldNotReachHere();

@@ -1,12 +1,6 @@
 #include <javax/sql/rowset/spi/XmlWriter.h>
 
 #include <java/io/Writer.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/sql/rowset/WebRowSet.h>
 #include <jcpp.h>
 

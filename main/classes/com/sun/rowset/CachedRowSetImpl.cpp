@@ -17,38 +17,15 @@
 #include <java/io/ObjectOutputStream.h>
 #include <java/io/OptionalDataException.h>
 #include <java/io/OutputStream.h>
-#include <java/io/PrintStream.h>
 #include <java/io/Reader.h>
 #include <java/io/StreamCorruptedException.h>
 #include <java/io/StringBufferInputStream.h>
 #include <java/io/StringReader.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Byte.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassNotFoundException.h>
 #include <java/lang/CloneNotSupportedException.h>
-#include <java/lang/CompoundAttribute.h>
-#include <java/lang/Double.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Float.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/NumberFormatException.h>
-#include <java/lang/RuntimeException.h>
 #include <java/lang/RuntimePermission.h>
 #include <java/lang/SecurityException.h>
-#include <java/lang/Short.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/math/BigDecimal.h>
 #include <java/net/URL.h>
 #include <java/nio/charset/Charset.h>
@@ -1072,15 +1049,13 @@ void CachedRowSetImpl::init$() {
 	$set(this, tWriter, nullptr);
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 	try {
 		$var($PrivilegedExceptionAction, var$0, static_cast<$PrivilegedExceptionAction*>($new($CachedRowSetImpl$1, this)));
 		$set(this, provider, $cast($SyncProvider, $AccessController::doPrivileged(var$0, ($AccessControlContext*)nullptr, $$new($PermissionArray, {static_cast<$Permission*>($$new($RuntimePermission, "accessClassInPackage.com.sun.rowset.providers"_s))}))));
-	} catch ($PrivilegedActionException&) {
-		$var($PrivilegedActionException, pae, $catch());
+	} catch ($PrivilegedActionException& pae) {
 		$throw($cast($SyncFactoryException, $(pae->getException())));
 	}
 	if (!($instanceOf($RIOptimisticProvider, this->provider))) {
@@ -1108,8 +1083,7 @@ void CachedRowSetImpl::init$($Hashtable* env) {
 	$set(this, tWriter, nullptr);
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 	if (env == nullptr) {
@@ -1138,8 +1112,7 @@ void CachedRowSetImpl::initProperties() {
 	if (this->resBundle == nullptr) {
 		try {
 			$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-		} catch ($IOException&) {
-			$var($IOException, ioe, $catch());
+		} catch ($IOException& ioe) {
 			$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 		}
 	}
@@ -1348,15 +1321,12 @@ void CachedRowSetImpl::acceptChanges() {
 		} else if (!(success)) {
 			$throwNew($SyncProviderException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.accfailed"_s))))->toString()));
 		}
-	} catch ($SyncProviderException&) {
-		$var($SyncProviderException, spe, $catch());
+	} catch ($SyncProviderException& spe) {
 		$throw(spe);
-	} catch ($SQLException&) {
-		$var($SQLException, e, $catch());
+	} catch ($SQLException& e) {
 		e->printStackTrace();
 		$throwNew($SyncProviderException, $(e->getMessage()));
-	} catch ($SecurityException&) {
-		$var($SecurityException, e, $catch());
+	} catch ($SecurityException& e) {
 		$throwNew($SyncProviderException, $(e->getMessage()));
 	}
 }
@@ -1439,8 +1409,7 @@ $RowSet* CachedRowSetImpl::createShared() {
 	$var($RowSet, clone, nullptr);
 	try {
 		$assign(clone, $cast($RowSet, this->clone()));
-	} catch ($CloneNotSupportedException&) {
-		$var($CloneNotSupportedException, ex, $catch());
+	} catch ($CloneNotSupportedException& ex) {
 		$throwNew($SQLException, $(ex->getMessage()));
 	}
 	return clone;
@@ -1457,8 +1426,7 @@ $CachedRowSet* CachedRowSetImpl::createCopy() {
 	try {
 		$assign(out, $new($ObjectOutputStream, bOut));
 		out->writeObject(this);
-	} catch ($IOException&) {
-		$var($IOException, ex, $catch());
+	} catch ($IOException& ex) {
 		$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.clonefail"_s))))->toString());
 		$throwNew($SQLException, $($MessageFormat::format(var$0, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
 	}
@@ -1466,12 +1434,10 @@ $CachedRowSet* CachedRowSetImpl::createCopy() {
 	try {
 		$var($ByteArrayInputStream, bIn, $new($ByteArrayInputStream, $(bOut->toByteArray())));
 		$assign(in, $new($ObjectInputStream, bIn));
-	} catch ($StreamCorruptedException&) {
-		$var($StreamCorruptedException, ex, $catch());
+	} catch ($StreamCorruptedException& ex) {
 		$var($String, var$1, $nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.clonefail"_s))))->toString());
 		$throwNew($SQLException, $($MessageFormat::format(var$1, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
-	} catch ($IOException&) {
-		$var($IOException, ex, $catch());
+	} catch ($IOException& ex) {
 		$var($String, var$2, $nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.clonefail"_s))))->toString());
 		$throwNew($SQLException, $($MessageFormat::format(var$2, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
 	}
@@ -1479,16 +1445,13 @@ $CachedRowSet* CachedRowSetImpl::createCopy() {
 		$var(CachedRowSetImpl, crsTemp, $cast(CachedRowSetImpl, $nc(in)->readObject()));
 		$set($nc(crsTemp), resBundle, this->resBundle);
 		return (static_cast<$CachedRowSet*>(crsTemp));
-	} catch ($ClassNotFoundException&) {
-		$var($ClassNotFoundException, ex, $catch());
+	} catch ($ClassNotFoundException& ex) {
 		$var($String, var$3, $nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.clonefail"_s))))->toString());
 		$throwNew($SQLException, $($MessageFormat::format(var$3, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
-	} catch ($OptionalDataException&) {
-		$var($OptionalDataException, ex, $catch());
+	} catch ($OptionalDataException& ex) {
 		$var($String, var$4, $nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.clonefail"_s))))->toString());
 		$throwNew($SQLException, $($MessageFormat::format(var$4, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
-	} catch ($IOException&) {
-		$var($IOException, ex, $catch());
+	} catch ($IOException& ex) {
 		$var($String, var$5, $nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.clonefail"_s))))->toString());
 		$throwNew($SQLException, $($MessageFormat::format(var$5, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
 	}
@@ -1510,13 +1473,11 @@ $CachedRowSet* CachedRowSetImpl::createCopyNoConstraints() {
 	$nc(crs)->initProperties();
 	try {
 		crs->unsetMatchColumn($(crs->getMatchColumnIndexes()));
-	} catch ($SQLException&) {
-		$catch();
+	} catch ($SQLException& sqle) {
 	}
 	try {
 		crs->unsetMatchColumn($(crs->getMatchColumnNames()));
-	} catch ($SQLException&) {
-		$catch();
+	} catch ($SQLException& sqle) {
 	}
 	return crs;
 }
@@ -1690,8 +1651,7 @@ bool CachedRowSetImpl::getBoolean(int32_t columnIndex) {
 	}
 	try {
 		return $Double::compare($Double::parseDouble($($nc($of(value))->toString())), (double)0) != 0;
-	} catch ($NumberFormatException&) {
-		$var($NumberFormatException, ex, $catch());
+	} catch ($NumberFormatException& ex) {
 		$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.boolfail"_s))))->toString());
 		$throwNew($SQLException, $($MessageFormat::format(var$0, $$new($ObjectArray, {
 			$($of($nc($($nc($of(value))->toString()))->trim())),
@@ -1714,8 +1674,7 @@ int8_t CachedRowSetImpl::getByte(int32_t columnIndex) {
 	}
 	try {
 		return ($nc(($($Byte::valueOf($($nc($of(value))->toString())))))->byteValue());
-	} catch ($NumberFormatException&) {
-		$var($NumberFormatException, ex, $catch());
+	} catch ($NumberFormatException& ex) {
 		$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.bytefail"_s))))->toString());
 		$throwNew($SQLException, $($MessageFormat::format(var$0, $$new($ObjectArray, {
 			$($of($nc($($nc($of(value))->toString()))->trim())),
@@ -1738,8 +1697,7 @@ int16_t CachedRowSetImpl::getShort(int32_t columnIndex) {
 	}
 	try {
 		return ($nc(($($Short::valueOf($($nc($($nc($of(value))->toString()))->trim())))))->shortValue());
-	} catch ($NumberFormatException&) {
-		$var($NumberFormatException, ex, $catch());
+	} catch ($NumberFormatException& ex) {
 		$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.shortfail"_s))))->toString());
 		$throwNew($SQLException, $($MessageFormat::format(var$0, $$new($ObjectArray, {
 			$($of($nc($($nc($of(value))->toString()))->trim())),
@@ -1762,8 +1720,7 @@ int32_t CachedRowSetImpl::getInt(int32_t columnIndex) {
 	}
 	try {
 		return ($nc(($($Integer::valueOf($($nc($($nc($of(value))->toString()))->trim())))))->intValue());
-	} catch ($NumberFormatException&) {
-		$var($NumberFormatException, ex, $catch());
+	} catch ($NumberFormatException& ex) {
 		$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.intfail"_s))))->toString());
 		$throwNew($SQLException, $($MessageFormat::format(var$0, $$new($ObjectArray, {
 			$($of($nc($($nc($of(value))->toString()))->trim())),
@@ -1786,8 +1743,7 @@ int64_t CachedRowSetImpl::getLong(int32_t columnIndex) {
 	}
 	try {
 		return ($nc(($($Long::valueOf($($nc($($nc($of(value))->toString()))->trim())))))->longValue());
-	} catch ($NumberFormatException&) {
-		$var($NumberFormatException, ex, $catch());
+	} catch ($NumberFormatException& ex) {
 		$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.longfail"_s))))->toString());
 		$throwNew($SQLException, $($MessageFormat::format(var$0, $$new($ObjectArray, {
 			$($of($nc($($nc($of(value))->toString()))->trim())),
@@ -1810,8 +1766,7 @@ float CachedRowSetImpl::getFloat(int32_t columnIndex) {
 	}
 	try {
 		return $Float::parseFloat($($nc($of(value))->toString()));
-	} catch ($NumberFormatException&) {
-		$var($NumberFormatException, ex, $catch());
+	} catch ($NumberFormatException& ex) {
 		$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.floatfail"_s))))->toString());
 		$throwNew($SQLException, $($MessageFormat::format(var$0, $$new($ObjectArray, {
 			$($of($nc($($nc($of(value))->toString()))->trim())),
@@ -1834,8 +1789,7 @@ double CachedRowSetImpl::getDouble(int32_t columnIndex) {
 	}
 	try {
 		return $Double::parseDouble($($nc($($nc($of(value))->toString()))->trim()));
-	} catch ($NumberFormatException&) {
-		$var($NumberFormatException, ex, $catch());
+	} catch ($NumberFormatException& ex) {
 		$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.doublefail"_s))))->toString());
 		$throwNew($SQLException, $($MessageFormat::format(var$0, $$new($ObjectArray, {
 			$($of($nc($($nc($of(value))->toString()))->trim())),
@@ -1909,8 +1863,7 @@ $1Date* CachedRowSetImpl::getDate(int32_t columnIndex) {
 				try {
 					$var($DateFormat, df, $DateFormat::getDateInstance());
 					return (($cast($1Date, $nc(df)->parse($($nc($of(value))->toString())))));
-				} catch ($ParseException&) {
-					$var($ParseException, ex, $catch());
+				} catch ($ParseException& ex) {
 					$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.datefail"_s))))->toString());
 					$throwNew($SQLException, $($MessageFormat::format(var$0, $$new($ObjectArray, {
 						$($of($nc($($nc($of(value))->toString()))->trim())),
@@ -1968,8 +1921,7 @@ $Time* CachedRowSetImpl::getTime(int32_t columnIndex) {
 				try {
 					$var($DateFormat, tf, $DateFormat::getTimeInstance());
 					return (($cast($Time, $nc(tf)->parse($($nc($of(value))->toString())))));
-				} catch ($ParseException&) {
-					$var($ParseException, ex, $catch());
+				} catch ($ParseException& ex) {
 					$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.timefail"_s))))->toString());
 					$throwNew($SQLException, $($MessageFormat::format(var$0, $$new($ObjectArray, {
 						$($of($nc($($nc($of(value))->toString()))->trim())),
@@ -2034,8 +1986,7 @@ $Timestamp* CachedRowSetImpl::getTimestamp(int32_t columnIndex) {
 				try {
 					$var($DateFormat, tf, $DateFormat::getTimeInstance());
 					return (($cast($Timestamp, $nc(tf)->parse($($nc($of(value))->toString())))));
-				} catch ($ParseException&) {
-					$var($ParseException, ex, $catch());
+				} catch ($ParseException& ex) {
 					$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.timefail"_s))))->toString());
 					$throwNew($SQLException, $($MessageFormat::format(var$0, $$new($ObjectArray, {
 						$($of($nc($($nc($of(value))->toString()))->trim())),
@@ -2218,8 +2169,7 @@ $Object* CachedRowSetImpl::getObject(int32_t columnIndex) {
 				$ReflectUtil::checkPackageAccess(c);
 				$var($Object, tmp, c->newInstance());
 				$assign(obj, $cast($SQLData, tmp));
-			} catch ($Exception&) {
-				$var($Exception, ex, $catch());
+			} catch ($Exception& ex) {
 				$throwNew($SQLException, "Unable to Instantiate: "_s, static_cast<$Throwable*>(ex));
 			}
 			$var($ObjectArray, attribs, $nc(s)->getAttributes(map));
@@ -2280,8 +2230,7 @@ $BigDecimal* CachedRowSetImpl::getBigDecimal(int32_t columnIndex) {
 	}
 	try {
 		return ($new($BigDecimal, $($nc($($nc($of(value))->toString()))->trim())));
-	} catch ($NumberFormatException&) {
-		$var($NumberFormatException, ex, $catch());
+	} catch ($NumberFormatException& ex) {
 		$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.doublefail"_s))))->toString());
 		$throwNew($SQLException, $($MessageFormat::format(var$0, $$new($ObjectArray, {
 			$($of($nc($($nc($of(value))->toString()))->trim())),
@@ -2746,8 +2695,7 @@ $Object* CachedRowSetImpl::convertNumeric(Object$* srcObj, int32_t srcType, int3
 				}
 			}
 		}
-	} catch ($NumberFormatException&) {
-		$var($NumberFormatException, ex, $catch());
+	} catch ($NumberFormatException& ex) {
 		$throwNew($SQLException, $$str({$($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.dtypemismt"_s))))->toString()), $$str(trgType)}));
 	}
 	$shouldNotReachHere();
@@ -2805,8 +2753,7 @@ $Object* CachedRowSetImpl::convertTemporal(Object$* srcObj, int32_t srcType, int
 				$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.dtypemismt"_s))))->toString()));
 			}
 		}
-	} catch ($NumberFormatException&) {
-		$var($NumberFormatException, ex, $catch());
+	} catch ($NumberFormatException& ex) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.dtypemismt"_s))))->toString()));
 	}
 	$shouldNotReachHere();
@@ -2844,8 +2791,7 @@ $Object* CachedRowSetImpl::convertBoolean(Object$* srcObj, int32_t srcType, int3
 				}
 			}
 		}
-	} catch ($NumberFormatException&) {
-		$var($NumberFormatException, ex, $catch());
+	} catch ($NumberFormatException& ex) {
 		$throwNew($SQLException, $$str({$($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.dtypemismt"_s))))->toString()), $$str(trgType)}));
 	}
 	$shouldNotReachHere();
@@ -2983,8 +2929,7 @@ void CachedRowSetImpl::updateAsciiStream(int32_t columnIndex, $InputStream* x, i
 		do {
 			charsRead += $nc(x)->read(buf, charsRead, length - charsRead);
 		} while (charsRead != length);
-	} catch ($IOException&) {
-		$var($IOException, ex, $catch());
+	} catch ($IOException& ex) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.asciistream"_s))))->toString()));
 	}
 	$var($String, str, $new($String, buf));
@@ -3004,8 +2949,7 @@ void CachedRowSetImpl::updateBinaryStream(int32_t columnIndex, $InputStream* x, 
 		do {
 			bytesRead += $nc(x)->read(buf, bytesRead, length - bytesRead);
 		} while (bytesRead != -1);
-	} catch ($IOException&) {
-		$var($IOException, ex, $catch());
+	} catch ($IOException& ex) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.binstream"_s))))->toString()));
 	}
 	$nc($(getCurrentRow()))->setColumnObject(columnIndex, buf);
@@ -3025,8 +2969,7 @@ void CachedRowSetImpl::updateCharacterStream(int32_t columnIndex, $Reader* x, in
 		do {
 			charsRead += $nc(x)->read(buf, charsRead, length - charsRead);
 		} while (charsRead != length);
-	} catch ($IOException&) {
-		$var($IOException, ex, $catch());
+	} catch ($IOException& ex) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.binstream"_s))))->toString()));
 	}
 	$var($String, str, $new($String, buf));
@@ -3243,8 +3186,7 @@ $Object* CachedRowSetImpl::getObject(int32_t columnIndex, $Map* map) {
 				$ReflectUtil::checkPackageAccess(c);
 				$var($Object, tmp, c->newInstance());
 				$assign(obj, $cast($SQLData, tmp));
-			} catch ($Exception&) {
-				$var($Exception, ex, $catch());
+			} catch ($Exception& ex) {
 				$throwNew($SQLException, "Unable to Instantiate: "_s, static_cast<$Throwable*>(ex));
 			}
 			$var($ObjectArray, attribs, $nc(s)->getAttributes(map));
@@ -3279,7 +3221,6 @@ $Blob* CachedRowSetImpl::getBlob(int32_t columnIndex) {
 	checkIndex(columnIndex);
 	checkCursor();
 	if ($nc(this->RowSetMD)->getColumnType(columnIndex) != $Types::BLOB) {
-		$init($System);
 		$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.type"_s))))->toString());
 		$nc($System::out)->println($($MessageFormat::format(var$0, $$new($ObjectArray, {$($of($Integer::valueOf($nc(this->RowSetMD)->getColumnType(columnIndex))))}))));
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.dtypemismt"_s))))->toString()));
@@ -3299,7 +3240,6 @@ $Clob* CachedRowSetImpl::getClob(int32_t columnIndex) {
 	checkIndex(columnIndex);
 	checkCursor();
 	if ($nc(this->RowSetMD)->getColumnType(columnIndex) != $Types::CLOB) {
-		$init($System);
 		$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.type"_s))))->toString());
 		$nc($System::out)->println($($MessageFormat::format(var$0, $$new($ObjectArray, {$($of($Integer::valueOf($nc(this->RowSetMD)->getColumnType(columnIndex))))}))));
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("cachedrowsetimpl.dtypemismt"_s))))->toString()));
@@ -3614,8 +3554,7 @@ $URL* CachedRowSetImpl::getURL($String* columnName) {
 $RowSetWarning* CachedRowSetImpl::getRowSetWarnings() {
 	try {
 		notifyCursorMoved();
-	} catch ($SQLException&) {
-		$catch();
+	} catch ($SQLException& e) {
 	}
 	return this->rowsetWarning;
 }
@@ -4513,8 +4452,7 @@ void CachedRowSetImpl::readObject($ObjectInputStream* ois) {
 	$nc(ois)->defaultReadObject();
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 }

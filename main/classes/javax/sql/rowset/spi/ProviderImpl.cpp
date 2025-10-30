@@ -1,13 +1,5 @@
 #include <javax/sql/rowset/spi/ProviderImpl.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/sql/RowSetReader.h>
 #include <javax/sql/RowSetWriter.h>
 #include <javax/sql/rowset/spi/SyncFactory.h>
@@ -116,8 +108,7 @@ int32_t ProviderImpl::getDataSourceLock() {
 	int32_t dsLock = 0;
 	try {
 		dsLock = $nc($($SyncFactory::getInstance(this->className)))->getDataSourceLock();
-	} catch ($SyncFactoryException&) {
-		$var($SyncFactoryException, sfEx, $catch());
+	} catch ($SyncFactoryException& sfEx) {
 		$throwNew($SyncProviderException, $(sfEx->getMessage()));
 	}
 	return dsLock;
@@ -127,8 +118,7 @@ int32_t ProviderImpl::getProviderGrade() {
 	int32_t grade = 0;
 	try {
 		grade = $nc($($SyncFactory::getInstance(this->className)))->getProviderGrade();
-	} catch ($SyncFactoryException&) {
-		$catch();
+	} catch ($SyncFactoryException& sfEx) {
 	}
 	return grade;
 }
@@ -142,8 +132,7 @@ $RowSetReader* ProviderImpl::getRowSetReader() {
 	$var($RowSetReader, rsReader, nullptr);
 	try {
 		$assign(rsReader, $nc($($SyncFactory::getInstance(this->className)))->getRowSetReader());
-	} catch ($SyncFactoryException&) {
-		$catch();
+	} catch ($SyncFactoryException& sfEx) {
 	}
 	return rsReader;
 }
@@ -153,8 +142,7 @@ $RowSetWriter* ProviderImpl::getRowSetWriter() {
 	$var($RowSetWriter, rsWriter, nullptr);
 	try {
 		$assign(rsWriter, $nc($($SyncFactory::getInstance(this->className)))->getRowSetWriter());
-	} catch ($SyncFactoryException&) {
-		$catch();
+	} catch ($SyncFactoryException& sfEx) {
 	}
 	return rsWriter;
 }
@@ -163,8 +151,7 @@ void ProviderImpl::setDataSourceLock(int32_t param) {
 	$useLocalCurrentObjectStackCache();
 	try {
 		$nc($($SyncFactory::getInstance(this->className)))->setDataSourceLock(param);
-	} catch ($SyncFactoryException&) {
-		$var($SyncFactoryException, sfEx, $catch());
+	} catch ($SyncFactoryException& sfEx) {
 		$throwNew($SyncProviderException, $(sfEx->getMessage()));
 	}
 }
@@ -173,8 +160,7 @@ int32_t ProviderImpl::supportsUpdatableView() {
 	int32_t view = 0;
 	try {
 		view = $nc($($SyncFactory::getInstance(this->className)))->supportsUpdatableView();
-	} catch ($SyncFactoryException&) {
-		$catch();
+	} catch ($SyncFactoryException& sfEx) {
 	}
 	return view;
 }

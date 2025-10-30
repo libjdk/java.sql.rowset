@@ -21,8 +21,10 @@ public:
 	virtual void setNextWarning(::javax::sql::rowset::RowSetWarning* warning);
 	static const int64_t serialVersionUID = (int64_t)0x5CAE34448B2F1AA6;
 	RowSetWarning(const RowSetWarning& e);
-	RowSetWarning wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline RowSetWarning* operator ->() {
+		return (RowSetWarning*)throwing$;
+	}
 };
 
 		} // rowset

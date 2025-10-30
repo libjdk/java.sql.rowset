@@ -9,20 +9,7 @@
 #include <java/io/InputStream.h>
 #include <java/io/ObjectInputStream.h>
 #include <java/io/Reader.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/CompoundAttribute.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/UnsupportedOperationException.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/math/BigDecimal.h>
 #include <java/net/URL.h>
 #include <java/sql/Array.h>
@@ -1288,12 +1275,10 @@ void SyncResolverImpl::init$() {
 		this->rowStatus = 1;
 		try {
 			$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-		} catch ($IOException&) {
-			$var($IOException, ioe, $catch());
+		} catch ($IOException& ioe) {
 			$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 		}
-	} catch ($SQLException&) {
-		$catch();
+	} catch ($SQLException& sqle) {
 	}
 }
 
@@ -1302,28 +1287,22 @@ int32_t SyncResolverImpl::getStatus() {
 }
 
 $Object* SyncResolverImpl::getConflictValue(int32_t index) {
-	$useLocalCurrentObjectStackCache();
 	try {
 		return $of($nc(this->crsRes)->getObject(index));
-	} catch ($SQLException&) {
-		$var($SQLException, sqle, $catch());
+	} catch ($SQLException& sqle) {
 		$throwNew($SQLException, $(sqle->getMessage()));
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$throwNew($SQLException, "Problem obtaining conflicted value!"_s, static_cast<$Throwable*>(e));
 	}
 	$shouldNotReachHere();
 }
 
 $Object* SyncResolverImpl::getConflictValue($String* columnName) {
-	$useLocalCurrentObjectStackCache();
 	try {
 		return $of($nc(this->crsRes)->getObject(columnName));
-	} catch ($SQLException&) {
-		$var($SQLException, sqle, $catch());
+	} catch ($SQLException& sqle) {
 		$throwNew($SQLException, $(sqle->getMessage()));
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$throwNew($SQLException, "Problem obtaining conflicted value!"_s, static_cast<$Throwable*>(e));
 	}
 	$shouldNotReachHere();
@@ -1339,8 +1318,7 @@ void SyncResolverImpl::setResolvedValue(int32_t index, Object$* obj) {
 		if ($nc(this->crsRes)->getObject(index) == nullptr) {
 			$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("syncrsimpl.noconflict"_s))))->toString()));
 		}
-	} catch ($SQLException&) {
-		$var($SQLException, sqle, $catch());
+	} catch ($SQLException& sqle) {
 		$throwNew($SQLException, $(sqle->getMessage()));
 	}
 	try {
@@ -1363,16 +1341,14 @@ void SyncResolverImpl::setResolvedValue(int32_t index, Object$* obj) {
 			if (bool$) {
 				try {
 					writeData(this->row);
-				} catch ($SyncProviderException&) {
-					$var($SyncProviderException, spe, $catch());
+				} catch ($SyncProviderException& spe) {
 					$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("syncrsimpl.syncnotpos"_s))))->toString()));
 				}
 			}
 		} else {
 			$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("syncrsimpl.valtores"_s))))->toString()));
 		}
-	} catch ($SQLException&) {
-		$var($SQLException, sqle, $catch());
+	} catch ($SQLException& sqle) {
 		$throwNew($SQLException, $(sqle->getMessage()));
 	}
 }
@@ -1398,8 +1374,7 @@ $CachedRowSet* SyncResolverImpl::buildCachedRow() {
 		try {
 			rsmdRow->setCatalogName(i, $(rsmdWrite->getCatalogName(i)));
 			rsmdRow->setSchemaName(i, $(rsmdWrite->getSchemaName(i)));
-		} catch ($SQLException&) {
-			$var($SQLException, e, $catch());
+		} catch ($SQLException& e) {
 			e->printStackTrace();
 		}
 	}
@@ -1414,32 +1389,27 @@ $CachedRowSet* SyncResolverImpl::buildCachedRow() {
 	crsRow->setOriginalRow();
 	try {
 		crsRow->setUrl($($nc(this->crsSync)->getUrl()));
-	} catch ($SQLException&) {
-		$catch();
+	} catch ($SQLException& sqle) {
 	}
 	try {
 		crsRow->setDataSourceName($($nc(this->crsSync)->getCommand()));
-	} catch ($SQLException&) {
-		$catch();
+	} catch ($SQLException& sqle) {
 	}
 	try {
 		if ($nc(this->crsSync)->getTableName() != nullptr) {
 			crsRow->setTableName($($nc(this->crsSync)->getTableName()));
 		}
-	} catch ($SQLException&) {
-		$catch();
+	} catch ($SQLException& sqle) {
 	}
 	try {
 		if ($nc(this->crsSync)->getCommand() != nullptr) {
 			crsRow->setCommand($($nc(this->crsSync)->getCommand()));
 		}
-	} catch ($SQLException&) {
-		$catch();
+	} catch ($SQLException& sqle) {
 	}
 	try {
 		crsRow->setKeyColumns($($nc(this->crsSync)->getKeyColumns()));
-	} catch ($SQLException&) {
-		$catch();
+	} catch ($SQLException& sqle) {
 	}
 	return crsRow;
 }
@@ -1457,8 +1427,7 @@ void SyncResolverImpl::setCachedRowSetResolver($CachedRowSet* crs) {
 		$set(this, crsRes, $cast($CachedRowSetImpl, crs));
 		$nc(this->crsRes)->afterLast();
 		this->sz = $nc(this->crsRes)->size();
-	} catch ($SQLException&) {
-		$catch();
+	} catch ($SQLException& sqle) {
 	}
 }
 
@@ -2382,8 +2351,7 @@ void SyncResolverImpl::readObject($ObjectInputStream* ois) {
 	$nc(ois)->defaultReadObject();
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 }

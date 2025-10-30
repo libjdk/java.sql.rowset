@@ -18,8 +18,10 @@ public:
 	void init$($String* msg);
 	static const int64_t serialVersionUID = (int64_t)0xF933E670223588CE;
 	SerialException(const SerialException& e);
-	SerialException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline SerialException* operator ->() {
+		return (SerialException*)throwing$;
+	}
 };
 
 			} // serial

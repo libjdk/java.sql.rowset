@@ -1,12 +1,5 @@
 #include <javax/sql/rowset/spi/SyncFactoryException.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/sql/SQLException.h>
 #include <jcpp.h>
 
@@ -55,16 +48,10 @@ void SyncFactoryException::init$($String* msg) {
 SyncFactoryException::SyncFactoryException() {
 }
 
-SyncFactoryException::SyncFactoryException(const SyncFactoryException& e) {
+SyncFactoryException::SyncFactoryException(const SyncFactoryException& e) : $SQLException(e) {
 }
 
-SyncFactoryException SyncFactoryException::wrapper$() {
-	$pendingException(this);
-	return *this;
-}
-
-void SyncFactoryException::throwWrapper$() {
-	$pendingException(this);
+void SyncFactoryException::throw$() {
 	throw *this;
 }
 

@@ -5,22 +5,9 @@
 #include <java/io/ObjectInputStream.h>
 #include <java/io/ObjectOutputStream$PutField.h>
 #include <java/io/ObjectOutputStream.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/CloneNotSupportedException.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
 #include <java/lang/InternalError.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/UnsupportedOperationException.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/net/URL.h>
 #include <java/sql/Array.h>
 #include <java/sql/Blob.h>
@@ -144,7 +131,7 @@ void SerialArray::init$($1Array* array, $Map* map) {
 	if ((array == nullptr) || (map == nullptr)) {
 		$throwNew($SQLException, "Cannot instantiate a SerialArray object with null parameters"_s);
 	}
-	if (($assignField(this, elements, $cast($ObjectArray, $nc(array)->getArray()))) == nullptr) {
+	if (($set(this, elements, $cast($ObjectArray, $nc(array)->getArray()))) == nullptr) {
 		$throwNew($SQLException, "Invalid Array object. Calls to Array.getArray() return null value which cannot be serialized"_s);
 	}
 	$set(this, elements, $cast($ObjectArray, $nc(array)->getArray(map)));
@@ -208,7 +195,7 @@ void SerialArray::init$($1Array* array) {
 	if (array == nullptr) {
 		$throwNew($SQLException, "Cannot instantiate a SerialArray object with a null Array object"_s);
 	}
-	if (($assignField(this, elements, $cast($ObjectArray, $nc(array)->getArray()))) == nullptr) {
+	if (($set(this, elements, $cast($ObjectArray, $nc(array)->getArray()))) == nullptr) {
 		$throwNew($SQLException, "Invalid Array object. Calls to Array.getArray() return null value which cannot be serialized"_s);
 	}
 	this->baseType = $nc(array)->getBaseType();
@@ -334,13 +321,11 @@ int32_t SerialArray::hashCode() {
 }
 
 $Object* SerialArray::clone() {
-	$useLocalCurrentObjectStackCache();
 	try {
 		$var(SerialArray, sa, $cast(SerialArray, $1Array::clone()));
 		$set($nc(sa), elements, (this->elements != nullptr) ? $Arrays::copyOf(this->elements, this->len) : ($ObjectArray*)nullptr);
 		return $of(sa);
-	} catch ($CloneNotSupportedException&) {
-		$var($CloneNotSupportedException, ex, $catch());
+	} catch ($CloneNotSupportedException& ex) {
 		$throwNew($InternalError);
 	}
 	$shouldNotReachHere();

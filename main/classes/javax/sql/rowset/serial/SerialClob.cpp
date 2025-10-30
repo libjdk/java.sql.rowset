@@ -13,19 +13,9 @@
 #include <java/io/Reader.h>
 #include <java/io/Serializable.h>
 #include <java/io/Writer.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/CloneNotSupportedException.h>
-#include <java/lang/FieldInfo.h>
 #include <java/lang/InternalError.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/String.h>
 #include <java/lang/StringIndexOutOfBoundsException.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/sql/Clob.h>
 #include <java/sql/SQLException.h>
 #include <java/util/Arrays.h>
@@ -158,20 +148,18 @@ void SerialClob::init$($Clob* clob) {
 									if (asciiStream == nullptr) {
 										$throwNew($SQLException, "Invalid Clob object. The call to getAsciiStream returned null which cannot be serialized."_s);
 									}
-								} catch ($Throwable&) {
-									$var($Throwable, t$, $catch());
+								} catch ($Throwable& t$) {
 									if (asciiStream != nullptr) {
 										try {
 											asciiStream->close();
-										} catch ($Throwable&) {
-											$var($Throwable, x2, $catch());
+										} catch ($Throwable& x2) {
 											t$->addSuppressed(x2);
 										}
 									}
 									$throw(t$);
 								}
-							} catch ($Throwable&) {
-								$assign(var$1, $catch());
+							} catch ($Throwable& var$2) {
+								$assign(var$1, var$2);
 							} /*finally*/ {
 								if (asciiStream != nullptr) {
 									asciiStream->close();
@@ -185,47 +173,43 @@ void SerialClob::init$($Clob* clob) {
 					{
 						$var($Reader, reader, $new($BufferedReader, charStream));
 						{
-							$var($Throwable, var$2, nullptr);
+							$var($Throwable, var$3, nullptr);
 							try {
 								try {
 									do {
 										read = reader->read(this->buf, offset, (int32_t)(this->len - offset));
 										offset += read;
 									} while (read > 0);
-								} catch ($Throwable&) {
-									$var($Throwable, t$, $catch());
+								} catch ($Throwable& t$) {
 									try {
 										reader->close();
-									} catch ($Throwable&) {
-										$var($Throwable, x2, $catch());
+									} catch ($Throwable& x2) {
 										t$->addSuppressed(x2);
 									}
 									$throw(t$);
 								}
-							} catch ($Throwable&) {
-								$assign(var$2, $catch());
+							} catch ($Throwable& var$4) {
+								$assign(var$3, var$4);
 							} /*finally*/ {
 								reader->close();
 							}
-							if (var$2 != nullptr) {
-								$throw(var$2);
+							if (var$3 != nullptr) {
+								$throw(var$3);
 							}
 						}
 					}
-				} catch ($Throwable&) {
-					$var($Throwable, t$, $catch());
+				} catch ($Throwable& t$) {
 					if (charStream != nullptr) {
 						try {
 							charStream->close();
-						} catch ($Throwable&) {
-							$var($Throwable, x2, $catch());
+						} catch ($Throwable& x2) {
 							t$->addSuppressed(x2);
 						}
 					}
 					$throw(t$);
 				}
-			} catch ($Throwable&) {
-				$assign(var$0, $catch());
+			} catch ($Throwable& var$5) {
+				$assign(var$0, var$5);
 			} /*finally*/ {
 				if (charStream != nullptr) {
 					charStream->close();
@@ -235,8 +219,7 @@ void SerialClob::init$($Clob* clob) {
 				$throw(var$0);
 			}
 		}
-	} catch ($IOException&) {
-		$var($IOException, ex, $catch());
+	} catch ($IOException& ex) {
 		$throwNew($SerialException, $$str({"SerialClob: "_s, $(ex->getMessage())}));
 	}
 	this->origLen = this->len;
@@ -272,8 +255,7 @@ $String* SerialClob::getSubString(int64_t pos, int32_t length) {
 	}
 	try {
 		return $new($String, this->buf, (int32_t)pos - 1, length);
-	} catch ($StringIndexOutOfBoundsException&) {
-		$var($StringIndexOutOfBoundsException, e, $catch());
+	} catch ($StringIndexOutOfBoundsException& e) {
 		$throwNew($SerialException, $$str({"StringIndexOutOfBoundsException: "_s, $(e->getMessage())}));
 	}
 	$shouldNotReachHere();
@@ -411,14 +393,12 @@ int32_t SerialClob::hashCode() {
 }
 
 $Object* SerialClob::clone() {
-	$useLocalCurrentObjectStackCache();
 	try {
 		$var(SerialClob, sc, $cast(SerialClob, $Clob::clone()));
 		$set($nc(sc), buf, (this->buf != nullptr) ? $Arrays::copyOf(this->buf, (int32_t)this->len) : ($chars*)nullptr);
 		$set(sc, clob, nullptr);
 		return $of(sc);
-	} catch ($CloneNotSupportedException&) {
-		$var($CloneNotSupportedException, ex, $catch());
+	} catch ($CloneNotSupportedException& ex) {
 		$throwNew($InternalError);
 	}
 	$shouldNotReachHere();

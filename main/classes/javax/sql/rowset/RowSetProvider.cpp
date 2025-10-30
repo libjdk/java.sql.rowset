@@ -1,26 +1,11 @@
 #include <javax/sql/rowset/RowSetProvider.h>
 
 #include <com/sun/rowset/RowSetFactoryImpl.h>
-#include <java/io/PrintStream.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassLoader.h>
 #include <java/lang/ClassNotFoundException.h>
 #include <java/lang/Error.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
 #include <java/lang/ReflectiveOperationException.h>
-#include <java/lang/RuntimeException.h>
 #include <java/lang/SecurityException.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/security/AccessControlContext.h>
 #include <java/security/AccessControlException.h>
 #include <java/security/AccessController.h>
@@ -126,7 +111,6 @@ $Object* allocate$RowSetProvider($Class* clazz) {
 $String* RowSetProvider::ROWSET_DEBUG_PROPERTY = nullptr;
 $String* RowSetProvider::ROWSET_FACTORY_IMPL = nullptr;
 $String* RowSetProvider::ROWSET_FACTORY_NAME = nullptr;
-
 bool RowSetProvider::debug = false;
 
 void RowSetProvider::init$() {
@@ -149,8 +133,7 @@ $RowSetFactory* RowSetProvider::newFactory() {
 			$var($Object, o, $nc(getFactoryClass(factoryClassName, nullptr, false))->newInstance());
 			$assign(factory, $cast($RowSetFactory, o));
 		}
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$throwNew($SQLException, $$str({"RowSetFactory: "_s, factoryClassName, " could not be instantiated: "_s}), static_cast<$Throwable*>(e));
 	}
 	if (factory == nullptr) {
@@ -174,8 +157,7 @@ $RowSetFactory* RowSetProvider::newFactory($String* factoryClassName, $ClassLoad
 	}
 	try {
 		$ReflectUtil::checkPackageAccess(factoryClassName);
-	} catch ($AccessControlException&) {
-		$var($AccessControlException, e, $catch());
+	} catch ($AccessControlException& e) {
 		$throwNew($SQLException, "Access Exception"_s, static_cast<$Throwable*>(e));
 	}
 	try {
@@ -185,11 +167,9 @@ $RowSetFactory* RowSetProvider::newFactory($String* factoryClassName, $ClassLoad
 			trace($$str({"Created new instance of "_s, providerClass, " using ClassLoader: "_s, cl}));
 		}
 		return instance;
-	} catch ($ClassNotFoundException&) {
-		$var($ClassNotFoundException, x, $catch());
+	} catch ($ClassNotFoundException& x) {
 		$throwNew($SQLException, $$str({"Provider "_s, factoryClassName, " not found"_s}), static_cast<$Throwable*>(x));
-	} catch ($Exception&) {
-		$var($Exception, x, $catch());
+	} catch ($Exception& x) {
 		$throwNew($SQLException, $$str({"Provider "_s, factoryClassName, " could not be instantiated: "_s, x}), static_cast<$Throwable*>(x));
 	}
 	$shouldNotReachHere();
@@ -218,8 +198,7 @@ $Class* RowSetProvider::getFactoryClass($String* factoryClassName, $ClassLoader*
 		} else {
 			factoryClass = $nc(cl)->loadClass(factoryClassName);
 		}
-	} catch ($ClassNotFoundException&) {
-		$var($ClassNotFoundException, e, $catch());
+	} catch ($ClassNotFoundException& e) {
 		if (doFallback) {
 			$load($RowSetFactory);
 			factoryClass = $Class::forName(factoryClassName, true, $($RowSetFactory::class$->getClassLoader()));
@@ -250,8 +229,7 @@ $RowSetFactory* RowSetProvider::loadViaServiceLoader() {
 				}
 			}
 		}
-	} catch ($ServiceConfigurationError&) {
-		$var($ServiceConfigurationError, e, $catch());
+	} catch ($ServiceConfigurationError& e) {
 		$throwNew($SQLException, $$str({"RowSetFactory: Error locating RowSetFactory using Service Loader API: "_s, e}), static_cast<$Throwable*>(e));
 	}
 	return theFactory;
@@ -265,8 +243,7 @@ $String* RowSetProvider::getSystemProperty($String* propName) {
 	try {
 		$var($PrivilegedAction, var$0, static_cast<$PrivilegedAction*>($new($RowSetProvider$2, propName)));
 		$assign(property, $cast($String, $AccessController::doPrivileged(var$0, ($AccessControlContext*)nullptr, $$new($PermissionArray, {static_cast<$Permission*>($$new($PropertyPermission, propName, "read"_s))}))));
-	} catch ($SecurityException&) {
-		$var($SecurityException, se, $catch());
+	} catch ($SecurityException& se) {
 		trace($$str({"error getting "_s, propName, ":  "_s, se}));
 		if (RowSetProvider::debug) {
 			se->printStackTrace();
@@ -278,7 +255,6 @@ $String* RowSetProvider::getSystemProperty($String* propName) {
 void RowSetProvider::trace($String* msg) {
 	$init(RowSetProvider);
 	if (RowSetProvider::debug) {
-		$init($System);
 		$nc($System::err)->println($$str({"###RowSets: "_s, msg}));
 	}
 }

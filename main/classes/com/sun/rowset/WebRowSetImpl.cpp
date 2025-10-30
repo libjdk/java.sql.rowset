@@ -10,17 +10,6 @@
 #include <java/io/OutputStream.h>
 #include <java/io/Reader.h>
 #include <java/io/Writer.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/math/BigDecimal.h>
 #include <java/net/URL.h>
 #include <java/sql/Array.h>
@@ -1987,8 +1976,7 @@ void WebRowSetImpl::init$($Hashtable* env) {
 	$CachedRowSetImpl::init$();
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 	if (env == nullptr) {
@@ -2028,8 +2016,7 @@ void WebRowSetImpl::readXml($Reader* reader) {
 		} else {
 			$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("webrowsetimpl.invalidrd"_s))))->toString()));
 		}
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$throwNew($SQLException, $(e->getMessage()));
 	}
 }
@@ -2068,8 +2055,7 @@ void WebRowSetImpl::readObject($ObjectInputStream* ois) {
 	$nc(ois)->defaultReadObject();
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 }

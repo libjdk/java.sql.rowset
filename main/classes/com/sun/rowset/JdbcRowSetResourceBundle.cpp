@@ -1,13 +1,6 @@
 #include <com/sun/rowset/JdbcRowSetResourceBundle.h>
 
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
 #include <java/lang/Module.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/util/Enumeration.h>
 #include <java/util/Locale.h>
 #include <java/util/PropertyResourceBundle.h>
@@ -68,19 +61,12 @@ $Object* allocate$JdbcRowSetResourceBundle($Class* clazz) {
 	return $of($alloc(JdbcRowSetResourceBundle));
 }
 
-
 $String* JdbcRowSetResourceBundle::fileName = nullptr;
-
 $volatile(JdbcRowSetResourceBundle*) JdbcRowSetResourceBundle::jpResBundle = nullptr;
-
 $String* JdbcRowSetResourceBundle::PROPERTIES = nullptr;
-
 $String* JdbcRowSetResourceBundle::UNDERSCORE = nullptr;
-
 $String* JdbcRowSetResourceBundle::DOT = nullptr;
-
 $String* JdbcRowSetResourceBundle::SLASH = nullptr;
-
 $String* JdbcRowSetResourceBundle::PATH = nullptr;
 
 void JdbcRowSetResourceBundle::init$() {

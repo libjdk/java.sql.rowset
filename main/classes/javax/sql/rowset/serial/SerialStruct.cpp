@@ -4,19 +4,8 @@
 #include <java/io/ObjectInputStream.h>
 #include <java/io/ObjectOutputStream$PutField.h>
 #include <java/io/ObjectOutputStream.h>
-#include <java/io/PrintStream.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/CloneNotSupportedException.h>
-#include <java/lang/FieldInfo.h>
 #include <java/lang/InternalError.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/sql/Array.h>
 #include <java/sql/Blob.h>
 #include <java/sql/Clob.h>
@@ -120,12 +109,10 @@ void SerialStruct::init$($Struct* in, $Map* map) {
 	$useLocalCurrentObjectStackCache();
 	try {
 		$set(this, SQLTypeName, $nc(in)->getSQLTypeName());
-		$init($System);
 		$nc($System::out)->println($$str({"SQLTypeName: "_s, this->SQLTypeName}));
 		$set(this, attribs, in->getAttributes(map));
 		mapToSerial(map);
-	} catch ($SQLException&) {
-		$var($SQLException, e, $catch());
+	} catch ($SQLException& e) {
 		$throwNew($SerialException, $(e->getMessage()));
 	}
 }
@@ -137,8 +124,7 @@ void SerialStruct::init$($SQLData* in, $Map* map) {
 		$var($Vector, tmp, $new($Vector));
 		in->writeSQL($$new($SQLOutputImpl, tmp, map));
 		$set(this, attribs, tmp->toArray());
-	} catch ($SQLException&) {
-		$var($SQLException, e, $catch());
+	} catch ($SQLException& e) {
 		$throwNew($SerialException, $(e->getMessage()));
 	}
 }
@@ -175,8 +161,7 @@ void SerialStruct::mapToSerial($Map* map) {
 				$nc(this->attribs)->set(i, $$new($SerialArray, $cast($1Array, $nc(this->attribs)->get(i)), map));
 			}
 		}
-	} catch ($SQLException&) {
-		$var($SQLException, e, $catch());
+	} catch ($SQLException& e) {
 		$throwNew($SerialException, $(e->getMessage()));
 	}
 	return;
@@ -200,13 +185,11 @@ int32_t SerialStruct::hashCode() {
 }
 
 $Object* SerialStruct::clone() {
-	$useLocalCurrentObjectStackCache();
 	try {
 		$var(SerialStruct, ss, $cast(SerialStruct, $Struct::clone()));
 		$set($nc(ss), attribs, $Arrays::copyOf(this->attribs, $nc(this->attribs)->length));
 		return $of(ss);
-	} catch ($CloneNotSupportedException&) {
-		$var($CloneNotSupportedException, ex, $catch());
+	} catch ($CloneNotSupportedException& ex) {
 		$throwNew($InternalError);
 	}
 	$shouldNotReachHere();

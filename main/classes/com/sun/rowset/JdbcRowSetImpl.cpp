@@ -4,23 +4,7 @@
 #include <java/io/IOException.h>
 #include <java/io/InputStream.h>
 #include <java/io/ObjectInputStream.h>
-#include <java/io/PrintStream.h>
 #include <java/io/Reader.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/CompoundAttribute.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/math/BigDecimal.h>
 #include <java/net/URL.h>
 #include <java/sql/Array.h>
@@ -778,74 +762,57 @@ void JdbcRowSetImpl::init$() {
 	$set(this, rs, nullptr);
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 	initParams();
 	try {
 		setShowDeleted(false);
-	} catch ($SQLException&) {
-		$var($SQLException, sqle, $catch());
-		$init($System);
+	} catch ($SQLException& sqle) {
 		$var($String, var$0, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.setshowdeleted"_s))))->toString()));
 		$nc($System::err)->println($$concat(var$0, $(sqle->getLocalizedMessage())));
 	}
 	try {
 		setQueryTimeout(0);
-	} catch ($SQLException&) {
-		$var($SQLException, sqle, $catch());
-		$init($System);
+	} catch ($SQLException& sqle) {
 		$var($String, var$1, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.setquerytimeout"_s))))->toString()));
 		$nc($System::err)->println($$concat(var$1, $(sqle->getLocalizedMessage())));
 	}
 	try {
 		setMaxRows(0);
-	} catch ($SQLException&) {
-		$var($SQLException, sqle, $catch());
-		$init($System);
+	} catch ($SQLException& sqle) {
 		$var($String, var$2, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.setmaxrows"_s))))->toString()));
 		$nc($System::err)->println($$concat(var$2, $(sqle->getLocalizedMessage())));
 	}
 	try {
 		setMaxFieldSize(0);
-	} catch ($SQLException&) {
-		$var($SQLException, sqle, $catch());
-		$init($System);
+	} catch ($SQLException& sqle) {
 		$var($String, var$3, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.setmaxfieldsize"_s))))->toString()));
 		$nc($System::err)->println($$concat(var$3, $(sqle->getLocalizedMessage())));
 	}
 	try {
 		setEscapeProcessing(true);
-	} catch ($SQLException&) {
-		$var($SQLException, sqle, $catch());
-		$init($System);
+	} catch ($SQLException& sqle) {
 		$var($String, var$4, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.setescapeprocessing"_s))))->toString()));
 		$nc($System::err)->println($$concat(var$4, $(sqle->getLocalizedMessage())));
 	}
 	try {
 		setConcurrency($ResultSet::CONCUR_UPDATABLE);
-	} catch ($SQLException&) {
-		$var($SQLException, sqle, $catch());
-		$init($System);
+	} catch ($SQLException& sqle) {
 		$var($String, var$5, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.setconcurrency"_s))))->toString()));
 		$nc($System::err)->println($$concat(var$5, $(sqle->getLocalizedMessage())));
 	}
 	setTypeMap(nullptr);
 	try {
 		setType($ResultSet::TYPE_SCROLL_INSENSITIVE);
-	} catch ($SQLException&) {
-		$var($SQLException, sqle, $catch());
-		$init($System);
+	} catch ($SQLException& sqle) {
 		$var($String, var$6, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.settype"_s))))->toString()));
 		$nc($System::err)->println($$concat(var$6, $(sqle->getLocalizedMessage())));
 	}
 	setReadOnly(true);
 	try {
 		setTransactionIsolation($Connection::TRANSACTION_READ_COMMITTED);
-	} catch ($SQLException&) {
-		$var($SQLException, sqle, $catch());
-		$init($System);
+	} catch ($SQLException& sqle) {
 		$var($String, var$7, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.settransactionisolation"_s))))->toString()));
 		$nc($System::err)->println($$concat(var$7, $(sqle->getLocalizedMessage())));
 	}
@@ -867,8 +834,7 @@ void JdbcRowSetImpl::init$($Connection* con) {
 	$set(this, rs, nullptr);
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 	initParams();
@@ -899,8 +865,7 @@ void JdbcRowSetImpl::init$($String* url, $String* user, $String* password) {
 	$set(this, rs, nullptr);
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 	initParams();
@@ -934,8 +899,7 @@ void JdbcRowSetImpl::init$($ResultSet* res) {
 	$set(this, rs, res);
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 	initParams();
@@ -1004,33 +968,25 @@ void JdbcRowSetImpl::setProperties($PreparedStatement* ps) {
 	$useLocalCurrentObjectStackCache();
 	try {
 		$nc(ps)->setEscapeProcessing(getEscapeProcessing());
-	} catch ($SQLException&) {
-		$var($SQLException, ex, $catch());
-		$init($System);
+	} catch ($SQLException& ex) {
 		$var($String, var$0, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.setescapeprocessing"_s))))->toString()));
 		$nc($System::err)->println($$concat(var$0, $(ex->getLocalizedMessage())));
 	}
 	try {
 		$nc(ps)->setMaxFieldSize(getMaxFieldSize());
-	} catch ($SQLException&) {
-		$var($SQLException, ex, $catch());
-		$init($System);
+	} catch ($SQLException& ex) {
 		$var($String, var$1, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.setmaxfieldsize"_s))))->toString()));
 		$nc($System::err)->println($$concat(var$1, $(ex->getLocalizedMessage())));
 	}
 	try {
 		$nc(ps)->setMaxRows(getMaxRows());
-	} catch ($SQLException&) {
-		$var($SQLException, ex, $catch());
-		$init($System);
+	} catch ($SQLException& ex) {
 		$var($String, var$2, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.setmaxrows"_s))))->toString()));
 		$nc($System::err)->println($$concat(var$2, $(ex->getLocalizedMessage())));
 	}
 	try {
 		$nc(ps)->setQueryTimeout(getQueryTimeout());
-	} catch ($SQLException&) {
-		$var($SQLException, ex, $catch());
-		$init($System);
+	} catch ($SQLException& ex) {
 		$var($String, var$3, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.setquerytimeout"_s))))->toString()));
 		$nc($System::err)->println($$concat(var$3, $(ex->getLocalizedMessage())));
 	}
@@ -1052,8 +1008,7 @@ $Connection* JdbcRowSetImpl::connect() {
 			} else {
 				return $nc(ds)->getConnection();
 			}
-		} catch ($NamingException&) {
-			$var($NamingException, ex, $catch());
+		} catch ($NamingException& ex) {
 			$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.connect"_s))))->toString()));
 		}
 	} else if (getUrl() != nullptr) {
@@ -1074,9 +1029,7 @@ $PreparedStatement* JdbcRowSetImpl::prepare() {
 			$nc(this->conn)->setTypeMap(aMap);
 		}
 		$set(this, ps, $nc(this->conn)->prepareStatement($(getCommand()), $ResultSet::TYPE_SCROLL_INSENSITIVE, $ResultSet::CONCUR_UPDATABLE));
-	} catch ($SQLException&) {
-		$var($SQLException, ex, $catch());
-		$init($System);
+	} catch ($SQLException& ex) {
 		$var($String, var$0, $($nc($of($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.prepare"_s))))->toString()));
 		$nc($System::err)->println($$concat(var$0, $(ex->getLocalizedMessage())));
 		if (this->ps != nullptr) {
@@ -1103,7 +1056,6 @@ void JdbcRowSetImpl::decodeParams($ObjectArray* params, $PreparedStatement* ps) 
 					continue;
 				}
 				if ($instanceOf($Date, param->get(0)) || $instanceOf($Time, param->get(0)) || $instanceOf($Timestamp, param->get(0))) {
-					$init($System);
 					$nc($System::err)->println($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.detecteddate"_s)));
 					if ($instanceOf($Calendar, param->get(1))) {
 						$nc($System::err)->println($($nc(this->resBundle)->handleGetObject("jdbcrowsetimpl.detectedcalendar"_s)));
@@ -1354,8 +1306,7 @@ $ResultSetMetaData* JdbcRowSetImpl::getMetaData() {
 	checkState();
 	try {
 		checkState();
-	} catch ($SQLException&) {
-		$var($SQLException, sqle, $catch());
+	} catch ($SQLException& sqle) {
 		prepare();
 		return $nc(this->ps)->getMetaData();
 	}
@@ -1474,8 +1425,7 @@ void JdbcRowSetImpl::setFetchDirection(int32_t direction) {
 int32_t JdbcRowSetImpl::getFetchDirection() {
 	try {
 		checkState();
-	} catch ($SQLException&) {
-		$var($SQLException, sqle, $catch());
+	} catch ($SQLException& sqle) {
 		$BaseRowSet::getFetchDirection();
 	}
 	return $nc(this->rs)->getFetchDirection();
@@ -1489,8 +1439,7 @@ void JdbcRowSetImpl::setFetchSize(int32_t rows) {
 int32_t JdbcRowSetImpl::getType() {
 	try {
 		checkState();
-	} catch ($SQLException&) {
-		$var($SQLException, sqle, $catch());
+	} catch ($SQLException& sqle) {
 		return $BaseRowSet::getType();
 	}
 	if (this->rs == nullptr) {
@@ -1504,8 +1453,7 @@ int32_t JdbcRowSetImpl::getType() {
 int32_t JdbcRowSetImpl::getConcurrency() {
 	try {
 		checkState();
-	} catch ($SQLException&) {
-		$var($SQLException, sqle, $catch());
+	} catch ($SQLException& sqle) {
 		$BaseRowSet::getConcurrency();
 	}
 	return $nc(this->rs)->getConcurrency();
@@ -2153,8 +2101,7 @@ void JdbcRowSetImpl::setType(int32_t type) {
 	int32_t oldVal = 0;
 	try {
 		oldVal = getType();
-	} catch ($SQLException&) {
-		$var($SQLException, ex, $catch());
+	} catch ($SQLException& ex) {
 		oldVal = 0;
 	}
 	if (oldVal != type) {
@@ -2166,8 +2113,7 @@ void JdbcRowSetImpl::setConcurrency(int32_t concur) {
 	int32_t oldVal = 0;
 	try {
 		oldVal = getConcurrency();
-	} catch ($NullPointerException&) {
-		$var($NullPointerException, ex, $catch());
+	} catch ($NullPointerException& ex) {
 		oldVal = 0;
 	}
 	if (oldVal != concur) {
@@ -2709,8 +2655,7 @@ void JdbcRowSetImpl::readObject($ObjectInputStream* ois) {
 	$nc(ois)->defaultReadObject();
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$catch();
+	} catch ($IOException& ioe) {
 	}
 }
 

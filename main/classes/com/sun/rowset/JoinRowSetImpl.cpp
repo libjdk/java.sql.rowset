@@ -10,19 +10,6 @@
 #include <java/io/OutputStream.h>
 #include <java/io/Reader.h>
 #include <java/io/Writer.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/CompoundAttribute.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/math/BigDecimal.h>
 #include <java/net/URL.h>
 #include <java/sql/Array.h>
@@ -1447,8 +1434,7 @@ void JoinRowSetImpl::init$() {
 	}));
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 }
@@ -1483,8 +1469,7 @@ void JoinRowSetImpl::addRowSet($Joinable* rowset) {
 				pCol->set(i, $nc($($nc(rowset)->getMatchColumnIndexes()))->get(i));
 			}
 			cRowset->setMatchColumn(pCol);
-		} catch ($SQLException&) {
-			$catch();
+		} catch ($SQLException& sqle) {
 		}
 	} else {
 		$assign(cRowset, $cast($CachedRowSetImpl, rowset));
@@ -1494,14 +1479,12 @@ void JoinRowSetImpl::addRowSet($Joinable* rowset) {
 	}
 	try {
 		this->iMatchKey = $nc(($($nc(cRowset)->getMatchColumnIndexes())))->get(0);
-	} catch ($SQLException&) {
-		$var($SQLException, sqle, $catch());
+	} catch ($SQLException& sqle) {
 		boolColId = true;
 	}
 	try {
 		$set(this, strMatchKey, $nc(($($nc(cRowset)->getMatchColumnNames())))->get(0));
-	} catch ($SQLException&) {
-		$var($SQLException, sqle, $catch());
+	} catch ($SQLException& sqle) {
 		boolColName = true;
 	}
 	if (boolColId && boolColName) {
@@ -1509,7 +1492,7 @@ void JoinRowSetImpl::addRowSet($Joinable* rowset) {
 	} else if (boolColId) {
 		$var($ArrayList, indices, $new($ArrayList));
 		for (int32_t i = 0; i < $nc($($nc(cRowset)->getMatchColumnNames()))->length; ++i) {
-			if (($assignField(this, strMatchKey, $nc(($(cRowset->getMatchColumnNames())))->get(i))) != nullptr) {
+			if (($set(this, strMatchKey, $nc(($(cRowset->getMatchColumnNames())))->get(i))) != nullptr) {
 				this->iMatchKey = cRowset->findColumn(this->strMatchKey);
 				indices->add($($Integer::valueOf(this->iMatchKey)));
 			} else {
@@ -1777,12 +1760,10 @@ void JoinRowSetImpl::initJOIN($CachedRowSet* rowset) {
 			$nc(this->crsInternal)->setMetaData(rsmd);
 			$nc(this->vecRowSetsInJOIN)->add(cRowset);
 		}
-	} catch ($SQLException&) {
-		$var($SQLException, sqle, $catch());
+	} catch ($SQLException& sqle) {
 		sqle->printStackTrace();
 		$throwNew($SQLException, $$str({$($nc($of($($nc(this->resBundle)->handleGetObject("joinrowsetimpl.initerror"_s))))->toString()), sqle}));
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		e->printStackTrace();
 		$throwNew($SQLException, $$str({$($nc($of($($nc(this->resBundle)->handleGetObject("joinrowsetimpl.genericerr"_s))))->toString()), e}));
 	}
@@ -2490,8 +2471,7 @@ void JoinRowSetImpl::readObject($ObjectInputStream* ois) {
 	$nc(ois)->defaultReadObject();
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 }

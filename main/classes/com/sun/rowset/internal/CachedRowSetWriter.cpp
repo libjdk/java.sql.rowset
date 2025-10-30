@@ -6,19 +6,6 @@
 #include <com/sun/rowset/internal/SyncResolverImpl.h>
 #include <java/io/IOException.h>
 #include <java/io/ObjectInputStream.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/sql/Array.h>
 #include <java/sql/Blob.h>
 #include <java/sql/Clob.h>
@@ -203,8 +190,7 @@ void CachedRowSetWriter::finalize() {
 void CachedRowSetWriter::init$() {
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 }
@@ -330,8 +316,7 @@ bool CachedRowSetWriter::updateOriginalRow($CachedRowSet* crs) {
 			pstmt->setMaxFieldSize(crs->getMaxFieldSize());
 			pstmt->setEscapeProcessing(crs->getEscapeProcessing());
 			pstmt->setQueryTimeout(crs->getQueryTimeout());
-		} catch ($Exception&) {
-			$catch();
+		} catch ($Exception& ex) {
 		}
 		$var($ResultSet, rs, nullptr);
 		$assign(rs, $nc(pstmt)->executeQuery());
@@ -367,8 +352,7 @@ bool CachedRowSetWriter::updateOriginalRow($CachedRowSet* crs) {
 							$ReflectUtil::checkPackageAccess(c);
 							$var($Object, tmp, c->newInstance());
 							$assign(obj, $cast($SQLData, tmp));
-						} catch ($Exception&) {
-							$var($Exception, ex, $catch());
+						} catch ($Exception& ex) {
 							$throwNew($SQLException, "Unable to Instantiate: "_s, static_cast<$Throwable*>(ex));
 						}
 						$var($ObjectArray, attribs, $nc(s)->getAttributes(map));
@@ -460,8 +444,7 @@ bool CachedRowSetWriter::updateOriginalRow($CachedRowSet* crs) {
 		} else {
 			return true;
 		}
-	} catch ($SQLException&) {
-		$var($SQLException, ex, $catch());
+	} catch ($SQLException& ex) {
 		ex->printStackTrace();
 		$nc(this->crsResolve)->moveToInsertRow();
 		for (i = 1; i <= this->callerColumnCount; ++i) {
@@ -557,8 +540,7 @@ bool CachedRowSetWriter::insertNewRow($CachedRowSet* crs, $PreparedStatement* ps
 												}
 												$nc(pstmt)->executeUpdate();
 												return false;
-											} catch ($SQLException&) {
-												$var($SQLException, ex, $catch());
+											} catch ($SQLException& ex) {
 												$nc(this->crsResolve)->moveToInsertRow();
 												for (int32_t i = 1; i <= icolCount; ++i) {
 													$nc(this->crsResolve)->updateNull(i);
@@ -567,20 +549,18 @@ bool CachedRowSetWriter::insertNewRow($CachedRowSet* crs, $PreparedStatement* ps
 												$nc(this->crsResolve)->moveToCurrentRow();
 												return true;
 											}
-										} catch ($Throwable&) {
-											$var($Throwable, t$, $catch());
+										} catch ($Throwable& t$) {
 											if (rs2 != nullptr) {
 												try {
 													rs2->close();
-												} catch ($Throwable&) {
-													$var($Throwable, x2, $catch());
+												} catch ($Throwable& x2) {
 													t$->addSuppressed(x2);
 												}
 											}
 											$throw(t$);
 										}
-									} catch ($Throwable&) {
-										$assign(var$6, $catch());
+									} catch ($Throwable& var$9) {
+										$assign(var$6, var$9);
 									} $finally2: {
 										if (rs2 != nullptr) {
 											rs2->close();
@@ -595,20 +575,18 @@ bool CachedRowSetWriter::insertNewRow($CachedRowSet* crs, $PreparedStatement* ps
 										goto $finally1;
 									}
 								}
-							} catch ($Throwable&) {
-								$var($Throwable, t$, $catch());
+							} catch ($Throwable& t$) {
 								if (rs != nullptr) {
 									try {
 										rs->close();
-									} catch ($Throwable&) {
-										$var($Throwable, x2, $catch());
+									} catch ($Throwable& x2) {
 										t$->addSuppressed(x2);
 									}
 								}
 								$throw(t$);
 							}
-						} catch ($Throwable&) {
-							$assign(var$3, $catch());
+						} catch ($Throwable& var$10) {
+							$assign(var$3, var$10);
 						} $finally1: {
 							if (rs != nullptr) {
 								rs->close();
@@ -623,20 +601,18 @@ bool CachedRowSetWriter::insertNewRow($CachedRowSet* crs, $PreparedStatement* ps
 							goto $finally;
 						}
 					}
-				} catch ($Throwable&) {
-					$var($Throwable, t$, $catch());
+				} catch ($Throwable& t$) {
 					if (pstmtSel != nullptr) {
 						try {
 							pstmtSel->close();
-						} catch ($Throwable&) {
-							$var($Throwable, x2, $catch());
+						} catch ($Throwable& x2) {
 							t$->addSuppressed(x2);
 						}
 					}
 					$throw(t$);
 				}
-			} catch ($Throwable&) {
-				$assign(var$0, $catch());
+			} catch ($Throwable& var$11) {
+				$assign(var$0, var$11);
 			} $finally: {
 				if (pstmtSel != nullptr) {
 					pstmtSel->close();
@@ -675,8 +651,7 @@ bool CachedRowSetWriter::deleteOriginalRow($CachedRowSet* crs, $CachedRowSetImpl
 		pstmt->setMaxFieldSize(crs->getMaxFieldSize());
 		pstmt->setEscapeProcessing(crs->getEscapeProcessing());
 		pstmt->setQueryTimeout(crs->getQueryTimeout());
-	} catch ($Exception&) {
-		$var($Exception, ex, $catch());
+	} catch ($Exception& ex) {
 	}
 	$var($ResultSet, rs, $nc(pstmt)->executeQuery());
 	if ($nc(rs)->next() == true) {
@@ -970,8 +945,7 @@ void CachedRowSetWriter::readObject($ObjectInputStream* ois) {
 	$nc(ois)->defaultReadObject();
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 }

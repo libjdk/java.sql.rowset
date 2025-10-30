@@ -5,26 +5,7 @@
 #include <java/io/ObjectInputStream.h>
 #include <java/io/OutputStream.h>
 #include <java/io/OutputStreamWriter.h>
-#include <java/io/PrintStream.h>
 #include <java/io/Writer.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Double.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Float.h>
-#include <java/lang/Integer.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/Short.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/math/BigDecimal.h>
 #include <java/sql/Date.h>
 #include <java/sql/ResultSet.h>
@@ -204,8 +185,7 @@ void WebRowSetXmlWriter::finalize() {
 void WebRowSetXmlWriter::init$() {
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 }
@@ -230,8 +210,7 @@ void WebRowSetXmlWriter::writeRowSet($WebRowSet* caller) {
 		writeMetaData(caller);
 		writeData(caller);
 		endHeader();
-	} catch ($IOException&) {
-		$var($IOException, ex, $catch());
+	} catch ($IOException& ex) {
 		$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("wrsxmlwriter.ioex"_s))))->toString());
 		$throwNew($SQLException, $($MessageFormat::format(var$0, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
 	}
@@ -258,8 +237,7 @@ void WebRowSetXmlWriter::writeProperties($WebRowSet* caller) {
 		propBoolean("escape-processing"_s, $nc(caller)->getEscapeProcessing());
 		try {
 			propInteger("fetch-direction"_s, $nc(caller)->getFetchDirection());
-		} catch ($SQLException&) {
-			$catch();
+		} catch ($SQLException& sqle) {
 		}
 		propInteger("fetch-size"_s, $nc(caller)->getFetchSize());
 		propInteger("isolation-level"_s, $nc(caller)->getTransactionIsolation());
@@ -310,8 +288,7 @@ void WebRowSetXmlWriter::writeProperties($WebRowSet* caller) {
 		propInteger("sync-provider-grade"_s, $nc($(caller->getSyncProvider()))->getProviderGrade());
 		propInteger("data-source-lock"_s, $nc($(caller->getSyncProvider()))->getDataSourceLock());
 		endSection("sync-provider"_s);
-	} catch ($SQLException&) {
-		$var($SQLException, ex, $catch());
+	} catch ($SQLException& ex) {
 		$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("wrsxmlwriter.sqlex"_s))))->toString());
 		$throwNew($IOException, $($MessageFormat::format(var$0, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
 	}
@@ -347,8 +324,7 @@ void WebRowSetXmlWriter::writeMetaData($WebRowSet* caller) {
 			propString("column-type-name"_s, $(rsmd->getColumnTypeName(colIndex)));
 			endSection("column-definition"_s);
 		}
-	} catch ($SQLException&) {
-		$var($SQLException, ex, $catch());
+	} catch ($SQLException& ex) {
 		$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("wrsxmlwriter.sqlex"_s))))->toString());
 		$throwNew($IOException, $($MessageFormat::format(var$0, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
 	}
@@ -395,8 +371,7 @@ void WebRowSetXmlWriter::writeData($WebRowSet* caller) {
 			endSection();
 		}
 		endSection("data"_s);
-	} catch ($SQLException&) {
-		$var($SQLException, ex, $catch());
+	} catch ($SQLException& ex) {
 		$var($String, var$1, $nc($of($($nc(this->resBundle)->handleGetObject("wrsxmlwriter.sqlex"_s))))->toString());
 		$throwNew($IOException, $($MessageFormat::format(var$1, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
 	}
@@ -539,13 +514,11 @@ void WebRowSetXmlWriter::writeValue(int32_t idx, $RowSet* caller) {
 				}
 			default:
 				{
-					$init($System);
 					$nc($System::out)->println($($nc($of($($nc(this->resBundle)->handleGetObject("wsrxmlwriter.notproper"_s))))->toString()));
 				}
 			}
 		}
-	} catch ($SQLException&) {
-		$var($SQLException, ex, $catch());
+	} catch ($SQLException& ex) {
 		$var($String, var$0, $($nc($of($($nc(this->resBundle)->handleGetObject("wrsxmlwriter.failedwrite"_s))))->toString()));
 		$throwNew($IOException, $$concat(var$0, $(ex->getMessage())));
 	}
@@ -727,8 +700,7 @@ void WebRowSetXmlWriter::readObject($ObjectInputStream* ois) {
 	$nc(ois)->defaultReadObject();
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 }

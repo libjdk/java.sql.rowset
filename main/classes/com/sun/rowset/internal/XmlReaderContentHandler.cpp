@@ -4,28 +4,7 @@
 #include <com/sun/rowset/WebRowSetImpl.h>
 #include <com/sun/rowset/internal/Row.h>
 #include <java/io/IOException.h>
-#include <java/io/PrintStream.h>
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Byte.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
 #include <java/lang/ClassNotFoundException.h>
-#include <java/lang/Double.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Float.h>
-#include <java/lang/Integer.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/Short.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/math/BigDecimal.h>
 #include <java/sql/Date.h>
 #include <java/sql/ResultSetMetaData.h>
@@ -344,8 +323,7 @@ void XmlReaderContentHandler::init$($RowSet* r) {
 	$set(this, tempCommand, ""_s);
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 }
@@ -426,8 +404,7 @@ void XmlReaderContentHandler::startElement($String* uri, $String* lName, $String
 					this->idx = 0;
 					try {
 						$nc(this->rs)->moveToInsertRow();
-					} catch ($SQLException&) {
-						$var($SQLException, ex, $catch());
+					} catch ($SQLException& ex) {
 					}
 				}
 			}
@@ -470,8 +447,7 @@ void XmlReaderContentHandler::endElement($String* uri, $String* lName, $String* 
 					{
 						try {
 							$nc(this->typeMap)->put(this->Key_map, $ReflectUtil::forName(this->Value_map));
-						} catch ($ClassNotFoundException&) {
-							$var($ClassNotFoundException, ex, $catch());
+						} catch ($ClassNotFoundException& ex) {
 							$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("xmlrch.errmap"_s))))->toString());
 							$throwNew($SAXException, $($MessageFormat::format(var$0, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
 						}
@@ -493,8 +469,7 @@ void XmlReaderContentHandler::endElement($String* uri, $String* lName, $String* 
 				} else {
 					setPropertyValue(this->propertyValue);
 				}
-			} catch ($SQLException&) {
-				$var($SQLException, ex, $catch());
+			} catch ($SQLException& ex) {
 				$throwNew($SAXException, $(ex->getMessage()));
 			}
 			$set(this, propertyValue, ""_s);
@@ -507,8 +482,7 @@ void XmlReaderContentHandler::endElement($String* uri, $String* lName, $String* 
 				try {
 					$nc(this->rs)->setMetaData(this->md);
 					this->state = XmlReaderContentHandler::INITIAL;
-				} catch ($SQLException&) {
-					$var($SQLException, ex, $catch());
+				} catch ($SQLException& ex) {
 					$var($String, var$1, $nc($of($($nc(this->resBundle)->handleGetObject("xmlrch.errmetadata"_s))))->toString());
 					$throwNew($SAXException, $($MessageFormat::format(var$1, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
 				}
@@ -520,8 +494,7 @@ void XmlReaderContentHandler::endElement($String* uri, $String* lName, $String* 
 					} else {
 						setMetaDataValue(this->metaDataValue);
 					}
-				} catch ($SQLException&) {
-					$var($SQLException, ex, $catch());
+				} catch ($SQLException& ex) {
 					$var($String, var$2, $nc($of($($nc(this->resBundle)->handleGetObject("xmlrch.errmetadata"_s))))->toString());
 					$throwNew($SAXException, $($MessageFormat::format(var$2, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
 				}
@@ -553,8 +526,7 @@ void XmlReaderContentHandler::endElement($String* uri, $String* lName, $String* 
 							insertValue(this->tempStr);
 						}
 						$set(this, columnValue, ""_s);
-					} catch ($SQLException&) {
-						$var($SQLException, ex, $catch());
+					} catch ($SQLException& ex) {
 						$var($String, var$3, $nc($of($($nc(this->resBundle)->handleGetObject("xmlrch.errinsertval"_s))))->toString());
 						$throwNew($SAXException, $($MessageFormat::format(var$3, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
 					}
@@ -568,8 +540,7 @@ void XmlReaderContentHandler::endElement($String* uri, $String* lName, $String* 
 						$nc(this->rs)->next();
 						$nc(this->rs)->setOriginalRow();
 						applyUpdates();
-					} catch ($SQLException&) {
-						$var($SQLException, ex, $catch());
+					} catch ($SQLException& ex) {
 						$var($String, var$4, $nc($of($($nc(this->resBundle)->handleGetObject("xmlrch.errconstr"_s))))->toString());
 						$throwNew($SAXException, $($MessageFormat::format(var$4, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
 					}
@@ -584,8 +555,7 @@ void XmlReaderContentHandler::endElement($String* uri, $String* lName, $String* 
 						$nc(this->rs)->setOriginalRow();
 						applyUpdates();
 						$nc(this->rs)->deleteRow();
-					} catch ($SQLException&) {
-						$var($SQLException, ex, $catch());
+					} catch ($SQLException& ex) {
 						$var($String, var$5, $nc($of($($nc(this->resBundle)->handleGetObject("xmlrch.errdel"_s))))->toString());
 						$throwNew($SAXException, $($MessageFormat::format(var$5, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
 					}
@@ -598,8 +568,7 @@ void XmlReaderContentHandler::endElement($String* uri, $String* lName, $String* 
 						$nc(this->rs)->moveToCurrentRow();
 						$nc(this->rs)->next();
 						applyUpdates();
-					} catch ($SQLException&) {
-						$var($SQLException, ex, $catch());
+					} catch ($SQLException& ex) {
 						$var($String, var$6, $nc($of($($nc(this->resBundle)->handleGetObject("xmlrch.errinsert"_s))))->toString());
 						$throwNew($SAXException, $($MessageFormat::format(var$6, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
 					}
@@ -613,8 +582,7 @@ void XmlReaderContentHandler::endElement($String* uri, $String* lName, $String* 
 						$nc(this->rs)->next();
 						$nc(this->rs)->setOriginalRow();
 						applyUpdates();
-					} catch ($SQLException&) {
-						$var($SQLException, ex, $catch());
+					} catch ($SQLException& ex) {
 						$var($String, var$7, $nc($of($($nc(this->resBundle)->handleGetObject("xmlrch.errinsdel"_s))))->toString());
 						$throwNew($SAXException, $($MessageFormat::format(var$7, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
 					}
@@ -632,8 +600,7 @@ void XmlReaderContentHandler::endElement($String* uri, $String* lName, $String* 
 						} else {
 							$nc(this->updates)->add(this->upd);
 						}
-					} catch ($SQLException&) {
-						$var($SQLException, ex, $catch());
+					} catch ($SQLException& ex) {
 						$var($String, var$8, $nc($of($($nc(this->resBundle)->handleGetObject("xmlrch.errupdate"_s))))->toString());
 						$throwNew($SAXException, $($MessageFormat::format(var$8, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
 					}
@@ -666,8 +633,7 @@ void XmlReaderContentHandler::applyUpdates() {
 				}
 			}
 			$nc(this->rs)->updateRow();
-		} catch ($SQLException&) {
-			$var($SQLException, ex, $catch());
+		} catch ($SQLException& ex) {
 			$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("xmlrch.errupdrow"_s))))->toString());
 			$throwNew($SAXException, $($MessageFormat::format(var$0, $$new($ObjectArray, {$($of(ex->getMessage()))}))));
 		}
@@ -708,8 +674,7 @@ void XmlReaderContentHandler::characters($chars* ch, int32_t start, int32_t leng
 			{
 			}
 		}
-	} catch ($SQLException&) {
-		$var($SQLException, ex, $catch());
+	} catch ($SQLException& ex) {
 		$var($String, var$0, $($nc($of($($nc(this->resBundle)->handleGetObject("xmlrch.chars"_s))))->toString()));
 		$throwNew($SAXException, $$concat(var$0, $(ex->getMessage())));
 	}
@@ -1310,7 +1275,6 @@ void XmlReaderContentHandler::error($SAXParseException* e) {
 
 void XmlReaderContentHandler::warning($SAXParseException* err) {
 	$useLocalCurrentObjectStackCache();
-	$init($System);
 	$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("xmlrch.warning"_s))))->toString());
 	$nc($System::out)->println($($MessageFormat::format(var$0, $$new($ObjectArray, {
 		$($of($nc(err)->getMessage())),

@@ -7,22 +7,8 @@
 #include <java/io/IOException.h>
 #include <java/io/InputStream.h>
 #include <java/io/ObjectInputStream.h>
-#include <java/io/PrintStream.h>
 #include <java/io/Reader.h>
-#include <java/lang/Array.h>
 #include <java/lang/ArrayIndexOutOfBoundsException.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/sql/SQLException.h>
 #include <java/text/MessageFormat.h>
 #include <javax/sql/RowSet.h>
@@ -138,8 +124,7 @@ void WebRowSetXmlReader::finalize() {
 void WebRowSetXmlReader::init$() {
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 }
@@ -160,9 +145,7 @@ void WebRowSetXmlReader::readXML($WebRowSet* caller, $Reader* reader) {
 		reader1->setContentHandler(hndr);
 		reader1->setErrorHandler(dh);
 		reader1->parse(is);
-	} catch ($SAXParseException&) {
-		$var($SAXParseException, err, $catch());
-		$init($System);
+	} catch ($SAXParseException& err) {
 		$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("wrsxmlreader.parseerr"_s))))->toString());
 		$nc($System::out)->println($($MessageFormat::format(var$0, $$new($ObjectArray, {
 			$($of(err->getMessage())),
@@ -171,19 +154,16 @@ void WebRowSetXmlReader::readXML($WebRowSet* caller, $Reader* reader) {
 		}))));
 		err->printStackTrace();
 		$throwNew($SQLException, $(err->getMessage()));
-	} catch ($SAXException&) {
-		$var($SAXException, e, $catch());
+	} catch ($SAXException& e) {
 		$var($Exception, x, e);
 		if (e->getException() != nullptr) {
 			$assign(x, e->getException());
 		}
 		x->printStackTrace();
 		$throwNew($SQLException, $(x->getMessage()));
-	} catch ($ArrayIndexOutOfBoundsException&) {
-		$var($ArrayIndexOutOfBoundsException, aie, $catch());
+	} catch ($ArrayIndexOutOfBoundsException& aie) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("wrsxmlreader.invalidcp"_s))))->toString()));
-	} catch ($Throwable&) {
-		$var($Throwable, e, $catch());
+	} catch ($Throwable& e) {
 		$var($String, var$1, $nc($of($($nc(this->resBundle)->handleGetObject("wrsxmlreader.readxml"_s))))->toString());
 		$throwNew($SQLException, $($MessageFormat::format(var$1, $$new($ObjectArray, {$($of(e->getMessage()))}))));
 	}
@@ -205,9 +185,7 @@ void WebRowSetXmlReader::readXML($WebRowSet* caller, $InputStream* iStream) {
 		reader1->setContentHandler(hndr);
 		reader1->setErrorHandler(dh);
 		reader1->parse(is);
-	} catch ($SAXParseException&) {
-		$var($SAXParseException, err, $catch());
-		$init($System);
+	} catch ($SAXParseException& err) {
 		$var($String, var$0, $nc($of($($nc(this->resBundle)->handleGetObject("wrsxmlreader.parseerr"_s))))->toString());
 		$nc($System::out)->println($($MessageFormat::format(var$0, $$new($ObjectArray, {
 			$($of($Integer::valueOf(err->getLineNumber()))),
@@ -216,19 +194,16 @@ void WebRowSetXmlReader::readXML($WebRowSet* caller, $InputStream* iStream) {
 		$nc($System::out)->println($$str({"   "_s, $(err->getMessage())}));
 		err->printStackTrace();
 		$throwNew($SQLException, $(err->getMessage()));
-	} catch ($SAXException&) {
-		$var($SAXException, e, $catch());
+	} catch ($SAXException& e) {
 		$var($Exception, x, e);
 		if (e->getException() != nullptr) {
 			$assign(x, e->getException());
 		}
 		x->printStackTrace();
 		$throwNew($SQLException, $(x->getMessage()));
-	} catch ($ArrayIndexOutOfBoundsException&) {
-		$var($ArrayIndexOutOfBoundsException, aie, $catch());
+	} catch ($ArrayIndexOutOfBoundsException& aie) {
 		$throwNew($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("wrsxmlreader.invalidcp"_s))))->toString()));
-	} catch ($Throwable&) {
-		$var($Throwable, e, $catch());
+	} catch ($Throwable& e) {
 		$var($String, var$1, $nc($of($($nc(this->resBundle)->handleGetObject("wrsxmlreader.readxml"_s))))->toString());
 		$throwNew($SQLException, $($MessageFormat::format(var$1, $$new($ObjectArray, {$($of(e->getMessage()))}))));
 	}
@@ -241,8 +216,7 @@ void WebRowSetXmlReader::readObject($ObjectInputStream* ois) {
 	$nc(ois)->defaultReadObject();
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 }

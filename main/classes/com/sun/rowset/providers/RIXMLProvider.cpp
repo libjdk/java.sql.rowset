@@ -2,17 +2,7 @@
 
 #include <com/sun/rowset/JdbcRowSetResourceBundle.h>
 #include <java/io/IOException.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/Throwable.h>
 #include <java/lang/UnsupportedOperationException.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <javax/sql/RowSetReader.h>
 #include <javax/sql/RowSetWriter.h>
 #include <javax/sql/rowset/spi/SyncProvider.h>
@@ -92,8 +82,7 @@ void RIXMLProvider::init$() {
 	$set(this, providerID, $of(this)->getClass()->getName());
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 }

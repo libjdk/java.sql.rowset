@@ -5,22 +5,7 @@
 #include <java/io/IOException.h>
 #include <java/io/InputStream.h>
 #include <java/io/ObjectInputStream.h>
-#include <java/io/PrintStream.h>
 #include <java/io/Reader.h>
-#include <java/lang/Array.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/NullPointerException.h>
-#include <java/lang/RuntimeException.h>
-#include <java/lang/String.h>
-#include <java/lang/System.h>
-#include <java/lang/Throwable.h>
-#include <java/lang/reflect/Constructor.h>
-#include <java/lang/reflect/Method.h>
 #include <java/sql/Connection.h>
 #include <java/sql/Date.h>
 #include <java/sql/DriverManager.h>
@@ -149,8 +134,7 @@ void CachedRowSetReader::init$() {
 	this->userCon = false;
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 }
@@ -175,8 +159,7 @@ void CachedRowSetReader::readData($RowSetInternal* caller) {
 				}
 				try {
 					$nc(con)->setTransactionIsolation($nc(crs)->getTransactionIsolation());
-				} catch ($Exception&) {
-					$var($Exception, ex, $catch());
+				} catch ($Exception& ex) {
 				}
 				$var($PreparedStatement, pstmt, $nc(con)->prepareStatement($($nc(crs)->getCommand())));
 				decodeParams($($nc(caller)->getParams()), pstmt);
@@ -185,8 +168,7 @@ void CachedRowSetReader::readData($RowSetInternal* caller) {
 					pstmt->setMaxFieldSize($nc(crs)->getMaxFieldSize());
 					pstmt->setEscapeProcessing($nc(crs)->getEscapeProcessing());
 					pstmt->setQueryTimeout($nc(crs)->getQueryTimeout());
-				} catch ($Exception&) {
-					$var($Exception, ex, $catch());
+				} catch ($Exception& ex) {
 					$throwNew($SQLException, $(ex->getMessage()));
 				}
 				if ($($nc($($nc(crs)->getCommand()))->toLowerCase())->indexOf("select"_s) != -1) {
@@ -201,8 +183,7 @@ void CachedRowSetReader::readData($RowSetInternal* caller) {
 							pstmt->setMaxFieldSize(crs->getMaxFieldSize());
 							pstmt->setEscapeProcessing(crs->getEscapeProcessing());
 							pstmt->setQueryTimeout(crs->getQueryTimeout());
-						} catch ($Exception&) {
-							$var($Exception, ex, $catch());
+						} catch ($Exception& ex) {
 							$throwNew($SQLException, $(ex->getMessage()));
 						}
 						$assign(rs, $nc(pstmt)->executeQuery());
@@ -215,18 +196,16 @@ void CachedRowSetReader::readData($RowSetInternal* caller) {
 				$nc(pstmt)->close();
 				try {
 					con->commit();
-				} catch ($SQLException&) {
-					$var($SQLException, ex, $catch());
+				} catch ($SQLException& ex) {
 				}
 				if (getCloseConnection() == true) {
 					con->close();
 				}
-			} catch ($SQLException&) {
-				$var($SQLException, ex, $catch());
+			} catch ($SQLException& ex) {
 				$throw(ex);
 			}
-		} catch ($Throwable&) {
-			$assign(var$0, $catch());
+		} catch ($Throwable& var$2) {
+			$assign(var$0, var$2);
 		} /*finally*/ {
 			try {
 				if (con != nullptr && getCloseConnection() == true) {
@@ -234,14 +213,12 @@ void CachedRowSetReader::readData($RowSetInternal* caller) {
 						if (!con->getAutoCommit()) {
 							con->rollback();
 						}
-					} catch ($Exception&) {
-						$catch();
+					} catch ($Exception& dummy) {
 					}
 					con->close();
 					$assign(con, nullptr);
 				}
-			} catch ($SQLException&) {
-				$catch();
+			} catch ($SQLException& e) {
 			}
 		}
 		if (var$0 != nullptr) {
@@ -271,8 +248,7 @@ $Connection* CachedRowSetReader::connect($RowSetInternal* caller) {
 			} else {
 				return $nc(ds)->getConnection();
 			}
-		} catch ($NamingException&) {
-			$var($NamingException, ex, $catch());
+		} catch ($NamingException& ex) {
 			$var($SQLException, sqlEx, $new($SQLException, $($nc($of($($nc(this->resBundle)->handleGetObject("crsreader.connect"_s))))->toString())));
 			sqlEx->initCause(ex);
 			$throw(sqlEx);
@@ -299,7 +275,6 @@ void CachedRowSetReader::decodeParams($ObjectArray* params, $PreparedStatement* 
 					continue;
 				}
 				if ($instanceOf($Date, param->get(0)) || $instanceOf($Time, param->get(0)) || $instanceOf($Timestamp, param->get(0))) {
-					$init($System);
 					$nc($System::err)->println($($nc($of($($nc(this->resBundle)->handleGetObject("crsreader.datedetected"_s))))->toString()));
 					if ($instanceOf($Calendar, param->get(1))) {
 						$nc($System::err)->println($($nc($of($($nc(this->resBundle)->handleGetObject("crsreader.caldetected"_s))))->toString()));
@@ -378,8 +353,7 @@ void CachedRowSetReader::readObject($ObjectInputStream* ois) {
 	$nc(ois)->defaultReadObject();
 	try {
 		$set(this, resBundle, $JdbcRowSetResourceBundle::getJdbcRowSetResourceBundle());
-	} catch ($IOException&) {
-		$var($IOException, ioe, $catch());
+	} catch ($IOException& ioe) {
 		$throwNew($RuntimeException, static_cast<$Throwable*>(ioe));
 	}
 }

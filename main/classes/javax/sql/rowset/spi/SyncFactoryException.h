@@ -18,8 +18,10 @@ public:
 	void init$($String* msg);
 	static const int64_t serialVersionUID = (int64_t)0xC3915E7C5EAD1B20;
 	SyncFactoryException(const SyncFactoryException& e);
-	SyncFactoryException wrapper$();
-	virtual void throwWrapper$() override;
+	virtual void throw$() override;
+	inline SyncFactoryException* operator ->() {
+		return (SyncFactoryException*)throwing$;
+	}
 };
 
 			} // spi

@@ -1,23 +1,6 @@
 #include <javax/sql/rowset/RowSetMetaDataImpl.h>
 
-#include <java/lang/Array.h>
-#include <java/lang/Boolean.h>
-#include <java/lang/Byte.h>
-#include <java/lang/Class.h>
-#include <java/lang/ClassInfo.h>
-#include <java/lang/Double.h>
-#include <java/lang/Exception.h>
-#include <java/lang/FieldInfo.h>
-#include <java/lang/Float.h>
-#include <java/lang/InnerClassInfo.h>
-#include <java/lang/Integer.h>
-#include <java/lang/Long.h>
-#include <java/lang/MethodInfo.h>
-#include <java/lang/Short.h>
-#include <java/lang/String.h>
-#include <java/lang/reflect/Constructor.h>
 #include <java/lang/reflect/Field.h>
-#include <java/lang/reflect/Method.h>
 #include <java/math/BigDecimal.h>
 #include <java/sql/Blob.h>
 #include <java/sql/Clob.h>
@@ -210,8 +193,7 @@ void RowSetMetaDataImpl::checkColType(int32_t SQLType) {
 				return;
 			}
 		}
-	} catch ($Exception&) {
-		$var($Exception, e, $catch());
+	} catch ($Exception& e) {
 		$throwNew($SQLException, $(e->getMessage()));
 	}
 	$throwNew($SQLException, "Invalid SQL type for column"_s);
@@ -458,7 +440,6 @@ bool RowSetMetaDataImpl::isDefinitelyWritable(int32_t columnIndex) {
 }
 
 $String* RowSetMetaDataImpl::getColumnClassName(int32_t columnIndex) {
-	$load($String);
 	$var($String, className, $String::class$->getName());
 	int32_t sqlType = getColumnType(columnIndex);
 	switch (sqlType) {
