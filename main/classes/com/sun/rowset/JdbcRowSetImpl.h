@@ -84,7 +84,6 @@ class JdbcRowSetImpl : public ::javax::sql::rowset::BaseRowSet, public ::javax::
 	$class(JdbcRowSetImpl, $NO_CLASS_INIT, ::javax::sql::rowset::BaseRowSet, ::javax::sql::rowset::JdbcRowSet)
 public:
 	JdbcRowSetImpl();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual void addRowSetListener(::javax::sql::RowSetListener* listener) override;
 	virtual void clearParameters() override;
 	virtual $Object* clone() override;

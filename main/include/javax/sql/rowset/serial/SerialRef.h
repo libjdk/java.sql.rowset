@@ -29,7 +29,6 @@ class $import SerialRef : public ::java::sql::Ref, public ::java::io::Serializab
 	$class(SerialRef, $NO_CLASS_INIT, ::java::sql::Ref, ::java::io::Serializable, ::java::lang::Cloneable)
 public:
 	SerialRef();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual void finalize() override;
 	void init$(::java::sql::Ref* ref);
 	virtual $Object* clone() override;

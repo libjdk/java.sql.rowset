@@ -43,7 +43,6 @@ class WebRowSetXmlReader : public ::javax::sql::rowset::spi::XmlReader, public :
 	$class(WebRowSetXmlReader, $NO_CLASS_INIT, ::javax::sql::rowset::spi::XmlReader, ::java::io::Serializable)
 public:
 	WebRowSetXmlReader();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual bool equals(Object$* arg0) override;
 	virtual void finalize() override;

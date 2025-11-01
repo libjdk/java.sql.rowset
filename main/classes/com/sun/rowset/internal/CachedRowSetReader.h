@@ -41,7 +41,6 @@ class CachedRowSetReader : public ::javax::sql::RowSetReader, public ::java::io:
 	$class(CachedRowSetReader, $NO_CLASS_INIT, ::javax::sql::RowSetReader, ::java::io::Serializable)
 public:
 	CachedRowSetReader();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual bool equals(Object$* arg0) override;
 	virtual void finalize() override;

@@ -35,7 +35,6 @@ class $import SerialStruct : public ::java::sql::Struct, public ::java::io::Seri
 	$class(SerialStruct, $NO_CLASS_INIT, ::java::sql::Struct, ::java::io::Serializable, ::java::lang::Cloneable)
 public:
 	SerialStruct();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual void finalize() override;
 	void init$(::java::sql::Struct* in, ::java::util::Map* map);
 	void init$(::java::sql::SQLData* in, ::java::util::Map* map);

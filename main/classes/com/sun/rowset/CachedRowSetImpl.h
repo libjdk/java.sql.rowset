@@ -115,7 +115,6 @@ class CachedRowSetImpl : public ::javax::sql::rowset::BaseRowSet, public ::javax
 	$class(CachedRowSetImpl, $NO_CLASS_INIT, ::javax::sql::rowset::BaseRowSet, ::javax::sql::RowSetInternal, ::javax::sql::rowset::CachedRowSet)
 public:
 	CachedRowSetImpl();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual void addRowSetListener(::javax::sql::RowSetListener* listener) override;
 	virtual void clearParameters() override;
 	virtual bool equals(Object$* arg0) override;

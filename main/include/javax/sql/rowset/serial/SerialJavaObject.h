@@ -43,7 +43,6 @@ class $import SerialJavaObject : public ::java::io::Serializable, public ::java:
 	$class(SerialJavaObject, $NO_CLASS_INIT, ::java::io::Serializable, ::java::lang::Cloneable)
 public:
 	SerialJavaObject();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual void finalize() override;
 	void init$(Object$* obj);
 	virtual $Object* clone() override;

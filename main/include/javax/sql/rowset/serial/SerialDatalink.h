@@ -22,7 +22,6 @@ class $import SerialDatalink : public ::java::io::Serializable, public ::java::l
 	$class(SerialDatalink, $NO_CLASS_INIT, ::java::io::Serializable, ::java::lang::Cloneable)
 public:
 	SerialDatalink();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual void finalize() override;
 	void init$(::java::net::URL* url);
 	virtual $Object* clone() override;

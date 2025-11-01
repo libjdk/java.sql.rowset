@@ -52,7 +52,6 @@ namespace javax {
 class $export CachedRowSet : public ::javax::sql::RowSet, public ::javax::sql::rowset::Joinable {
 	$interface(CachedRowSet, $NO_CLASS_INIT, ::javax::sql::RowSet, ::javax::sql::rowset::Joinable)
 public:
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual void acceptChanges() {}
 	virtual void acceptChanges(::java::sql::Connection* con) {}
 	virtual $Object* clone() override;

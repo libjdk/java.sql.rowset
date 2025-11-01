@@ -92,7 +92,6 @@ class JoinRowSetImpl : public ::com::sun::rowset::WebRowSetImpl, public ::javax:
 	$class(JoinRowSetImpl, $NO_CLASS_INIT, ::com::sun::rowset::WebRowSetImpl, ::javax::sql::rowset::JoinRowSet)
 public:
 	JoinRowSetImpl();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual void acceptChanges(::java::sql::Connection* con) override;
 	virtual void clearParameters() override;
 	virtual $Object* clone() override;

@@ -26,7 +26,6 @@ namespace javax {
 class $export JdbcRowSet : public ::javax::sql::RowSet, public ::javax::sql::rowset::Joinable {
 	$interface(JdbcRowSet, $NO_CLASS_INIT, ::javax::sql::RowSet, ::javax::sql::rowset::Joinable)
 public:
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual $Object* clone() override;
 	virtual void commit() {}
 	virtual bool equals(Object$* arg0) override;

@@ -29,7 +29,6 @@ class $export SerialClob : public ::java::sql::Clob, public ::java::io::Serializ
 	$class(SerialClob, $NO_CLASS_INIT, ::java::sql::Clob, ::java::io::Serializable, ::java::lang::Cloneable)
 public:
 	SerialClob();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual void finalize() override;
 	void init$($chars* ch);
 	void init$(::java::sql::Clob* clob);

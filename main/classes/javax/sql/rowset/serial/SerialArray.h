@@ -35,7 +35,6 @@ class $export SerialArray : public ::java::sql::Array, public ::java::io::Serial
 	$class(SerialArray, $NO_CLASS_INIT, ::java::sql::Array, ::java::io::Serializable, ::java::lang::Cloneable)
 public:
 	SerialArray();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual void finalize() override;
 	void init$(::java::sql::Array* array, ::java::util::Map* map);
 	void init$(::java::sql::Array* array);

@@ -101,7 +101,6 @@ class SyncResolverImpl : public ::com::sun::rowset::CachedRowSetImpl, public ::j
 	$class(SyncResolverImpl, $NO_CLASS_INIT, ::com::sun::rowset::CachedRowSetImpl, ::javax::sql::rowset::spi::SyncResolver)
 public:
 	SyncResolverImpl();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual void addRowSetListener(::javax::sql::RowSetListener* listener) override;
 	virtual void clearParameters() override;
 	virtual bool equals(Object$* arg0) override;

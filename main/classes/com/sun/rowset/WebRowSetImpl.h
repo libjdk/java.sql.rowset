@@ -54,7 +54,6 @@ class WebRowSetImpl : public ::com::sun::rowset::CachedRowSetImpl, public ::java
 	$class(WebRowSetImpl, $NO_CLASS_INIT, ::com::sun::rowset::CachedRowSetImpl, ::javax::sql::rowset::WebRowSet)
 public:
 	WebRowSetImpl();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual bool absolute(int32_t row) override;
 	virtual void acceptChanges() override;
 	virtual void acceptChanges(::java::sql::Connection* con) override;

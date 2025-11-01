@@ -27,7 +27,6 @@ class $import SerialBlob : public ::java::sql::Blob, public ::java::io::Serializ
 	$class(SerialBlob, $NO_CLASS_INIT, ::java::sql::Blob, ::java::io::Serializable, ::java::lang::Cloneable)
 public:
 	SerialBlob();
-	virtual ::java::lang::Object0* toObject0$() const override {return (::java::lang::Object0*)(void*)this;}
 	virtual void finalize() override;
 	void init$($bytes* b);
 	void init$(::java::sql::Blob* blob);
